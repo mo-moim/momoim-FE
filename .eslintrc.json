@@ -22,7 +22,8 @@
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-var-requires": "off",
     "import/extensions": ["error", "ignorePackages"],
-    "no-console": "error"
+    "no-console": "warn",
+    "import/no-extraneous-dependencies": "off"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
