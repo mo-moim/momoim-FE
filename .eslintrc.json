@@ -21,8 +21,21 @@
     "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "import/extensions": ["error", "ignorePackages"],
-    "no-console": "error"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "no-console": "warn"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
