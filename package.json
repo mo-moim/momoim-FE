@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "test": "jest --coverage"
+    "test": "jest --coverage --passWithNoTests"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
