@@ -37,7 +37,8 @@
         "tsx": "never"
       }
     ],
-    "no-console": "warn"
+    "no-console": "warn",
+    "import/no-extraneous-dependencies": "off"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
