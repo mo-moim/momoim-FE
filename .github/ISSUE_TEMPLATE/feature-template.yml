@@ -1,0 +1,22 @@
+name: Feature Template
+description: 새로운 기능 추가 템플릿
+title: "[Feature]: Feature Title"
+labels: ["Feature"]
+
+body:
+  - type: textarea
+    id: feature-contents
+    attributes:
+      label: 📝 설명
+      description: 작업할 기능에 대한 설명을 적어주세요. (자세하게 적어주시면 좋습니다!!).
+      placeholder:
+    validations:
+      required: true
+  - type: textarea
+    id: feature-detail
+    attributes:
+      label: ✅ 작업할 내용
+      description: 작업할 내용을 작성해주세요.
+      placeholder:
+    validations:
+      required: false

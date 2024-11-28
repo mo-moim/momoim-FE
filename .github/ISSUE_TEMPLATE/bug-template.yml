@@ -1,0 +1,37 @@
+name: Bug Template
+description: 버그 및 해결 템플릿
+title: "[Bug]: Bug Title"
+labels: ["Bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⭐️ assignees / labels 지정해주세요.
+        ⭐️ 버그/문제 해결 시(작업 완료):
+        - 버그/문제의 원인과 해결한 방법을 설명해주세요. (버그 이슈 번호 포함해주세요!!)
+        - projects / milestones, developments 지정해주세요.
+  - type: textarea
+    id: bug-contents
+    attributes:
+      label: 🐞 버그/문제 설명
+      description: 어떤 상황에서 버그와 문제가 발생했는지 정확하게 설명해주세요. (에러 메세지 첨부해주시면 좋습니다!!)
+      placeholder:
+    validations:
+      required: true
+  - type: textarea
+    id: success-result
+    attributes:
+      label: 📝 예상한 결과
+      description: 어떤 결과가 나와야 정상인지 설명해주세요.
+      placeholder:
+    validations:
+      required: true
+  - type: textarea
+    id: etc
+    attributes:
+      label: ✅ 참고 자료
+      description: 가능한 경우 스크린샷 이미지, 참고할 링크를 작성해주세요.
+      placeholder:
+    validations:
+      required: false
