@@ -4,14 +4,10 @@ import "@/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import TanStackProvider from "@/lib/TanStackProvider";
 
-const geistSans = localFont({
-  src: "../assets/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "../assets/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+const pretendard = localFont({
+  src: "../assets/fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
+  display: "swap",
   weight: "100 900",
 });
 
@@ -27,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <TanStackProvider>
           {children}
           <SpeedInsights />
