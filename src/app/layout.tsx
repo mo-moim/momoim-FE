@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import TanStackProvider from "@/lib/TanStackProvider";
 
 const geistSans = localFont({
   src: "../assets/fonts/GeistVF.woff",
@@ -25,10 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko-KR">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
-        <SpeedInsights />
+        <TanStackProvider>
+          {children}
+          <SpeedInsights />
+        </TanStackProvider>
       </body>
     </html>
   );
