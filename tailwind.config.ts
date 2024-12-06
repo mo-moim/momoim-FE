@@ -10,6 +10,21 @@ export default {
   theme: {
     extend: {
       colors: {
+        main: {
+          DEFAULT: "#5A25E9", // Normal
+          selected: "#440DD9", // Selected/Pressed
+        },
+        gray: {
+          100: "#F8F8FA",
+          200: "#F0F1F6",
+          300: "#E1E2E8",
+          400: "#C7CAD0",
+          500: "#AAABB3",
+          600: "#777780",
+          700: "#636267",
+          800: "#29292D",
+          900: "#1A1A1C",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
