@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { MODAL_PAGE, MODAL_BUTTON, MODAL_TEXT, ModalPage, ModalButton, ModalText } from "@/types/common/modal";
 import clsx from "clsx";
 import { useState } from "react";
@@ -43,11 +44,11 @@ export function Modal(props: ModalProps) {
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle className="absolute left-4 top-4 text-sm" aria-hidden={!title}>
-            {title && MODAL_PAGE[title]}
+          <DialogTitle className="absolute left-4 top-4 text-sm">
+            {title ? MODAL_PAGE[title] : <VisuallyHidden>제목 없음</VisuallyHidden>}
           </DialogTitle>
           <DialogDescription className="text-base text-black">
-            {description && MODAL_TEXT[description]}
+            {description ? MODAL_TEXT[description] : <VisuallyHidden>설명 없음</VisuallyHidden>}
           </DialogDescription>
         </DialogHeader>
         {content && <div className="flex-grow overflow-y-auto">{content}</div>}
