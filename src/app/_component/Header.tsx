@@ -7,7 +7,7 @@ import AuthButtons from "./AuthButtons";
 
 export default function Header() {
   return (
-    <header className="fixed w-full border-b bg-white">
+    <header className="fixed w-full bg-white">
       <nav className="mx-auto flex h-[80px] max-w-screen-xl items-center justify-between px-4">
         <div className="flex items-center gap-6">
           <Link href="/" className="hidden text-xl font-bold sm:flex">
