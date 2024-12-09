@@ -1,5 +1,5 @@
 export type ModalType = "apply" | "cancle" | "delete" | "member" | "review" | "profile";
-type ModalOption = "size" | "trigger_btn" | "title" | "description" | "submit_btn";
+export type ModalOption = "size" | "trigger_btn" | "title" | "description" | "submit_btn";
 
 const MODAL_SIZE = {
   sm: "max-w-[25rem] h-52",
