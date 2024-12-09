@@ -17,11 +17,18 @@ import { useState } from "react";
 
 interface ModalProps {
   type: ModalType;
+  size: "sm" | "md" | "lg";
   content?: React.ReactNode;
   onSubmit?: () => void;
 }
 
-export function Modal({ type, content, onSubmit }: ModalProps) {
+const MODAL_SIZE = {
+  sm: "max-w-[25rem] h-52",
+  md: "max-w-[30rem] h-[40rem]",
+  lg: "max-w-[60rem] max-lg:max-w-[40rem] max-sm:max-w-[30rem] max-2xl:h-[40rem] h-[45rem]",
+};
+
+export function Modal({ type, size, content, onSubmit }: ModalProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const modalData = MODAL_INFO[type];
@@ -32,7 +39,7 @@ export function Modal({ type, content, onSubmit }: ModalProps) {
         <Button>{modalData.trigger_btn}</Button>
       </DialogTrigger>
       <DialogContent
-        className={clsx("flex flex-col items-center justify-center gap-8 rounded-lg", modalData.size)}
+        className={clsx("flex flex-col items-center justify-center gap-8 rounded-lg", MODAL_SIZE[size])}
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
