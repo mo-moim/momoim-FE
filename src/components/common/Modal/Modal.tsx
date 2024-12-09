@@ -21,11 +21,9 @@ interface ModalProps {
   onSubmit?: () => void;
 }
 
-export function Modal(props: ModalProps) {
-  const { type, content, onSubmit } = props;
+export function Modal({ type, content, onSubmit }: ModalProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-
   const modalData = MODAL_INFO[type];
 
   return (
