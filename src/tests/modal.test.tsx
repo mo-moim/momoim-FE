@@ -82,7 +82,7 @@ describe("모달 컴포넌트", () => {
     expect(cancleBtn).toBeInTheDocument();
 
     fireEvent.click(cancleBtn);
-    expect(screen.queryByRole("button", { name: "취소" })).not.toBeInTheDocument();
+    expect(cancleBtn).not.toBeInTheDocument();
   });
 
   it("모달이 열린 상태에서 x 아이콘을 클릭하면 모달이 닫혀야한다.", () => {
