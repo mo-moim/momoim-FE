@@ -1,22 +1,22 @@
 "use client";
 
-import FilterButtonSection from "../_components/FilterButtonSection";
+import Tags from "../_components/Tags";
 
 export default function MySchedule() {
-  const categories = [
-    {
-      name: "지난 일정",
-      value: "schedule-before",
-    },
+  const tags = [
     {
       name: "다가올 일정",
       value: "schedule-after",
+    },
+    {
+      name: "지난 일정",
+      value: "schedule-before",
     },
   ];
 
   return (
     <div className="px-[32px]">
-      <FilterButtonSection categories={categories} />
+      <Tags tags={tags} />
       <div>나의일정</div>
     </div>
   );

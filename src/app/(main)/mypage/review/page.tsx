@@ -1,9 +1,9 @@
 "use client";
 
-import FilterButtonSection from "../_components/FilterButtonSection";
+import Tags from "../_components/Tags";
 
 export default function MyReview() {
-  const categories = [
+  const tags = [
     {
       name: "전체",
       value: "all-review",
@@ -20,7 +20,7 @@ export default function MyReview() {
 
   return (
     <div className="px-[32px]">
-      <FilterButtonSection categories={categories} />
+      <Tags tags={tags} />
       <div>리뷰컴포넌트</div>
     </div>
   );

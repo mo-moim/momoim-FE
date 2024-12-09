@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Card from "../_components/Card";
-import FilterButton from "../_components/FilterButton";
-import FilterButtonSection from "../_components/FilterButtonSection";
+import Tags from "../_components/Tags";
 
 interface Moim {
   // api 완성되면 get으로 가져와서 설정
@@ -20,9 +20,10 @@ interface Moim {
 }
 
 export default function MyMoim() {
+  const searchParams = useSearchParams();
   const [moims, setMoims] = useState<Moim[]>([]);
 
-  const categories = [
+  const tags = [
     {
       name: "전체",
       value: "all-moim",
@@ -35,11 +36,15 @@ export default function MyMoim() {
       name: "내가 만든 모임",
       value: "created",
     },
+    {
+      name: "찜한 모임",
+      value: "liked",
+    },
   ];
 
   const data = [
     {
-      name: "나는 코양이다 야옹",
+      name: "코엑스에서 만나요",
       category: "취미",
       subCategory: "축구",
       location: "SEOUL",
@@ -51,7 +56,7 @@ export default function MyMoim() {
       participantCount: 10,
     },
     {
-      name: "나는 코양이다 야옹",
+      name: "코엑스에서 만나요",
       category: "취미",
       subCategory: "축구",
       location: "SEOUL",
@@ -63,7 +68,7 @@ export default function MyMoim() {
       participantCount: 10,
     },
     {
-      name: "나는 코양이다 야옹",
+      name: "코엑스에서 만나요",
       category: "취미",
       subCategory: "축구",
       location: "SEOUL",
@@ -80,12 +85,18 @@ export default function MyMoim() {
     setMoims(data); // api 완성되면 get으로 가져와서 설정
   }, []);
 
+  useEffect(() => {
+    console.log(searchParams.get("filter"));
+    // 이걸 기반으로 get해온다
+  }, [searchParams]);
+
   return (
     <div className="px-[32px]">
-      <FilterButtonSection categories={categories} />
+      <Tags tags={tags} />
       {moims.map((moim, idx) => {
         return (
           <>
+            {/* 이거 key 고쳐야함 */}
             <Card key={`card${Date.now()}`} moim={moim} />
             <hr className="my-[16px]" />
           </>
