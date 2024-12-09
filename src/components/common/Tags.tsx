@@ -2,6 +2,8 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useRef } from "react";
+import sectionSlider from "@/lib/sectionSlider";
 
 interface Props {
   tags: Tag[];
@@ -13,12 +15,22 @@ interface Tag {
 }
 
 export default function Tags({ tags }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const path = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.get("sub");
+
   return (
-    <div className="my-[16px] flex gap-2">
+    <div
+      role="button"
+      tabIndex={0}
+      ref={containerRef}
+      onMouseDown={(e) => {
+        sectionSlider(e, containerRef);
+      }}
+      className="my-4 flex w-full cursor-grab gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
+    >
       {tags?.map((tag) => {
         return (
           <Button
@@ -28,7 +40,7 @@ export default function Tags({ tags }: Props) {
             onClick={() => {
               router.push(`${path}?sub=${tag.value}`);
             }}
-            className={`text-xs sm:text-base ${tag.value.includes(query as string) ? "bg-[#E1E2E8] font-bold text-[#5A25E9]" : "bg-[#F8F8FA]"} rounded-[12px] px-[16px] py-[12px] text-sm sm:text-base`}
+            className={`${tag.value.includes(query as string) ? "bg-gray-300 font-bold text-main" : "bg-gray-100"} rounded-xl px-4 py-3 text-sm sm:text-base`}
           >
             {tag.name}
           </Button>
