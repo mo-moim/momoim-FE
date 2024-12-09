@@ -51,7 +51,7 @@ export function Modal(props: ModalProps) {
             {description ? MODAL_TEXT[description] : <VisuallyHidden>설명 없음</VisuallyHidden>}
           </DialogDescription>
         </DialogHeader>
-        {content && <div className="flex-grow overflow-y-auto">{content}</div>}
+        {content && <div className="flex-grow overflow-y-auto scrollbar-hide">{content}</div>}
         {title !== "MEMBER_LIST" && (
           <DialogFooter className="flex flex-row items-center justify-center gap-4">
             {(checkBtn === "CHECK" || checkBtn === "REVIEW_SAVE") && (
