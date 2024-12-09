@@ -1,6 +1,8 @@
 "use client";
 
+import sectionSlider from "@/lib/sectionSlider";
 import { usePathname, useRouter } from "next/navigation";
+import { useRef } from "react";
 
 interface Props {
   tabs: Tab[];
@@ -13,11 +15,21 @@ interface Tab {
 }
 
 export default function Tabs({ tabs }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const path = usePathname();
   const currentId = path.split("/").pop()?.split("?")[0] ?? "";
+
   return (
-    <div className="flex gap-4 px-6">
+    <div
+      role="button"
+      tabIndex={0}
+      onMouseDown={(e) => {
+        sectionSlider(e, containerRef);
+      }}
+      ref={containerRef}
+      className="flex w-full gap-4 overflow-auto px-6 scrollbar-hide"
+    >
       {tabs.map((tab) => {
         const isSelected = tab.value === currentId;
         return (
@@ -27,7 +39,7 @@ export default function Tabs({ tabs }: Props) {
               onClick={() => {
                 router.push(tab.path);
               }}
-              className={`p-3 text-sm sm:text-base ${isSelected && "font-bold"}`}
+              className={`whitespace-nowrap p-4 text-sm sm:text-base ${isSelected && "font-bold"} w-auto`}
             >
               {tab.name}
             </button>

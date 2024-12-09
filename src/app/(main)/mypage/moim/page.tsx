@@ -91,7 +91,7 @@ export default function MyMoim() {
   }, [searchParams]);
 
   return (
-    <div className="px-[32px]">
+    <div className="px-[24px]">
       <Tags tags={tags} />
       {moims.map((moim, idx) => {
         return (

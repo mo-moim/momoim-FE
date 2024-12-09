@@ -21,6 +21,26 @@ export default function MyPage({ children }: { children: React.ReactNode }) {
       value: "review",
       path: "/mypage/review?sub=all-review",
     },
+    {
+      name: "나의 리뷰",
+      value: "review",
+      path: "/mypage/review?sub=all-review",
+    },
+    {
+      name: "나의 리뷰",
+      value: "review",
+      path: "/mypage/review?sub=all-review",
+    },
+    {
+      name: "나의 리뷰",
+      value: "review",
+      path: "/mypage/review?sub=all-review",
+    },
+    {
+      name: "나의 리뷰",
+      value: "review",
+      path: "/mypage/review?sub=all-review",
+    },
   ];
   return (
     <div>

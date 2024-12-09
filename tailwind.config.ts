@@ -9,6 +9,13 @@ export default {
   ],
   theme: {
     extend: {
+      // scrollbar: {
+      //   hide: {
+      //     "&::-webkit-scrollbar": { display: "none" },
+      //     "-ms-overflow-style": "none",
+      //     "scrollbar-width": "none",
+      //   },
+      // },
       colors: {
         main: {
           DEFAULT: "#5A25E9", // Normal
@@ -76,5 +83,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
 } satisfies Config;
