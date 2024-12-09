@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import TanStackProvider from "@/lib/TanStackProvider";
+import Header from "./_component/Header";
 
 const pretendard = localFont({
   src: "../assets/fonts/PretendardVariable.woff2",
@@ -25,7 +26,8 @@ export default function RootLayout({
     <html lang="ko-KR">
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <TanStackProvider>
-          {children}
+          <Header />
+          <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
           <SpeedInsights />
         </TanStackProvider>
       </body>
