@@ -1,6 +1,6 @@
 "use client";
 
-import Tags from "../_components/Tags";
+import Tags from "../../../../components/common/Tags";
 
 export default function MyReview() {
   const tags = [

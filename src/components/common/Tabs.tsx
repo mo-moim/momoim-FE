@@ -15,11 +15,11 @@ interface Tab {
 export default function Tabs({ tabs }: Props) {
   const router = useRouter();
   const path = usePathname();
-  const slash = path.split("/");
-  const id = slash[slash.length - 1].split("?")[0];
+  const currentId = path.split("/").pop()?.split("?")[0] ?? "";
   return (
-    <div className="flex gap-[16px] px-[24px]">
+    <div className="flex gap-4 px-6">
       {tabs.map((tab) => {
+        const isSelected = tab.value === currentId;
         return (
           <div key={tab.value} className="flex flex-col items-center">
             <button
@@ -27,11 +27,11 @@ export default function Tabs({ tabs }: Props) {
               onClick={() => {
                 router.push(tab.path);
               }}
-              className={`p-[16px] text-sm sm:text-base ${tab.value === id && "font-bold"}`}
+              className={`p-3 text-sm sm:text-base ${isSelected && "font-bold"}`}
             >
               {tab.name}
             </button>
-            {tab.value === id && <div className="h-[2px] w-full bg-black" />}
+            {isSelected && <div className="h-0.5 w-full bg-black" />}
           </div>
         );
       })}

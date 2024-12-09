@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Card from "../_components/Card";
-import Tags from "../_components/Tags";
+import Tags from "../../../../components/common/Tags";
 
 interface Moim {
   // api 완성되면 get으로 가져와서 설정

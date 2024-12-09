@@ -1,6 +1,6 @@
 // import { dehydrate, HydrationBoundary, QueryClient, useQuery } from "@tanstack/react-query";
 import ProfileBox from "./_components/ProfileBox";
-import Tabs from "./_components/Tabs";
+import Tabs from "../../../components/common/Tabs";
 
 export default function MyPage({ children }: { children: React.ReactNode }) {
   //   if (isLoading) return <div>로딩 중...</div>;
