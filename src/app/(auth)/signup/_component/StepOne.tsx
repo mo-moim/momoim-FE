@@ -20,13 +20,7 @@ export function StepOne({ form }: StepOneProps) {
     <>
       <h1 className="mb-8 text-center text-2xl font-bold">회원가입</h1>
       <FormFieldWrapper control={form.control} name="name" label="닉네임" placeholder="사용할 닉네임을 입력해 주세요" />
-      <FormFieldWrapper
-        control={form.control}
-        name="email"
-        label="아이디"
-        placeholder="이메일을 입력해 주세요"
-        type="email"
-      />
+      <FormFieldWrapper control={form.control} name="email" label="아이디" placeholder="이메일을 입력해 주세요" />
       <FormFieldWrapper
         control={form.control}
         name="password"
