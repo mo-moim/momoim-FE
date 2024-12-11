@@ -1,4 +1,4 @@
-import { Modal } from "@/components/common/Modal";
+import { Modal } from "@/components/common/modal/Modal";
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MODAL_INFO, ModalOption, ModalType } from "@/types/common/modal";
@@ -34,13 +34,13 @@ describe("모달 컴포넌트", () => {
 
     render(<Modal type="review" />);
 
-    if (data.review.trigger_btn && data.review.title && data.review.submit_btn) {
-      const reviewBtn = screen.getByRole("button", { name: data.review.trigger_btn });
-      fireEvent.click(reviewBtn);
+    const reviewBtn = screen.getByRole("button", { name: data.review.trigger_btn });
+    fireEvent.click(reviewBtn);
 
+    if (data.review.title) {
       expect(screen.getByText(data.review.title)).toBeInTheDocument();
-      expect(screen.getByText(data.review.submit_btn)).toBeInTheDocument();
     }
+    expect(screen.getByRole("button", { name: data.review.submit_btn })).toBeInTheDocument();
   });
 
   it("submit 버튼을 클릭하면 해당 onSubmit이 호출되어야 한다.", () => {
@@ -72,7 +72,7 @@ describe("모달 컴포넌트", () => {
     expect(screen.queryByText("취소")).not.toBeInTheDocument();
   });
 
-  it("모달이 열린 상태에서 취소 버튼을 클릭하면 모달이 닫혀야한다.", () => {
+  it("모달이 열리고 취소 버튼과 X아이콘을 클릭하면 모달이 닫혀야한다.", () => {
     render(<Modal type="apply" />);
 
     const applyBtn = screen.getByRole("button", { name: data.apply.trigger_btn });
@@ -80,20 +80,11 @@ describe("모달 컴포넌트", () => {
 
     const cancleBtn = screen.getByRole("button", { name: "취소" });
     expect(cancleBtn).toBeInTheDocument();
-
-    fireEvent.click(cancleBtn);
-    expect(cancleBtn).not.toBeInTheDocument();
-  });
-
-  it("모달이 열린 상태에서 x 아이콘을 클릭하면 모달이 닫혀야한다.", () => {
-    render(<Modal type="apply" />);
-
-    const applyBtn = screen.getByRole("button", { name: data.apply.trigger_btn });
-    fireEvent.click(applyBtn);
-
     const closeIcon = screen.getByRole("button", { name: "Close" });
     expect(closeIcon).toBeInTheDocument();
 
+    fireEvent.click(cancleBtn);
+    expect(cancleBtn).not.toBeInTheDocument();
     fireEvent.click(closeIcon);
     expect(closeIcon).not.toBeInTheDocument();
   });
