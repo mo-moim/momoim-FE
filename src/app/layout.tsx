@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import TanStackProvider from "@/lib/TanStackProvider";
+import { Toaster } from "@/components/ui/toaster";
 import Header from "./_component/Header";
 
 const pretendard = localFont({
@@ -28,6 +29,7 @@ export default function RootLayout({
         <TanStackProvider>
           <Header />
           <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
+          <Toaster />
           <SpeedInsights />
         </TanStackProvider>
       </body>
