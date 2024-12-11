@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_SIGNUP_VALUES, signUpSchema } from "@/schemas/auth";
+import { useSignUp } from "@/queries/auth/useSignUp";
 import { StepOne } from "./_component/StepOne";
 import { StepTwo } from "./_component/StepTwo";
 import { StepIndicator } from "./_component/StepIndicator";
@@ -19,14 +20,30 @@ export default function SignUp() {
     defaultValues: DEFAULT_SIGNUP_VALUES,
   });
 
+  const { mutate: signUp } = useSignUp();
+
   const onSubmit = (values: typeof DEFAULT_SIGNUP_VALUES) => {
     if (step === 1) {
       setStep(2);
       return;
     }
-    // TODO:회원가입 API 호출 예정
-    console.log(values);
+    signUp(values);
   };
+
+  // 2step에서 1step으로 뒤로가기
+  useEffect(() => {
+    if (step === 2) {
+      window.history.pushState(null, "", window.location.pathname);
+    }
+    const handlePopState = () => {
+      if (step === 2) {
+        setStep(1);
+        window.history.pushState(null, "", window.location.pathname);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [step]);
 
   return (
     <AuthLayout>
@@ -41,7 +58,7 @@ export default function SignUp() {
             {step === 2 && (
               <div className="text-center">
                 다음에 할게요.
-                <button type="button" className="pl-2 text-gray-500 underline">
+                <button type="button" onClick={form.handleSubmit(onSubmit)} className="pl-2 text-gray-500 underline">
                   건너뛰기
                 </button>
               </div>
