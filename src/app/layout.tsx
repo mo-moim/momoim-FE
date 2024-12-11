@@ -26,6 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR">
+      <link rel="icon" href="/favicon.ico" sizes="any" />
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <TanStackProvider>
           <Header />
