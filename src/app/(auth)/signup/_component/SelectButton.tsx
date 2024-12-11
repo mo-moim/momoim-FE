@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import CheckIcon from "@/assets/svg/check-icon.svg";
 
 interface SelectButtonProps {
   selected?: boolean;
@@ -14,16 +13,13 @@ export function SelectButton({ selected, children, onClick, className = "" }: Se
       type="button"
       onClick={onClick}
       className={cn(
-        "box-border whitespace-nowrap px-4 py-2 font-medium leading-snug",
+        "box-border whitespace-nowrap px-5 py-3 font-medium leading-snug",
         "rounded-xl",
         "flex items-center justify-center",
-        selected
-          ? "border-2 border-main bg-white text-main"
-          : "border border-gray-200 bg-white text-gray-900 hover:border-gray-300",
+        selected ? "bg-gray-250 text-main" : "bg-gray-100 text-gray-900 hover:border-gray-300",
         className,
       )}
     >
-      {selected && <CheckIcon className="mr-1" />}
       {children}
     </button>
   );
