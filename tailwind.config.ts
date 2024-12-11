@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "375px",
+        full: "1100px", // 커스텀 브레이크포인트 추가
+      },
       colors: {
         main: {
           DEFAULT: "#5A25E9", // Normal
