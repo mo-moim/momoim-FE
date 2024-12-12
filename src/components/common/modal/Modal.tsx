@@ -18,12 +18,12 @@ interface ModalProps {
   size?: string;
   title?: string;
   trigger_btn: React.ReactNode;
-  submit_btn?: React.ReactNode;
+  submit_btn?: string;
   content: string | React.ReactNode;
-  onClick: () => void;
+  onSubmit: () => void;
 }
 
-export function Modal({ size, title, trigger_btn, content, submit_btn, onClick }: ModalProps) {
+export function Modal({ size, title, trigger_btn, content, submit_btn, onSubmit }: ModalProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
@@ -47,7 +47,7 @@ export function Modal({ size, title, trigger_btn, content, submit_btn, onClick }
             <Button type="button" variant="outline" onClick={handleClose}>
               취소
             </Button>
-            <Button type="submit" onClick={onClick}>
+            <Button type="submit" onClick={onSubmit}>
               {submit_btn || "확인"}
             </Button>
           </DialogFooter>
