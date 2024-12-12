@@ -30,9 +30,15 @@ export const CATEGORIES = [
   { value: "MEETING", label: "미팅" },
 ] as const;
 
-export const HOME_SORT = [
+export const SORT = [
   { value: "UPDATE_AT", label: "최신순" },
   { value: "PARTICIPANT_COUNT", label: "인원순" },
+] as const;
+
+export const TYPE = [
+  { value: "ALL", label: "전체" },
+  { value: "OFFLINE", label: "오프라인" },
+  { value: "ONLINE", label: "온라인" },
 ] as const;
 
 export const ONLINE_PLACE = [
@@ -43,13 +49,7 @@ export const ONLINE_PLACE = [
   { value: "ETC", label: "기타" },
 ] as const;
 
-export const DETAIL_REVIEW = [
+export const REVIEW = [
   { value: "UPDATE_AT", label: "최신순" },
   { value: "SCORE", label: "평점순" },
-] as const;
-
-export const GATHERING_TYPE = [
-  { value: "ALL", label: "전체" },
-  { value: "OFFLINE", label: "오프라인" },
-  { value: "ONLINE", label: "온라인" },
 ] as const;
