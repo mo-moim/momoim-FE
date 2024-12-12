@@ -4,10 +4,14 @@ import { Select } from "@/components/common/select/Select";
 import { REGIONS } from "@/constants/options";
 
 describe("select 컴포넌트", () => {
-  it("select를 클릭하면 펼쳐지고 data에 맞는 요소들이 렌더링 되어야한다.", () => {
-    const mockChange = jest.fn();
-    render(<Select data={REGIONS} value="" onChange={mockChange} />);
+  let mockChange: jest.Mock;
 
+  beforeEach(() => {
+    mockChange = jest.fn();
+    render(<Select data={REGIONS} placeholder="테스트 입니다" value="" onChange={mockChange} />);
+  });
+
+  it("select를 클릭하면 펼쳐지고 data에 맞는 요소들이 렌더링 되어야한다.", () => {
     const triggerBtn = screen.getByRole("combobox");
     fireEvent.click(triggerBtn);
     expect(triggerBtn).toHaveAttribute("data-state", "open");
@@ -18,9 +22,6 @@ describe("select 컴포넌트", () => {
   });
 
   it("아이템을 클릭하면 해당 아이템이 value가 되고 또 새로운 아이템을 클릭하면 해당 아이템이 value가 되어야한다.", () => {
-    const mockChange = jest.fn();
-    render(<Select data={REGIONS} value="" onChange={mockChange} />);
-
     const triggerBtn = screen.getByRole("combobox");
     fireEvent.click(triggerBtn);
     expect(triggerBtn).toHaveAttribute("data-state", "open");
@@ -38,12 +39,9 @@ describe("select 컴포넌트", () => {
   });
 
   it("props placeholder가 있다면 select에 표시되어야한다.", () => {
-    const mockChange = jest.fn();
-    render(<Select data={REGIONS} placeholder="테스트 입니다." value="" onChange={mockChange} />);
-
     const triggerBtn = screen.getByRole("combobox");
     expect(triggerBtn).toBeInTheDocument();
-    expect(screen.getByText("테스트 입니다.")).toBeInTheDocument();
+    expect(screen.getByText("테스트 입니다")).toBeInTheDocument();
   });
 });
 
