@@ -11,7 +11,7 @@ describe("모달 컴포넌트", () => {
     render(
       <Modal
         content="해당 모임을 신청하시겠습니까?"
-        trigger_btn={<Button type="button">신청하기</Button>}
+        triggerButton={<Button type="button">신청하기</Button>}
         onSubmit={mockClick}
       />,
     );
