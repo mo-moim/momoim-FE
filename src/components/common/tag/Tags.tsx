@@ -29,7 +29,7 @@ export default function Tags({ tags }: Props) {
       onMouseDown={(e) => {
         sectionSlider(e, containerRef);
       }}
-      className="my-4 flex w-full cursor-grab gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
+      className="my-4 flex w-full gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
     >
       {tags?.map((tag) => {
         return (

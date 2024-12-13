@@ -1,8 +1,9 @@
 // type 종류
 // home | detail | mypage | review | profile
 
-import Chips from "@/components/common/Chips";
-import ProgressBar from "@/components/common/ProgressBar";
+import Chips from "@/components/common/chip/Chips";
+import ProgressBar from "@/components/common/progressbar/ProgressBar";
+import Heart from "@/components/common/heart/Heart";
 import { dateFormatter } from "@/lib/dateFormatter";
 import { leftTimeGenerator } from "@/lib/leftTimeGenerator";
 import { MOIM_CARD_STYLE } from "@/types/common/moimCard";
@@ -11,7 +12,6 @@ import { Members } from "@/types/common/members";
 import DefaultProfile from "../../../assets/svg/default-profile.svg";
 import LocalIcon from "../../../assets/svg/geography_map_solid.svg";
 import Person from "../../../assets/svg/person.svg";
-import Heart from "../Heart";
 
 interface Props {
   type: string;
@@ -160,6 +160,7 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
           <img alt="thumbnail" src={data?.image} />
         </div>
         <div
+          aria-label="dividing-point"
           className={`${MOIM_CARD_STYLE[type][2]} ${(data?.status === "CANCELED" || data?.status === "FINISHED" || (data?.status === "CLOSED" && type === "home")) && "opacity-30"}`}
         >
           <div className={MOIM_CARD_STYLE[type][3]}>

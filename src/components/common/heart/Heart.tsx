@@ -12,6 +12,7 @@ export default function Heart({ likeTask, isWishList }: Props) {
   const [isLiked, setIsLiked] = useState(isWishList);
   return (
     <motion.div
+      aria-label="Heart Component Wrapper"
       onClick={(e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
         setIsLiked((prev) => !prev);
@@ -30,6 +31,7 @@ export default function Heart({ likeTask, isWishList }: Props) {
       }}
     >
       <motion.svg
+        aria-label="Heart Component"
         strokeWidth="2px"
         initial={{ stroke: "#636267", fill: "transparent" }}
         animate={{ stroke: isLiked ? "transparent" : "#636267", fill: isLiked ? "#FF0000" : "transparent" }}
