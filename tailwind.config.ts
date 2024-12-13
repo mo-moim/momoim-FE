@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "460px",
+        blg: "1100px",
+      },
       colors: {
         main: {
           DEFAULT: "#5A25E9", // Normal
