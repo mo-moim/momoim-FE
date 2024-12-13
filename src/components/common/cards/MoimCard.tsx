@@ -24,7 +24,7 @@ interface Props {
 }
 
 export default function MoimCard({ type, data, members, customButton, customOnClick, isWishList, likeTask }: Props) {
-  const handleClick = customOnClick || (() => {});
+  const handleClickToEnter = customOnClick || (() => {});
   const handleLike = likeTask || (() => {});
 
   if (type === "detail") {
@@ -145,13 +145,7 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
 
   if (type === "home" || type === "mypage") {
     return (
-      <button
-        type="button"
-        className={MOIM_CARD_STYLE[type][0]}
-        onClick={() => {
-          handleClick();
-        }}
-      >
+      <button type="button" className={MOIM_CARD_STYLE[type][0]} onClick={handleClickToEnter}>
         <div className={MOIM_CARD_STYLE[type][1]}>
           {["CANCELED", "FINISHED"].includes(data?.status as string) ||
           (data?.status === "CLOSED" && type === "home") ? (
