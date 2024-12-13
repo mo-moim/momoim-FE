@@ -52,7 +52,7 @@ export default function SignUp() {
           {step === 1 ? <StepOne form={form} /> : <StepTwo form={form} />}
           <StepIndicator steps={2} currentStep={step} />
           <div className="space-y-4">
-            <Button type="submit" className="h-12 w-full bg-black hover:bg-black/90">
+            <Button type="submit" className="h-12 w-full">
               {step === 1 ? "다음으로" : "확인"}
             </Button>
             {step === 2 && (
