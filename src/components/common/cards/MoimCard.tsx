@@ -15,7 +15,7 @@ import Heart from "../Heart";
 
 interface Props {
   type: string;
-  data?: GatheringContent;
+  data: GatheringContent;
   isWishList: boolean;
   likeTask?: () => void;
   members?: Members[];
