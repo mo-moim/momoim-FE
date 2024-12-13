@@ -29,3 +29,27 @@ export const CATEGORIES = [
   { value: "STUDY", label: "스터디" },
   { value: "MEETING", label: "미팅" },
 ] as const;
+
+export const GATHERING_SORT_OPTIONS = [
+  { value: "UPDATE_AT", label: "최신순" },
+  { value: "PARTICIPANT_COUNT", label: "인원순" },
+] as const;
+
+export const GATHERING_TYPE = [
+  { value: "ALL", label: "전체" },
+  { value: "OFFLINE", label: "오프라인" },
+  { value: "ONLINE", label: "온라인" },
+] as const;
+
+export const ONLINE_PLATFORM = [
+  { value: "DISCORD", label: "디스코드" },
+  { value: "ZOOM", label: "줌" },
+  { value: "GOOGLEMEET", label: "구글밋" },
+  { value: "ZEP", label: "ZEP" },
+  { value: "ETC", label: "기타" },
+] as const;
+
+export const REVIEW_SORT_OPTIONS = [
+  { value: "UPDATE_AT", label: "최신순" },
+  { value: "SCORE", label: "평점순" },
+] as const;
