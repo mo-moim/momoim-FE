@@ -17,38 +17,47 @@ import { useState } from "react";
 interface ModalProps {
   size?: string;
   title?: string;
-  trigger_btn: React.ReactNode;
-  submit_btn?: string;
-  content: string | React.ReactNode;
-  onSubmit: () => void;
+  triggerButton: React.ReactNode;
+  submitButtonText?: string;
+  content: React.ReactNode;
+  showFooter?: boolean;
+  onSubmit?: () => void;
 }
 
-export function Modal({ size, title, trigger_btn, content, submit_btn, onSubmit }: ModalProps) {
+export function Modal({
+  size,
+  title,
+  triggerButton,
+  content,
+  submitButtonText,
+  showFooter = true,
+  onSubmit,
+}: ModalProps) {
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger_btn}</DialogTrigger>
+      <DialogTrigger asChild>{triggerButton}</DialogTrigger>
       <DialogContent
-        className={clsx("flex h-52 max-w-[25rem] flex-col items-center justify-center gap-10 rounded-lg", size)}
+        className={clsx("h-1/5 min-h-36 w-[25rem] gap-6 rounded-lg p-4", size)}
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle className="absolute left-4 top-4 text-sm">
+          <DialogTitle className="text-start text-sm">
             {title || <VisuallyHidden>제목 없음</VisuallyHidden>}
           </DialogTitle>
         </DialogHeader>
-        <DialogDescription asChild className="overflow-y-auto text-base text-black scrollbar-hide">
-          <div>{content}</div>
+        <DialogDescription asChild className="text-base text-black scrollbar-hide">
+          <div className="flex justify-center overflow-y-auto">{content}</div>
         </DialogDescription>
-        {title !== "맴버 리스트" && (
-          <DialogFooter className="flex flex-row items-center justify-center gap-4">
-            <Button type="button" variant="outline" onClick={handleClose}>
+        {showFooter && (
+          <DialogFooter className="flex w-full flex-row items-center justify-center gap-2 sm:gap-0">
+            <Button type="button" variant="outline" className="w-full" onClick={handleClose}>
               취소
             </Button>
-            <Button type="submit" onClick={onSubmit}>
-              {submit_btn || "확인"}
+            <Button type="submit" onClick={onSubmit} className="w-full">
+              {submitButtonText || "확인"}
             </Button>
           </DialogFooter>
         )}
