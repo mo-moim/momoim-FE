@@ -71,6 +71,26 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        chipfc: {
+          open: "#FFFFFF", // 모집 중
+          full: "#FFFFFF", // 정원 초과
+          closed: "#777780", // 접수 마감
+          canceled: "#C73465", // 모임  취소
+          finishied: "#777780", // 모임 종료
+          online: "#FF6C00", // 온라인
+          offline: "#5A25E9", // 오프라인
+          regular: "#00CB00", // 정기
+        },
+        chipbg: {
+          open: "#5A25E9",
+          full: "#C73465",
+          closed: "#F0F1F6",
+          canceled: "#FFE9F2",
+          finishied: "#F0F1F6",
+          online: "#FFFDC3",
+          offline: "#ECEAF5",
+          regular: "#E6F8E7",
+        },
       },
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],

@@ -1,17 +1,18 @@
 // type 종류
-// home | detail | mypage | review | profile
+// home | detail | mypage
 
-import Chips from "@/components/common/Chips";
 import ProgressBar from "@/components/common/ProgressBar";
 import { dateFormatter } from "@/lib/dateFormatter";
 import { leftTimeGenerator } from "@/lib/leftTimeGenerator";
-import { MOIM_CARD_STYLE } from "@/types/common/moimCard";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import { Members } from "@/types/common/members";
+import Image from "next/image";
+import Logo from "@/assets/svg/logo.svg";
 import DefaultProfile from "../../../assets/svg/default-profile.svg";
 import LocalIcon from "../../../assets/svg/geography_map_solid.svg";
 import Person from "../../../assets/svg/person.svg";
 import Heart from "../Heart";
+import Chip from "../Chip";
 
 interface Props {
   type: string;
@@ -32,7 +33,7 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
       <div className="flex flex-col items-center gap-4 p-4 blg:w-[1100px]">
         <div className="flex w-full flex-col items-center justify-center sm:flex-row">
           <div className="relative mx-2 flex h-60 w-full max-w-[375px] items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 sm:max-w-60">
-            <img alt="thumbnail" src={data?.image} />
+            {data?.image ? <Image alt="thumbnail" src={data?.image} layout="fill" objectFit="contain" /> : <Logo />}
           </div>
           <div className="flex w-full items-center justify-center sm:justify-between">
             <div className="flex w-full max-w-[375px] flex-col gap-4 p-2 sm:max-w-full">
@@ -62,17 +63,29 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
                     {data?.participantCount}/{data?.capacity}
                   </div>
                 </div>
-                <div>
-                  {data?.status && data?.gatheringType && (
-                    <Chips status={data?.status} gatheringType={data?.gatheringType} isPeriodic={data?.isPeriodic} />
-                  )}
+                <div className="flex gap-1 text-sm">
+                  {[data?.status, data?.gatheringType, data?.isPeriodic].map((each, idx) => {
+                    const key = `chip:${data?.id}:${idx}`;
+                    if (typeof each === "boolean") {
+                      return each ? <Chip key={key} each="REGULAR" /> : null;
+                    }
+                    return <Chip key={key} each={each} />;
+                  })}
                 </div>
               </div>
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-1">
-                  <div className="flex h-[34px] w-[34px] items-center rounded-full">
-                    {data?.managerProfileImage ? <img src={data?.managerProfileImage} /> : <DefaultProfile />}
-                    <img src={data?.managerProfileImage} />
+                  <div className="relative flex h-8 w-8 items-center overflow-hidden rounded-full">
+                    {data?.managerProfileImage ? (
+                      <Image
+                        layout="fill"
+                        objectFit="contain"
+                        alt="managerProfileImage"
+                        src={data?.managerProfileImage}
+                      />
+                    ) : (
+                      <DefaultProfile />
+                    )}
                   </div>
                   <div>{data?.managerName}</div>
                 </div>
@@ -82,8 +95,12 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
                     {members?.map((member, idx) => {
                       if (idx >= 3) return null;
                       return (
-                        <div key={member?.userId} className="flex h-[34px] w-[34px] items-center rounded-full">
-                          {member.profileImage ? <img src={member.profileImage} /> : <DefaultProfile />}
+                        <div key={member?.userId} className="relative flex h-[34px] w-[34px] items-center rounded-full">
+                          {member.profileImage ? (
+                            <Image alt="member-image" layout="fill" objectFit="contain" src={member.profileImage} />
+                          ) : (
+                            <DefaultProfile />
+                          )}
                         </div>
                       );
                     })}
@@ -93,15 +110,19 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
                 {/* @@@ */}
               </div>
             </div>
-            <div className="hidden h-full w-[318px] flex-col gap-6 lg:flex">
+            <div className="hidden h-full w-[318px] flex-col gap-6 px-4 lg:flex">
               {/* 멤버창 컴포넌트 제작시 아래 div 대신 투입 - 2 */}
               <div className="flex gap-2.5">
                 <div className="flex gap-2.5">
                   {members?.map((member, idx) => {
                     if (idx >= 5) return null;
                     return (
-                      <div key={member?.userId} className="flex h-[34px] w-[34px] items-center rounded-[50%]">
-                        {member.profileImage ? <img src={member.profileImage} /> : <DefaultProfile />}
+                      <div key={member?.userId} className="relative flex h-[34px] w-[34px] items-center rounded-[50%]">
+                        {member.profileImage ? (
+                          <Image alt="member-image" layout="fill" objectFit="contain" src={member.profileImage} />
+                        ) : (
+                          <DefaultProfile />
+                        )}
                       </div>
                     );
                   })}
@@ -143,12 +164,15 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
     );
   }
 
-  if (type === "home" || type === "mypage") {
+  if (type === "home") {
     return (
-      <button type="button" className={MOIM_CARD_STYLE[type][0]} onClick={handleClickToEnter}>
-        <div className={MOIM_CARD_STYLE[type][1]}>
-          {["CANCELED", "FINISHED"].includes(data?.status as string) ||
-          (data?.status === "CLOSED" && type === "home") ? (
+      <button
+        type="button"
+        className="flex w-[366px] flex-col items-center justify-center bg-white p-4"
+        onClick={handleClickToEnter}
+      >
+        <div className="relative flex h-60 w-full items-center justify-center overflow-hidden rounded-[20px] bg-gray-100">
+          {["CANCELED", "FINISHED", "CLOSED"].includes(data?.status as string) ? (
             <div className="absolute flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.4)] text-center text-white">
               {{
                 CANCELED: "취소된 모임",
@@ -157,41 +181,115 @@ export default function MoimCard({ type, data, members, customButton, customOnCl
               }[data?.status as string] || ""}
             </div>
           ) : null}
-          <img alt="thumbnail" src={data?.image} />
+          {data?.image ? <Image alt="thumbnail" src={data?.image} layout="fill" objectFit="contain" /> : <Logo />}
         </div>
         <div
-          className={`${MOIM_CARD_STYLE[type][2]} ${(data?.status === "CANCELED" || data?.status === "FINISHED" || (data?.status === "CLOSED" && type === "home")) && "opacity-30"}`}
+          className={`flex w-full flex-col gap-2 px-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED" || (data?.status === "CLOSED" && type === "home")) && "opacity-30"}`}
         >
-          <div className={MOIM_CARD_STYLE[type][3]}>
-            <div className={MOIM_CARD_STYLE[type][4]}>
-              <div className={MOIM_CARD_STYLE[type][5]}>{data?.name}</div>
+          <div>
+            <div className="flex justify-between py-2">
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold">{data?.name}</div>
               <div className="pt-1">
                 <Heart likeTask={handleLike} isWishList={isWishList} />
               </div>
             </div>
-            <div className={MOIM_CARD_STYLE[type][6]}>
+            <div className="flex gap-1 text-gray-700">
               <div className="overflow-hidden text-ellipsis whitespace-nowrap">{data?.subCategory}</div>
               <div>·</div>
               <div className="flex">
                 <div className="flex items-center">
                   <LocalIcon />
                 </div>
-                <div className={MOIM_CARD_STYLE[type][7]}>{data?.location}</div>
+                <div className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{data?.location}</div>
               </div>
               <div>·</div>
               <div>{dateFormatter(data?.nextGatheringAt as string).simple}</div>
             </div>
             <div>
-              {data?.status && data?.gatheringType && (
-                <Chips status={data?.status} gatheringType={data?.gatheringType} isPeriodic={data?.isPeriodic} />
-              )}
+              <div className="flex gap-1 text-sm">
+                {[data?.status, data?.gatheringType, data?.isPeriodic].map((each, idx) => {
+                  const key = `chip:${data?.id}:${idx}`;
+                  if (typeof each === "boolean") {
+                    return each ? <Chip key={key} each="REGULAR" /> : null;
+                  }
+                  return <Chip key={key} each={each} />;
+                })}
+              </div>
             </div>
           </div>
           <div>
             <div>
               <ProgressBar participantCount={data?.participantCount} capacity={data?.capacity} />
             </div>
-            <div className={MOIM_CARD_STYLE[type][8]}>
+            <div className="flex justify-end">
+              <div>최대인원 {data?.capacity}명</div>
+            </div>
+          </div>
+        </div>
+      </button>
+    );
+  }
+
+  if (type === "mypage") {
+    return (
+      <button
+        type="button"
+        className="flex w-full max-w-[1100px] items-start gap-2 sm:items-center"
+        onClick={handleClickToEnter}
+      >
+        <div className="relative flex aspect-square h-[40%] w-[40%] min-w-20 max-w-40 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 sm:w-40 sm:min-w-40">
+          {["CANCELED", "FINISHED"].includes(data?.status as string) ? (
+            <div className="absolute flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.4)] text-center text-white">
+              {{
+                CANCELED: "취소된 모임",
+                CLOSED: "마감 되었어요",
+                FINISHED: "종료된 모임",
+              }[data?.status as string] || ""}
+            </div>
+          ) : null}
+          {data?.image ? <Image alt="thumbnail" src={data?.image} layout="fill" objectFit="contain" /> : <Logo />}
+        </div>
+        <div
+          className={`flex min-w-0 flex-grow flex-col justify-center gap-1 pl-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED") && "opacity-30"}`}
+        >
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between">
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap text-start text-lg font-bold">
+                {data?.name}
+              </div>
+              <div className="pt-1">
+                <Heart likeTask={handleLike} isWishList={isWishList} />
+              </div>
+            </div>
+            <div className="flex gap-1 text-xs text-gray-700 sm:text-base">
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{data?.subCategory}</div>
+              <div>·</div>
+              <div className="flex">
+                <div className="flex items-center">
+                  <LocalIcon />
+                </div>
+                <div className="max-w-11 overflow-hidden text-ellipsis whitespace-nowrap xs:max-w-full">
+                  {data?.location}
+                </div>
+              </div>
+              <div>·</div>
+              <div>{dateFormatter(data?.nextGatheringAt as string).simple}</div>
+            </div>
+            <div className="flex gap-1 text-sm">
+              {[data?.status, data?.gatheringType, data?.isPeriodic].map((each, idx) => {
+                const key = `chip:${data?.id}:${idx}`;
+                if (typeof each === "boolean") {
+                  return each ? <Chip key={key} each="REGULAR" /> : null;
+                }
+                return <Chip key={key} each={each} />;
+              })}
+            </div>
+          </div>
+          <div>
+            <div>
+              <ProgressBar participantCount={data?.participantCount} capacity={data?.capacity} />
+            </div>
+            <div className="flex justify-end text-sm">
               <div>최대인원 {data?.capacity}명</div>
             </div>
           </div>
