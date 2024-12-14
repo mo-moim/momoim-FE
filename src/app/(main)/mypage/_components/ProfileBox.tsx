@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
-import { Modal } from "@/components/common/Modal";
+import { Modal } from "@/components/common/modal/Modal";
 
 interface Profile {
   companyName: string;
@@ -58,7 +58,7 @@ export default function ProfileBox() {
               프로필 수정
             </button> */}
             {/* {modal && <Modal type="profile" />} */}
-            <Modal type="profile" />
+            {/* <Modal type="profile" /> */}
           </div>
         </div>
       </div>
