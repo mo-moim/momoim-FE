@@ -14,27 +14,7 @@ export default function MyPage({ children }: { children: React.ReactNode }) {
     {
       name: "나의 모임",
       value: "moim",
-      path: "/mypage/moim?sub=all-moim",
-    },
-    {
-      name: "나의 리뷰",
-      value: "review",
-      path: "/mypage/review?sub=all-review",
-    },
-    {
-      name: "나의 리뷰",
-      value: "review",
-      path: "/mypage/review?sub=all-review",
-    },
-    {
-      name: "나의 리뷰",
-      value: "review",
-      path: "/mypage/review?sub=all-review",
-    },
-    {
-      name: "나의 리뷰",
-      value: "review",
-      path: "/mypage/review?sub=all-review",
+      path: "/mypage/moim?sub=mymoim",
     },
     {
       name: "나의 리뷰",
