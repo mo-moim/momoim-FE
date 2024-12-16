@@ -19,13 +19,18 @@ interface SelectProps {
 
 export function Select({ size, data, value, placeholder, firstItem, onChange }: SelectProps) {
   const firstItemFilter = firstItem ? data.slice(1) : data;
+  let defaultValue;
+
+  if (firstItem) {
+    defaultValue = firstItemFilter[0].value;
+  } else if (placeholder) {
+    defaultValue = "";
+  } else {
+    defaultValue = data[0].value;
+  }
 
   return (
-    <SelectWrap
-      value={value}
-      defaultValue={firstItem ? firstItemFilter[0].value : data[0].value}
-      onValueChange={onChange}
-    >
+    <SelectWrap value={value} defaultValue={defaultValue} onValueChange={onChange}>
       <SelectTrigger className={clsx("w-24 border-gray-400", size)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
