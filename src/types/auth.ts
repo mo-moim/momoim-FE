@@ -13,3 +13,23 @@ export interface SignUpFormData {
   regions: Region[];
   interestCategories: Category[];
 }
+
+export interface LoginFormData {
+  name: string;
+  email: string;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  data: {
+    accessToken: {
+      token: string;
+      expiredAt: number;
+    };
+    email: string;
+    name: string;
+    profileImage: string;
+    regions: string[];
+    interestCategories: string[];
+  };
+}
