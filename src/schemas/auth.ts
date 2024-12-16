@@ -6,6 +6,14 @@ import * as z from "zod";
 export const REGION_VALUES = REGIONS.map((r) => r.value) as [string, ...string[]];
 export const CATEGORY_VALUES = CATEGORIES.map((c) => c.value) as [string, ...string[]];
 
+export const loginSchema = z.object({
+  email: z.string().min(1, VALIDATION_ERRORS.email.required).email(VALIDATION_ERRORS.email.invalid),
+  password: z
+    .string()
+    .min(1, VALIDATION_ERRORS.password.requirements)
+    .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, VALIDATION_ERRORS.password.requirements),
+});
+
 export const signUpSchema = z
   .object({
     name: z.string().min(2, VALIDATION_ERRORS.name.min).max(10, VALIDATION_ERRORS.name.max),
@@ -24,7 +32,7 @@ export const signUpSchema = z
 
 export type SignUpFormType = z.infer<typeof signUpSchema>;
 
-// 기본값 설정
+// 회원가입 기본값
 export const DEFAULT_SIGNUP_VALUES: SignUpFormData = {
   name: "",
   email: "",

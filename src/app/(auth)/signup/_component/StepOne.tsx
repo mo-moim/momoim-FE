@@ -19,7 +19,7 @@ export function StepOne({ form }: StepOneProps) {
 
   return (
     <>
-      <h1 className="mb-8 text-center text-2xl font-bold">회원가입</h1>
+      <h2 className="mb-8 text-center text-2xl font-bold">회원가입</h2>
       <FormFieldWrapper
         control={form.control}
         name="name"
@@ -76,7 +76,6 @@ export function StepOne({ form }: StepOneProps) {
           </div>
         )}
       />
-
       <div className="font-medium">
         이미 회원이신가요?
         <Link href="/login" className="pl-2 text-main underline">
