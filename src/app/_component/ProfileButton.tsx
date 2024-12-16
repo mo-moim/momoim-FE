@@ -1,10 +1,13 @@
 "use client";
 
-import { User } from "@/types/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import DefaultProfile from "@/assets/svg/default-profile.svg";
+import Cookies from "js-cookie";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { User } from "@/types/auth";
 
 interface ProfileButtonProps {
   user: User;
@@ -12,11 +15,21 @@ interface ProfileButtonProps {
 
 export default function ProfileButton({ user }: ProfileButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLLIElement>(null);
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const closePopover = () => setIsOpen(false);
 
-  // 팝오버 외부 클릭 감지
+  const handleLogout = async () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("tokenExpiresAt");
+    queryClient.setQueryData(["user"], null);
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+    router.push("/");
+    closePopover();
+  };
+
   useEffect(() => {
     function handleOutsideClick(event: MouseEvent) {
       if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
@@ -30,7 +43,7 @@ export default function ProfileButton({ user }: ProfileButtonProps) {
   }, []);
 
   return (
-    <div className="relative" ref={popoverRef}>
+    <li className="relative" ref={popoverRef}>
       <button type="button" onClick={() => setIsOpen(!isOpen)} className="flex items-center gap-2">
         <div className="relative h-7 w-7 overflow-hidden rounded-full">
           {user.profileImage === "DEFAULT_PROFILE_IMAGE" ? (
@@ -49,16 +62,12 @@ export default function ProfileButton({ user }: ProfileButtonProps) {
           <button
             type="button"
             className="flex w-full items-center px-4 py-2 font-medium hover:text-main-selected"
-            onClick={() => {
-              closePopover();
-              // TODO:로그아웃 로직 추가
-              console.log("로그아웃 처리");
-            }}
+            onClick={handleLogout}
           >
             로그아웃
           </button>
         </div>
       )}
-    </div>
+    </li>
   );
 }
