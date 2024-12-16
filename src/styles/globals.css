@@ -57,11 +57,25 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+html body[data-scroll-locked] {
+  overflow-y: auto !important;
+  margin-right: 0 !important;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .inputCountButton::-webkit-inner-spin-button,
+  .inputCountButton::-webkit-outer-spin-button {
+    -webkit-appearance: inner-spin-button;
+    opacity: 1;
   }
 }
