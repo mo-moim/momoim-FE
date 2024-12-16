@@ -7,6 +7,7 @@ import { useState } from "react";
 import { SignUpFormData } from "@/types/auth";
 import Link from "next/link";
 import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
+import { FORM_LABELS } from "@/constants/formLabels";
 
 interface StepOneProps {
   form: UseFormReturn<SignUpFormData>;
@@ -18,20 +19,35 @@ export function StepOne({ form }: StepOneProps) {
 
   return (
     <>
-      <h1 className="mb-8 text-center text-2xl font-bold">회원가입</h1>
-      <FormFieldWrapper control={form.control} name="name" label="닉네임" placeholder="사용할 닉네임을 입력해 주세요" />
-      <FormFieldWrapper control={form.control} name="email" label="아이디" placeholder="이메일을 입력해 주세요" />
+      <h2 className="mb-8 text-center text-2xl font-bold">회원가입</h2>
+      <FormFieldWrapper
+        control={form.control}
+        name="name"
+        label={FORM_LABELS.name.label}
+        placeholder={FORM_LABELS.name.placeholder}
+      />
+      <FormFieldWrapper
+        control={form.control}
+        name="email"
+        label={FORM_LABELS.email.label}
+        placeholder={FORM_LABELS.email.placeholder}
+      />
       <FormFieldWrapper
         control={form.control}
         name="password"
-        label="비밀번호"
+        label={FORM_LABELS.password.label}
         renderContent={(field) => (
           <div className="relative">
-            <Input type={showPassword ? "text" : "password"} placeholder="비밀번호를 입력해주세요" {...field} />
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder={FORM_LABELS.password.placeholder}
+              {...field}
+            />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              aria-label="비밀번호 보기/숨기기 토글"
             >
               {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
             </button>
@@ -41,25 +57,25 @@ export function StepOne({ form }: StepOneProps) {
       <FormFieldWrapper
         control={form.control}
         name="passwordConfirm"
-        label="비밀번호 확인"
+        label={FORM_LABELS.passwordConfirm.label}
         renderContent={(field) => (
           <div className="relative">
             <Input
               type={showPasswordConfirm ? "text" : "password"}
-              placeholder="비밀번호를 다시 한 번 입력해주세요"
+              placeholder={FORM_LABELS.passwordConfirm.placeholder}
               {...field}
             />
             <button
               type="button"
               onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+              aria-label="비밀번호 확인 보기/숨기기 토글"
             >
               {showPasswordConfirm ? <Eye size={20} /> : <EyeOff size={20} />}
             </button>
           </div>
         )}
       />
-
       <div className="font-medium">
         이미 회원이신가요?
         <Link href="/login" className="pl-2 text-main underline">

@@ -10,6 +10,17 @@ export const clientAxios = axios.create({
   },
 });
 
+clientAxios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      Cookies.remove("accessToken");
+      Cookies.remove("tokenExpiresAt");
+    }
+    return Promise.reject(error);
+  },
+);
+
 clientAxios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = Cookies.get("accessToken");
   if (token) {
@@ -26,6 +37,20 @@ export const serverAxios = axios.create({
     Accept: "application/json",
   },
 });
+
+serverAxios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      const { cookies } = require("next/headers");
+      const cookieStore = cookies();
+
+      cookieStore.delete("accessToken");
+      cookieStore.delete("tokenExpiresAt");
+    }
+    return Promise.reject(error);
+  },
+);
 
 serverAxios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const { cookies } = require("next/headers");
