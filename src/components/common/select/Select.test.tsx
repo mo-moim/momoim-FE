@@ -16,9 +16,9 @@ describe("select 컴포넌트", () => {
     fireEvent.click(triggerBtn);
     expect(triggerBtn).toHaveAttribute("data-state", "open");
 
-    expect(screen.getByText("전체")).toBeInTheDocument();
-    expect(screen.getByText("서울")).toBeInTheDocument();
-    expect(screen.getByText("경기")).toBeInTheDocument();
+    REGIONS.forEach(({ label }) => {
+      expect(screen.getByText(label)).toBeInTheDocument();
+    });
   });
 
   it("아이템을 클릭하면 해당 아이템이 value가 되고 또 새로운 아이템을 클릭하면 해당 아이템이 value가 되어야한다.", () => {
@@ -57,12 +57,15 @@ describe("props값 firstItem에 따른 select 렌더링", () => {
       expect(categoryBtn).toHaveAttribute("data-state", "open");
 
       if (firstItem) {
-        expect(screen.queryByText("전체")).not.toBeInTheDocument();
+        const noFirstItem = REGIONS.filter((el) => el.label !== "전체");
+        noFirstItem.forEach(({ label }) => {
+          expect(screen.getByText(label)).toBeInTheDocument();
+        });
       } else {
-        expect(screen.queryByText("전체")).toBeInTheDocument();
+        REGIONS.forEach(({ label }) => {
+          expect(screen.getByText(label)).toBeInTheDocument();
+        });
       }
-      expect(screen.getByText("서울")).toBeInTheDocument();
-      expect(screen.getByText("경기")).toBeInTheDocument();
     },
   );
 });
