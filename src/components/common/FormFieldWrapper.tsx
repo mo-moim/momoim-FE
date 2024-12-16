@@ -23,7 +23,7 @@ export function FormFieldWrapper({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem data-testid={`${name}-section`}>
           <FormLabel className="text-base">{label}</FormLabel>
           <FormControl>
             {renderContent ? renderContent(field) : <Input placeholder={placeholder} type={type} {...field} />}
