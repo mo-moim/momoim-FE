@@ -6,13 +6,12 @@ import DaumPostcode from "react-daum-postcode";
 interface AddressDataType {
   address: string;
   sidoEnglish: string;
-  sigungu: string;
 }
 
 export default function AddressInput({ form, field }: FormFieldProps) {
   const { closeModal } = useModalStore();
 
-  const handleComplete = ({ address, sidoEnglish, sigungu }: AddressDataType) => {
+  const handleComplete = ({ address, sidoEnglish }: AddressDataType) => {
     field.onChange(address);
 
     if (sidoEnglish.includes("-do") || sidoEnglish.includes("-si")) {
