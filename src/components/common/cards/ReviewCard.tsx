@@ -1,27 +1,43 @@
 import { dateFormatter } from "@/lib/dateFormatter";
 import { useEffect, useRef, useState } from "react";
+import { deleteReviewApi, patchReviewApi } from "@/api/review";
+import ReviewPostSection from "@/app/(main)/mypage/_components/ReviewPostSection";
 import Stars from "../Star";
+import { Modal } from "../modal/Modal";
 
 interface Props {
   review: Review;
+  typeData: Mypage | Detail;
   isWriter: boolean;
 }
 
 interface Review {
-  reviewId: number;
-  writerId: number;
-  writer: string;
-  writerProfileImage: string;
   title: string;
   comment: string;
   score: number;
   createdAt: string;
+  reviewId: number;
 }
 
-export default function ReviewCard({ review, isWriter }: Props) {
+interface Mypage {
+  gatheringId: number;
+  gatheringName: string;
+  gatheringStatus: string;
+}
+
+interface Detail {
+  writerId: number;
+  writer: string;
+  writerProfileImage: string;
+}
+
+export default function ReviewCard({ review, typeData, isWriter }: Props) {
   const reviewRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement | null>(null);
+  const [rating, setRating] = useState(review.score);
   const [longComment, setLongComment] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [postingSwitch, setPostingSwitch] = useState(false);
 
   function timeAgo(dateString: string) {
     const givenDate = new Date(dateString);
@@ -34,6 +50,7 @@ export default function ReviewCard({ review, isWriter }: Props) {
     if (differenceInHours >= 1) return `${differenceInHours}시간 전`;
     return `${differenceInMinutes}분 전`;
   }
+
   useEffect(() => {
     if (reviewRef.current) {
       // 이건 변화에 따라 useEffect로 계속 관리해줘야할 수도 있다
@@ -82,13 +99,39 @@ export default function ReviewCard({ review, isWriter }: Props) {
           <div className="block xs:hidden">{dateFormatter(review.createdAt).simple}</div>
           {isWriter && (
             <>
-              <button type="button">수정</button>
-              <button type="button">삭제</button>
+              <Modal
+                size="w-full h-[55%]"
+                title="리뷰 수정"
+                triggerButton={<button type="button">수정</button>}
+                content={
+                  <ReviewPostSection
+                    data={review.comment}
+                    setRating={setRating}
+                    rating={rating}
+                    customRef={contentRef}
+                  />
+                }
+                submitButtonText="수정하기"
+                showFooter
+                onSubmit={() =>
+                  patchReviewApi(
+                    review.reviewId,
+                    rating,
+                    review.title,
+                    contentRef.current ? contentRef.current.value : "",
+                  )
+                }
+              />
+              <button type="button" onClick={() => deleteReviewApi(review.reviewId)}>
+                삭제
+              </button>
             </>
           )}
         </div>
         <div className="flex gap-2.5">
-          <div className="max-w-20 overflow-hidden text-ellipsis whitespace-nowrap">{review.writer}</div>
+          {typeData && "writer" in typeData && (
+            <div className="max-w-20 overflow-hidden text-ellipsis whitespace-nowrap">{typeData?.writer}</div>
+          )}
           <div>{timeAgo(review.createdAt)}</div>
         </div>
       </div>

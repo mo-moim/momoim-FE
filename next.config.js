@@ -12,6 +12,16 @@ const nextConfig = {
   images: {
     domains: ["i.ibb.co"],
   },
+
+  async redirects() {
+    return [
+      {
+        source: "/mypage",
+        destination: "/mypage/schedule?sub=schedule-after",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

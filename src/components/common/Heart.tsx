@@ -1,25 +1,28 @@
 "use client";
 
+import { deleteWishlist, postWishlist } from "@/api/like";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
 interface Props {
-  likeTask: () => void;
-  isWishList: boolean;
+  // likeTask: (() => void) | undefined;
+  gatheringId: number;
+  isWishlist: boolean | undefined;
 }
 
-export default function Heart({ likeTask, isWishList }: Props) {
-  const [isLiked, setIsLiked] = useState(isWishList);
+export default function Heart({ gatheringId, isWishlist }: Props) {
+  const [isLiked, setIsLiked] = useState(isWishlist);
   return (
     <motion.div
       onClick={(e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
+        if (!isLiked) postWishlist(gatheringId);
+        if (isLiked) deleteWishlist(gatheringId);
         setIsLiked((prev) => !prev);
-        likeTask();
       }}
       initial={false}
       animate={{
-        scale: isLiked ? 1.2 : 1,
+        scale: isLiked ? 1.5 : 1.2,
         rotate: isLiked ? 360 : 0,
       }}
       transition={{
@@ -32,7 +35,7 @@ export default function Heart({ likeTask, isWishList }: Props) {
       <motion.svg
         strokeWidth="2px"
         initial={{ stroke: "#636267", fill: "transparent" }}
-        animate={{ stroke: isLiked ? "transparent" : "#636267", fill: isLiked ? "#FF0000" : "transparent" }}
+        animate={{ stroke: isLiked ? "transparent" : "#636267", fill: isLiked ? "#5A25E9" : "transparent" }}
         width="19"
         height="14"
         viewBox="0 -1 19 18"

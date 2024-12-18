@@ -51,11 +51,14 @@ export default function Chip({ each }: Props) {
       bg: "bg-chipbg-regular",
     },
   };
+
+  const indexer = each || "OFFLINE";
+
   return (
     <div
-      className={`rounded-2xl px-2 py-1 font-bold sm:px-2 sm:py-1 ${EACH_CHIP_STYLE[each].fc} ${EACH_CHIP_STYLE[each].bg}`}
+      className={`rounded-2xl px-2 py-1 sm:px-2 sm:py-1 ${EACH_CHIP_STYLE[indexer].fc} ${EACH_CHIP_STYLE[indexer].bg}`}
     >
-      {EACH_CHIP_STYLE[each].font}
+      {EACH_CHIP_STYLE[indexer].font}
     </div>
   );
 }

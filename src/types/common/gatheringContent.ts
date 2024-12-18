@@ -18,7 +18,7 @@ export interface GatheringContent {
   location: string;
   capacity: number;
   participantCount: number;
-  isWishList?: boolean; // 홈
+  isWishlist?: boolean; // 홈
   isPeriodic: boolean;
   nextGatheringAt: string;
   wishlistCount?: number; // 홈
