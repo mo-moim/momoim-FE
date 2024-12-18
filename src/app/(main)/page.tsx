@@ -1,3 +1,5 @@
+import MoimPage from "./_component/MoimPage";
+
 export default function Home() {
-  return <div>momoim</div>;
+  return <MoimPage />;
 }
