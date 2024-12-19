@@ -88,7 +88,7 @@ export const SUB_CATEGORIES = {
     { value: "INTERNATIONAL", label: "해외여행" },
   ],
   STUDY: [
-    { value: "LANGUAGES", label: "외국어" },
+    { value: "LANGUAGE", label: "외국어" },
     { value: "FINANCE", label: "재테크" },
     { value: "SELF_DEVELOP", label: "자기계발" },
   ],
