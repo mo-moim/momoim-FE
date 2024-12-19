@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { HOME_CATEGORIES, SUB_CATEGORIES } from "@/constants/options";
 import Tabs from "@/components/common/Tabs";
@@ -9,10 +9,18 @@ import { SortType } from "@/types/gathering";
 import { MoimGrid } from "./MoimGrid";
 import { Filters } from "./Filters";
 
-export type Category = "ALL" | "RECOMMENDED" | "CULTURE" | "FOOD" | "SPORTS" | "HOBBY" | "TRAVEL" | "STUDY" | "MEETING";
+type Category = "ALL" | "RECOMMEND" | "CULTURE" | "FOOD" | "SPORTS" | "HOBBY" | "TRAVEL" | "STUDY" | "MEETING";
 
 interface MoimPageProps {
   initialCategory?: string;
+}
+
+interface FilterState {
+  category: Category;
+  subCategory: string;
+  location: string;
+  gatheringDate?: Date;
+  sortType: string;
 }
 
 export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
@@ -20,103 +28,110 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const [category, setCategory] = useState<Category>(() => {
-    const pathSegments = pathname.split("/");
-    const categoryFromPath = pathSegments[1]?.toUpperCase() || initialCategory;
-    return categoryFromPath as Category;
-  });
-  const [subCategory, setSubCategory] = useState<string>(() => {
-    const subCategoryPath = searchParams.get("subCategory")?.toUpperCase() || "ALL";
-    return subCategoryPath;
-  });
-  // 필터 상태 추가
-  const [location, setLocation] = useState<string>("ALL");
-  const [gatheringDate, setGatheringDate] = useState<Date | undefined>();
-  const [sortType, setSortType] = useState<string>("UPDATE_AT");
+  const [filters, setFilters] = useState<FilterState>(() => ({
+    category: (pathname.split("/")[1]?.toUpperCase() || initialCategory) as Category,
+    subCategory: searchParams.get("subCategory")?.toUpperCase() || "ALL",
+    location: "ALL",
+    gatheringDate: undefined,
+    sortType: "UPDATE_AT",
+  }));
 
-  // URL 업데이트 함수
-  const updateURL = (newCategory: string, newSubCategory: string) => {
-    const params = new URLSearchParams(searchParams);
+  const updateURL = useCallback(
+    (newFilters: FilterState) => {
+      const params = new URLSearchParams();
 
-    if (newSubCategory !== "ALL") {
-      params.set("subCategory", newSubCategory);
-    } else {
-      params.delete("subCategory");
-    }
+      if (newFilters.subCategory !== "ALL") {
+        params.set("subCategory", newFilters.subCategory);
+      }
+      if (newFilters.location !== "ALL") {
+        params.set("location", newFilters.location);
+      }
+      if (newFilters.gatheringDate) {
+        params.set("gatheringDate", newFilters.gatheringDate.toISOString().split("T")[0]);
+      }
+      if (newFilters.sortType !== "UPDATE_AT") {
+        params.set("sortType", newFilters.sortType);
+      }
 
-    if (location !== "ALL") {
-      params.set("location", location);
-    }
-    if (gatheringDate) {
-      params.set("gatheringDate", gatheringDate.toISOString().split("T")[0]);
-    }
-    if (sortType !== "UPDATE_AT") {
-      params.set("sortType", sortType);
-    }
-
-    const updatedPath = `/${newCategory.toLowerCase()}${params.toString() ? `?${params}` : ""}`;
-    router.push(updatedPath);
-  };
+      router.push(`/${newFilters.category.toLowerCase()}${params.toString() ? `?${params}` : ""}`);
+    },
+    [router],
+  );
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Categories */}
       <Tabs
         tabs={HOME_CATEGORIES.map((cate) => ({
           name: cate.label,
           value: cate.value,
         }))}
-        selectedValue={category}
+        selectedValue={filters.category}
         onSelect={(value) => {
-          const newCategory = value as Category;
-          setCategory(newCategory);
-          updateURL(newCategory, "ALL");
-          setSubCategory("ALL");
+          const newFilters = {
+            ...filters,
+            category: value as Category,
+            subCategory: "ALL", // 카테고리 변경 시 서브카테고리 리셋
+          };
+          setFilters(newFilters);
+          updateURL(newFilters);
         }}
       />
-      {/* Sub Categories */}
-      {category !== "ALL" && category !== "RECOMMENDED" && SUB_CATEGORIES[category] && (
+      {filters.category !== "ALL" && filters.category !== "RECOMMEND" && SUB_CATEGORIES[filters.category] && (
         <Tags
           tags={[
             { name: "전체", value: "ALL" },
-            ...SUB_CATEGORIES[category].map((subCate) => ({
+            ...SUB_CATEGORIES[filters.category].map((subCate) => ({
               name: subCate.label,
               value: subCate.value,
             })),
           ]}
-          selectedValue={subCategory}
+          selectedValue={filters.subCategory}
           onSelect={(value) => {
-            setSubCategory(value);
-            updateURL(category, value);
+            const newFilters = {
+              ...filters,
+              subCategory: value,
+            };
+            setFilters(newFilters);
+            updateURL(newFilters);
           }}
         />
       )}
-      {/* Filters */}
       <Filters
-        selectedLocation={location}
-        selectedDate={gatheringDate}
-        selectedSort={sortType}
+        selectedLocation={filters.location}
+        selectedDate={filters.gatheringDate}
+        selectedSort={filters.sortType}
         onLocationChange={(value) => {
-          setLocation(value);
-          updateURL(category, subCategory);
+          const newFilters = {
+            ...filters,
+            location: value,
+          };
+          setFilters(newFilters);
+          updateURL(newFilters);
         }}
         onDateChange={(date) => {
-          setGatheringDate(date);
-          updateURL(category, subCategory);
+          const newFilters = {
+            ...filters,
+            gatheringDate: date,
+          };
+          setFilters(newFilters);
+          updateURL(newFilters);
         }}
         onSortChange={(value) => {
-          setSortType(value);
-          updateURL(category, subCategory);
+          const newFilters = {
+            ...filters,
+            sortType: value,
+          };
+          setFilters(newFilters);
+          updateURL(newFilters);
         }}
       />
 
-      {/* MoimGrid */}
       <MoimGrid
-        category={category}
-        subCategory={subCategory}
-        location={location}
-        gatheringDate={gatheringDate}
-        sortType={sortType as SortType}
+        category={filters.category}
+        subCategory={filters.subCategory}
+        location={filters.location}
+        gatheringDate={filters.gatheringDate}
+        sortType={filters.sortType as SortType}
       />
     </div>
   );

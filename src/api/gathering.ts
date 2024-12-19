@@ -1,5 +1,29 @@
-import { clientAxios } from "@/lib/axios";
+import { clientAxios, serverAxios } from "@/lib/axios";
 import { GatheringParams, GatheringResponse } from "@/types/gathering";
+
+export const gatheringsApi = {
+  getInitialGatherings: async (
+    category: string,
+    params: {
+      offset: string;
+      limit: string;
+      sortType: string;
+      sortOrder: string;
+    },
+  ) => {
+    const baseParams = new URLSearchParams({
+      ...params,
+    });
+
+    if (category !== "ALL" && category !== "RECOMMEND") {
+      baseParams.append("category", category);
+    }
+
+    const url = category === "RECOMMEND" ? `/api/gatherings/recommend?${baseParams}` : `/api/gatherings?${baseParams}`;
+
+    return serverAxios.get(url);
+  },
+};
 
 export const fetchGatherings = async (params: GatheringParams): Promise<GatheringResponse> => {
   const { category, subCategory, ...restParams } = params;
