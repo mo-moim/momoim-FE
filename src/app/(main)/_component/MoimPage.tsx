@@ -5,7 +5,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { HOME_CATEGORIES, SUB_CATEGORIES } from "@/constants/options";
 import Tabs from "@/components/common/Tabs";
 import Tags from "@/components/common/Tags";
+import { SortType } from "@/types/gathering";
 import { MoimGrid } from "./MoimGrid";
+import { Filters } from "./Filters";
 
 export type Category = "ALL" | "RECOMMENDED" | "CULTURE" | "FOOD" | "SPORTS" | "HOBBY" | "TRAVEL" | "STUDY" | "MEETING";
 
@@ -27,6 +29,10 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
     const subCategoryPath = searchParams.get("subCategory")?.toUpperCase() || "ALL";
     return subCategoryPath;
   });
+  // 필터 상태 추가
+  const [location, setLocation] = useState<string>("ALL");
+  const [gatheringDate, setGatheringDate] = useState<Date | undefined>();
+  const [sortType, setSortType] = useState<string>("UPDATE_AT");
 
   // URL 업데이트 함수
   const updateURL = (newCategory: string, newSubCategory: string) => {
@@ -36,6 +42,16 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
       params.set("subCategory", newSubCategory);
     } else {
       params.delete("subCategory");
+    }
+
+    if (location !== "ALL") {
+      params.set("location", location);
+    }
+    if (gatheringDate) {
+      params.set("gatheringDate", gatheringDate.toISOString().split("T")[0]);
+    }
+    if (sortType !== "UPDATE_AT") {
+      params.set("sortType", sortType);
     }
 
     const updatedPath = `/${newCategory.toLowerCase()}${params.toString() ? `?${params}` : ""}`;
@@ -62,7 +78,7 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
       {category !== "ALL" && category !== "RECOMMENDED" && SUB_CATEGORIES[category] && (
         <Tags
           tags={[
-            { name: "전체", value: "ALL" }, // 공통 옵션 추가
+            { name: "전체", value: "ALL" },
             ...SUB_CATEGORIES[category].map((subCate) => ({
               name: subCate.label,
               value: subCate.value,
@@ -76,9 +92,32 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
         />
       )}
       {/* Filters */}
+      <Filters
+        selectedLocation={location}
+        selectedDate={gatheringDate}
+        selectedSort={sortType}
+        onLocationChange={(value) => {
+          setLocation(value);
+          updateURL(category, subCategory);
+        }}
+        onDateChange={(date) => {
+          setGatheringDate(date);
+          updateURL(category, subCategory);
+        }}
+        onSortChange={(value) => {
+          setSortType(value);
+          updateURL(category, subCategory);
+        }}
+      />
 
       {/* MoimGrid */}
-      <MoimGrid category={category} subCategory={subCategory} />
+      <MoimGrid
+        category={category}
+        subCategory={subCategory}
+        location={location}
+        gatheringDate={gatheringDate}
+        sortType={sortType as SortType}
+      />
     </div>
   );
 }

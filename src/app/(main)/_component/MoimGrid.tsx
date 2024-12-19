@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion } from "motion/react";
-import { Gathering } from "@/types/gathering";
+import { Gathering, SortType } from "@/types/gathering";
 import { useGatheringsQuery } from "@/queries/gatherings/gathering";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { EmptyState } from "@/components/common/EmptyState";
@@ -11,11 +11,29 @@ import { useRouter } from "next/navigation";
 interface MoimGridProps {
   category: string;
   subCategory: string;
+  location: string;
+  gatheringDate?: Date;
+  sortType?: SortType;
+  sortOrder?: "ASC" | "DESC";
 }
 
-export function MoimGrid({ category, subCategory }: MoimGridProps) {
+export function MoimGrid({
+  category,
+  subCategory,
+  location = "ALL",
+  gatheringDate,
+  sortType = "UPDATE_AT",
+  sortOrder = "DESC",
+}: MoimGridProps) {
   const observerTarget = useRef<HTMLDivElement>(null);
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useGatheringsQuery(category, subCategory);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useGatheringsQuery(
+    category,
+    subCategory,
+    location,
+    gatheringDate,
+    sortType,
+    sortOrder,
+  );
   const router = useRouter();
 
   useIntersectionObserver({
@@ -47,8 +65,14 @@ export function MoimGrid({ category, subCategory }: MoimGridProps) {
               className="group relative overflow-hidden rounded-lg border bg-white shadow transition-all hover:shadow-lg"
             >
               <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">{gathering.gatheringId}</p>
-              <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">{gathering.category}</p>
-              <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">{gathering.subCategory}</p>
+              <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">
+                {gathering.category} / {gathering.subCategory}
+              </p>
+              <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">{gathering.location}</p>
+              <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">{gathering.nextGatheringAt}</p>
+              <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">
+                {gathering.participantCount} / {gathering.capacity}
+              </p>
 
               <div className="p-4">
                 <div className="mb-2 flex items-center gap-2">

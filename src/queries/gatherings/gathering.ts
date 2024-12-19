@@ -1,17 +1,29 @@
 import { fetchGatherings, fetchRecommendedGatherings } from "@/api/gathering";
+import { SortType } from "@/types/gathering";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const ITEMS_PER_PAGE = 15;
 
-export const useGatheringsQuery = (category: string, subCategory: string) => {
+export const useGatheringsQuery = (
+  category: string,
+  subCategory: string,
+  location: string,
+  gatheringDate?: Date,
+  sortType: SortType = "UPDATE_AT",
+  sortOrder: "ASC" | "DESC" = "DESC",
+) => {
   return useInfiniteQuery({
-    queryKey: ["gatherings", category, subCategory],
+    queryKey: ["gatherings", category, subCategory, location, gatheringDate, sortType, sortOrder],
     queryFn: async ({ pageParam = 0 }) => {
       const params = {
         offset: pageParam,
         limit: ITEMS_PER_PAGE,
-        sortType: "UPDATE_AT" as const,
-        sortOrder: "DESC" as const,
+        sortType,
+        sortOrder,
+        ...(location !== "ALL" && { location }),
+        ...(gatheringDate && {
+          gatheringDate: gatheringDate.toISOString().split("T")[0],
+        }),
       };
 
       let response;
