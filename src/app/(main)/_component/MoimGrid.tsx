@@ -25,7 +25,8 @@ export function MoimGrid({ category, subCategory }: MoimGridProps) {
   });
 
   if (status === "pending") return <div>Loading...</div>;
-  if (status === "error") return <div>모임 목록을 불러오는데 실패했습니다 다시 시도해주세요</div>;
+  if (status === "error")
+    return <EmptyState title="모임 목록을 불러오는데 실패했습니다." description="다시 시도해주세요." />;
   if (data.pages[0].items.length === 0)
     return (
       <EmptyState
@@ -37,7 +38,7 @@ export function MoimGrid({ category, subCategory }: MoimGridProps) {
     );
 
   return (
-    <div className="mt-8">
+    <>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {data.pages.map((page) =>
           page.items.map((gathering: Gathering) => (
@@ -73,6 +74,6 @@ export function MoimGrid({ category, subCategory }: MoimGridProps) {
       <div className="my-4 text-center text-sm text-gray-500">
         {hasNextPage ? "더 많은 모임 불러오는 중..." : "모든 모임을 불러왔습니다"}
       </div>
-    </div>
+    </>
   );
 }
