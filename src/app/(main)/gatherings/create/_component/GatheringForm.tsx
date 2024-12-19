@@ -5,7 +5,7 @@ import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { DEFAULT_GATHERING__CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import { Textarea } from "@/components/ui/textarea";
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
@@ -23,11 +23,11 @@ export default function GatheringForm() {
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: DEFAULT_GATHERING__CREATE_VALUES,
+    defaultValues: DEFAULT_GATHERING_CREATE_VALUES,
   });
 
   const onSubmit = (values: GatheringCreateFormData) => {
-    const { gatheringType, ...filterFormData } = values;
+    const { gatheringType, roadAddress, detailAddress, ...filterFormData } = values;
     gatheringCreate(filterFormData);
   };
 
@@ -48,7 +48,7 @@ export default function GatheringForm() {
           label="대표 이미지"
           renderContent={(field) => <GatheringUploadImage form={form} field={field} />}
         />
-        <div className="flex items-center">
+        <div className="flex items-center max-xs:flex-col max-xs:items-baseline max-xs:gap-14">
           <div className="flex-1">
             <FormFieldWrapper
               control={form.control}
@@ -111,7 +111,7 @@ export default function GatheringForm() {
         {form.watch("gatheringType") === "OFFLINE" ? (
           <FormFieldWrapper
             control={form.control}
-            name="address"
+            name="roadAddress"
             label="주소"
             placeholder="모임을 진행할 주소를 입력해주세요."
             customStyle="border-gray-500 text-gray-700 font-medium"
