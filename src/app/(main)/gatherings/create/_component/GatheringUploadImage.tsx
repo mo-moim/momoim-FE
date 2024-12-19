@@ -3,9 +3,8 @@
 import { ImageUploadApi } from "@/api/imageFile";
 import { ChangeEvent, useRef } from "react";
 import Image from "next/image";
-import DefaultThumbnail from "@/assets/image/thumbnail.jpg";
-
 import { FormFieldProps } from "@/types/common/formFieldprops";
+import DefaultThumbnail from "@/assets/images/thumbnail.jpg";
 
 export default function GatheringUploadImage({ form, field }: FormFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
