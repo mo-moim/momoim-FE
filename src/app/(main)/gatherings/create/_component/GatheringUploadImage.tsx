@@ -3,7 +3,8 @@
 import { ImageUploadApi } from "@/api/imageFile";
 import { ChangeEvent, useRef } from "react";
 import Image from "next/image";
-import DefaultThumbnail from "@/assets/svg/default-thumbnail.svg";
+import DefaultThumbnail from "@/assets/image/thumbnail.jpg";
+
 import { FormFieldProps } from "@/types/common/formFieldprops";
 
 export default function GatheringUploadImage({ form, field }: FormFieldProps) {
@@ -25,19 +26,15 @@ export default function GatheringUploadImage({ form, field }: FormFieldProps) {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex h-80 w-full items-center justify-center rounded-md border border-gray-500 p-6">
-        {imageValue ? (
-          <Image
-            src={imageValue}
-            className="h-[238px] w-[332px] rounded-xl object-cover"
-            width={300}
-            height={300}
-            alt="모임 생성 이미지"
-          />
-        ) : (
-          <DefaultThumbnail width={350} height={350} />
-        )}
+    <div className="flex items-end gap-4 transition-all max-sm:flex-col max-sm:items-baseline">
+      <div className="flex h-56 w-3/4 items-end rounded-xl border transition-all max-sm:h-64 max-sm:w-full">
+        <Image
+          src={imageValue || DefaultThumbnail}
+          className="h-full w-full rounded-xl object-cover"
+          width={500}
+          height={500}
+          alt="모임 생성 이미지"
+        />
       </div>
       <div className="flex w-full gap-4">
         <div className="relative flex-1">
