@@ -10,34 +10,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useModalStore } from "@/store/modalStore";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import clsx from "clsx";
-import { useState } from "react";
 
 interface ModalProps {
   size?: string;
   title?: string;
   triggerButton: React.ReactNode;
-  submitButtonText?: string;
   content: React.ReactNode;
   showFooter?: boolean;
   onSubmit?: () => void;
 }
 
-export function Modal({
-  size,
-  title,
-  triggerButton,
-  content,
-  submitButtonText,
-  showFooter = true,
-  onSubmit,
-}: ModalProps) {
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
+export function Modal({ size, title, triggerButton, content, showFooter = true, onSubmit }: ModalProps) {
+  const { isOpen, openModal, closeModal } = useModalStore();
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={(open) => (open ? openModal() : closeModal())}>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
       <DialogContent
         className={clsx("h-1/5 min-h-36 w-[25rem] gap-6 rounded-lg p-4", size)}
@@ -53,11 +43,11 @@ export function Modal({
         </DialogDescription>
         {showFooter && (
           <DialogFooter className="flex w-full flex-row items-center justify-center gap-2 sm:gap-0">
-            <Button type="button" variant="outline" className="w-full" onClick={handleClose}>
+            <Button type="button" variant="outline" className="w-full" onClick={closeModal}>
               취소
             </Button>
             <Button type="submit" onClick={onSubmit} className="w-full">
-              {submitButtonText || "확인"}
+              확인
             </Button>
           </DialogFooter>
         )}
