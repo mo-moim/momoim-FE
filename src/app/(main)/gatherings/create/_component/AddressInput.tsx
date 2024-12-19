@@ -19,7 +19,7 @@ export default function AddressInput({ form, field }: FormFieldProps) {
     if (roadAddress && detailAddress) {
       const fullAddress = `${roadAddress} ${detailAddress}`;
       form.setValue("address", fullAddress);
-    } else {
+    } else if (roadAddress) {
       form.setValue("address", roadAddress);
     }
   };
@@ -49,7 +49,8 @@ export default function AddressInput({ form, field }: FormFieldProps) {
             type="text"
             value={field.value}
             className="h-12 w-full cursor-pointer rounded-md border border-gray-500 px-3 py-1 font-medium text-gray-700"
-            placeholder="클릭해서 주소를 검색해주세요."
+            placeholder="클릭을 통해 주소를 검색해주세요."
+            {...form.register("roadAddress")}
             readOnly
           />
         }
@@ -68,6 +69,7 @@ export default function AddressInput({ form, field }: FormFieldProps) {
         placeholder="상세주소를 입력해주세요."
         onChange={(e) => {
           form.setValue("detailAddress", e.target.value);
+
           getFullAddress();
         }}
       />

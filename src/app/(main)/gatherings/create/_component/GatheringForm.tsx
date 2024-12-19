@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreate } from "@/queries/gathering/useCreate";
 import { GatheringCreateFormData } from "@/types/category";
+import { useRouter } from "next/navigation";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import Category from "./Category";
@@ -20,6 +21,7 @@ import AddressInput from "./AddressInput";
 
 export default function GatheringForm() {
   const { mutate: gatheringCreate } = useCreate();
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
@@ -163,11 +165,11 @@ export default function GatheringForm() {
             />
           )}
         />
-        <div className="flex items-center justify-center gap-8">
-          <Button type="button" size="lg" variant="outline">
+        <div className="flex items-center justify-center gap-2">
+          <Button type="button" className="flex-1" size="lg" variant="outline" onClick={() => router.push("/")}>
             작성 취소
           </Button>
-          <Button type="submit" size="lg" variant="main">
+          <Button type="submit" className="flex-1" size="lg">
             모임 생성 완료
           </Button>
         </div>

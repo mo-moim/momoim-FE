@@ -22,8 +22,8 @@ export default function FormTypeButton({ name, value, buttonText, onChange }: Fo
     <button
       type="button"
       className={clsx(
-        "rounded-lg border border-gray-500 px-4 py-3 text-sm font-medium text-gray-700 transition-all",
-        value === nameCheck && "border-main bg-main text-white",
+        "rounded-xl bg-gray-100 px-4 py-3 text-sm font-medium text-gray-700 transition-all sm:text-base",
+        value === nameCheck && "bg-gray-250 text-main",
       )}
       onClick={() => onChange(nameCheck)}
     >
