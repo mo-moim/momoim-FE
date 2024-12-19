@@ -5,6 +5,8 @@ import { motion } from "motion/react";
 import { Gathering } from "@/types/gathering";
 import { useGatheringsQuery } from "@/queries/gatherings/gathering";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { EmptyState } from "@/components/common/EmptyState";
+import { useRouter } from "next/navigation";
 
 interface MoimGridProps {
   category: string;
@@ -14,6 +16,7 @@ interface MoimGridProps {
 export function MoimGrid({ category, subCategory }: MoimGridProps) {
   const observerTarget = useRef<HTMLDivElement>(null);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useGatheringsQuery(category, subCategory);
+  const router = useRouter();
 
   useIntersectionObserver({
     target: observerTarget,
@@ -23,7 +26,15 @@ export function MoimGrid({ category, subCategory }: MoimGridProps) {
 
   if (status === "pending") return <div>Loading...</div>;
   if (status === "error") return <div>모임 목록을 불러오는데 실패했습니다 다시 시도해주세요</div>;
-  if (data.pages[0].items.length === 0) return <div>조건에 맞는 모임이 없어요, 추천하는 모임을 찾아보세요!</div>;
+  if (data.pages[0].items.length === 0)
+    return (
+      <EmptyState
+        title="조건에 맞는 모임이 없어요,"
+        description="추천하는 모임을 찾아보세요!"
+        actionText="추천탭 바로가기"
+        onAction={() => router.push("/recommend")}
+      />
+    );
 
   return (
     <div className="mt-8">
@@ -51,7 +62,7 @@ export function MoimGrid({ category, subCategory }: MoimGridProps) {
         )}
       </div>
 
-      <div ref={observerTarget} className="mt-4 h-10" style={{ visibility: hasNextPage ? "visible" : "hidden" }} />
+      <div ref={observerTarget} className={`mt-4 h-10 ${hasNextPage ? "visible" : "hidden"}`} />
 
       {isFetchingNextPage && (
         <div className="mt-4 text-center">

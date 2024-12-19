@@ -43,7 +43,7 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-6">
       {/* Categories */}
       <Tabs
         tabs={HOME_CATEGORIES.map((cate) => ({
@@ -73,13 +73,12 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
             setSubCategory(value);
             updateURL(category, value);
           }}
-          className="mt-8"
         />
       )}
       {/* Filters */}
 
       {/* MoimGrid */}
       <MoimGrid category={category} subCategory={subCategory} />
-    </>
+    </div>
   );
 }
