@@ -21,6 +21,7 @@ export default function SubCategoryButton({ form, category, multiple = false }: 
     } else {
       form.setValue("subCategory", value);
     }
+    form.trigger("subCategory");
   };
 
   const handleSubSelect = (sub: string) => {
