@@ -86,6 +86,9 @@
     "*.{ts,tsx}": [
       "prettier --write",
       "eslint --fix"
+    ],
+    "*.test.{ts,tsx}": [
+      "jest --bail --findRelatedTests"
     ]
   }
 }
