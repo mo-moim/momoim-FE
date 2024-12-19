@@ -1,9 +1,10 @@
 import { clientAxios } from "@/lib/axios";
 import axios from "axios";
+import { nanoid } from "nanoid";
 
 export const ImageUploadApi = async (prefix: string, file: File) => {
-  const fileName = file.name;
-  const { data } = await clientAxios.get(`/api/files/presigned-url/${prefix}/${fileName}`);
+  const fileId = nanoid();
+  const { data } = await clientAxios.get(`/api/files/presigned-url/${prefix}/${fileId}`);
   const { preSignedUrl } = data.data;
   const formatUrl = preSignedUrl.split("?")[0];
 
