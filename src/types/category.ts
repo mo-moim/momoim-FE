@@ -15,6 +15,8 @@ export interface GatheringCreateFormData {
   description: string;
   tags: string[];
   gatheringType?: string;
+  roadAddress?: string;
+  detailAddress?: string;
 }
 
 export type SubCategoryValueKey = (typeof SUB_CATEGORIES)[keyof typeof SUB_CATEGORIES][number]["value"];

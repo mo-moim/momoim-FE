@@ -48,4 +48,6 @@ export const DEFAULT_GATHERING_CREATE_VALUES: GatheringCreateFormData = {
   description: "",
   tags: [""],
   gatheringType: "OFFLINE",
+  roadAddress: "",
+  detailAddress: "",
 };
