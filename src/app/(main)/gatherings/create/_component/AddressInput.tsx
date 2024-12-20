@@ -12,18 +12,6 @@ interface AddressDataType {
 export default function AddressInput({ form, field }: FormFieldProps) {
   const { closeModal } = useModalStore();
 
-  const getFullAddress = () => {
-    const roadAddress = form.getValues("roadAddress") || "";
-    const detailAddress = form.getValues("detailAddress") || "";
-
-    if (roadAddress && detailAddress) {
-      const fullAddress = `${roadAddress} ${detailAddress}`;
-      form.setValue("address", fullAddress);
-    } else if (roadAddress) {
-      form.setValue("address", roadAddress);
-    }
-  };
-
   const handleComplete = ({ address, sidoEnglish }: AddressDataType) => {
     if (sidoEnglish.includes("-do") || sidoEnglish.includes("-si")) {
       const formatSidoText = sidoEnglish.replace(/-do|-si/g, "").toUpperCase();
@@ -33,7 +21,6 @@ export default function AddressInput({ form, field }: FormFieldProps) {
     }
 
     field.onChange(address);
-    getFullAddress();
   };
 
   const handleAddressClose = (state: string) => {
@@ -50,7 +37,6 @@ export default function AddressInput({ form, field }: FormFieldProps) {
             value={field.value}
             className="h-12 w-full cursor-pointer rounded-md border border-gray-500 px-3 py-1 font-medium text-gray-700"
             placeholder="클릭을 통해 주소를 검색해주세요."
-            {...form.register("roadAddress")}
             readOnly
           />
         }
@@ -69,8 +55,6 @@ export default function AddressInput({ form, field }: FormFieldProps) {
         placeholder="상세주소를 입력해주세요."
         onChange={(e) => {
           form.setValue("detailAddress", e.target.value);
-
-          getFullAddress();
         }}
       />
     </div>

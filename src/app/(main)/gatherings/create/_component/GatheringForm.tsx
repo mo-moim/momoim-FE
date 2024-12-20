@@ -29,8 +29,13 @@ export default function GatheringForm() {
   });
 
   const onSubmit = (values: GatheringCreateFormData) => {
-    const { gatheringType, roadAddress, detailAddress, ...filterFormData } = values;
-    gatheringCreate(filterFormData);
+    const getAddress = form.getValues("address");
+    const getDetailAddress = form.getValues("detailAddress");
+    const fullAddress = getAddress ? `${getAddress} ${getDetailAddress}`.trim() : "";
+    const updateAddressData = { ...values, address: fullAddress };
+
+    const { gatheringType, detailAddress, onlinePlatform, ...submitFormData } = updateAddressData;
+    gatheringCreate(submitFormData);
   };
 
   return (
@@ -59,16 +64,16 @@ export default function GatheringForm() {
               renderContent={(field) => (
                 <div className="space-x-4">
                   <FormTypeButton
-                    name="SHORT"
+                    activeValue={false}
                     buttonText="단기 모임"
                     value={field.value}
-                    onChange={() => field.onChange(false)}
+                    onChange={(value) => field.onChange(value)}
                   />
                   <FormTypeButton
-                    name="LONG"
+                    activeValue
                     buttonText="정기 모임"
                     value={field.value}
-                    onChange={() => field.onChange(true)}
+                    onChange={(value) => field.onChange(value)}
                   />
                 </div>
               )}
@@ -82,21 +87,23 @@ export default function GatheringForm() {
               renderContent={(field) => (
                 <div className="space-x-4">
                   <FormTypeButton
-                    name="OFFLINE"
+                    activeValue="OFFLINE"
                     buttonText="오프라인"
                     value={field.value}
                     onChange={(value) => {
                       field.onChange(value);
-                      form.setValue("address", "");
+                      form.setValue("location", "");
+                      form.setValue("onlinePlatform", "");
                     }}
                   />
                   <FormTypeButton
-                    name="ONLINE"
+                    activeValue="ONLINE"
                     buttonText="온라인"
                     value={field.value}
                     onChange={(value) => {
                       field.onChange(value);
                       form.setValue("location", "ONLINE");
+                      form.setValue("detailAddress", "");
                     }}
                   />
                 </div>
@@ -113,7 +120,7 @@ export default function GatheringForm() {
         {form.watch("gatheringType") === "OFFLINE" ? (
           <FormFieldWrapper
             control={form.control}
-            name="roadAddress"
+            name="address"
             label="주소"
             placeholder="모임을 진행할 주소를 입력해주세요."
             customStyle="border-gray-500 text-gray-700 font-medium"
@@ -122,7 +129,7 @@ export default function GatheringForm() {
         ) : (
           <FormFieldWrapper
             control={form.control}
-            name="address"
+            name="onlinePlatform"
             label="플랫폼"
             renderContent={(field) => <FormOnlineAddress form={form} field={field} />}
           />

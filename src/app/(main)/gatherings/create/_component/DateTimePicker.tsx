@@ -48,12 +48,9 @@ export function DateTimePicker({ field }: { field: DatePickerFieldProps }) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn(
-            "h-12 w-full justify-start border-gray-500 text-left font-normal hover:bg-transparent",
-            !date && "text-muted-foreground",
-          )}
+          className={cn("w-full justify-start border-gray-500 text-left font-normal", !date && "text-muted-foreground")}
         >
-          <CalendarDays className="h-4 w-4" />
+          <CalendarDays className="mr-1 h-4 w-4" />
           {date ? (
             format(date, "yyyy/MM/dd hh:mm aa")
           ) : (
@@ -71,7 +68,7 @@ export function DateTimePicker({ field }: { field: DatePickerFieldProps }) {
                   <Button
                     key={hour}
                     size="icon"
-                    variant={date && date.getHours() % 12 === hour % 12 ? "main" : "ghost"}
+                    variant={date && date.getHours() % 12 === hour % 12 ? "default" : "ghost"}
                     className="aspect-square shrink-0 sm:w-full"
                     onClick={() => handleTimeChange("hour", hour.toString())}
                   >
@@ -87,7 +84,7 @@ export function DateTimePicker({ field }: { field: DatePickerFieldProps }) {
                   <Button
                     key={minute}
                     size="icon"
-                    variant={date && date.getMinutes() === minute ? "main" : "ghost"}
+                    variant={date && date.getMinutes() === minute ? "default" : "ghost"}
                     className="aspect-square shrink-0 sm:w-full"
                     onClick={() => handleTimeChange("minute", minute.toString())}
                   >
@@ -105,7 +102,7 @@ export function DateTimePicker({ field }: { field: DatePickerFieldProps }) {
                     size="icon"
                     variant={
                       date && ((ampm === "AM" && date.getHours() < 12) || (ampm === "PM" && date.getHours() >= 12))
-                        ? "main"
+                        ? "default"
                         : "ghost"
                     }
                     className="aspect-square shrink-0 sm:w-full"
