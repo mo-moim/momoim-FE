@@ -29,8 +29,6 @@ export interface GatheringResponse {
   data: Gathering[];
 }
 
-export type SortType = "UPDATE_AT" | "PARTICIPANT_COUNT";
-
 export interface GatheringParams {
   category?: string[];
   subCategory?: string[];
@@ -38,6 +36,15 @@ export interface GatheringParams {
   gatheringDate?: string;
   offset: number;
   limit: number;
-  sortType: SortType;
-  sortOrder: "ASC" | "DESC";
+  sortType: string;
+  sortOrder: string;
+}
+
+export interface MoimListQueryParams {
+  category: string;
+  subCategory: string;
+  location: string;
+  gatheringDate?: Date | null;
+  sortType: string;
+  sortOrder: string;
 }

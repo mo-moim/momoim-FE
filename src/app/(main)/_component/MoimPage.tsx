@@ -5,11 +5,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { HOME_CATEGORIES, SUB_CATEGORIES } from "@/constants/options";
 import Tabs from "@/components/common/Tabs";
 import Tags from "@/components/common/Tags";
-import { SortType } from "@/types/gathering";
+import { CATEGORIES, SORTS } from "@/constants/gatherings";
 import { MoimGrid } from "./MoimGrid";
 import { Filters } from "./Filters";
 
-type Category = "ALL" | "RECOMMEND" | "CULTURE" | "FOOD" | "SPORTS" | "HOBBY" | "TRAVEL" | "STUDY" | "MEETING";
+type Category = keyof typeof CATEGORIES;
 
 interface MoimPageProps {
   initialCategory?: string;
@@ -23,33 +23,33 @@ interface FilterState {
   sortType: string;
 }
 
-export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
+export default function MoimPage({ initialCategory = CATEGORIES.ALL }: MoimPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
   const [filters, setFilters] = useState<FilterState>(() => ({
     category: (pathname.split("/")[1]?.toUpperCase() || initialCategory) as Category,
-    subCategory: searchParams.get("subCategory")?.toUpperCase() || "ALL",
-    location: "ALL",
+    subCategory: searchParams.get("subCategory")?.toUpperCase() || CATEGORIES.ALL,
+    location: CATEGORIES.ALL,
     gatheringDate: undefined,
-    sortType: "UPDATE_AT",
+    sortType: SORTS.UPDATE_AT,
   }));
 
   const updateURL = useCallback(
     (newFilters: FilterState) => {
       const params = new URLSearchParams();
 
-      if (newFilters.subCategory !== "ALL") {
+      if (newFilters.subCategory !== CATEGORIES.ALL) {
         params.set("subCategory", newFilters.subCategory);
       }
-      if (newFilters.location !== "ALL") {
+      if (newFilters.location !== CATEGORIES.ALL) {
         params.set("location", newFilters.location);
       }
       if (newFilters.gatheringDate) {
         params.set("gatheringDate", newFilters.gatheringDate.toISOString().split("T")[0]);
       }
-      if (newFilters.sortType !== "UPDATE_AT") {
+      if (newFilters.sortType !== SORTS.UPDATE_AT) {
         params.set("sortType", newFilters.sortType);
       }
 
@@ -70,32 +70,34 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
           const newFilters = {
             ...filters,
             category: value as Category,
-            subCategory: "ALL", // 카테고리 변경 시 서브카테고리 리셋
+            subCategory: CATEGORIES.ALL, // 카테고리 변경 시 서브카테고리 리셋
           };
           setFilters(newFilters);
           updateURL(newFilters);
         }}
       />
-      {filters.category !== "ALL" && filters.category !== "RECOMMEND" && SUB_CATEGORIES[filters.category] && (
-        <Tags
-          tags={[
-            { name: "전체", value: "ALL" },
-            ...SUB_CATEGORIES[filters.category].map((subCate) => ({
-              name: subCate.label,
-              value: subCate.value,
-            })),
-          ]}
-          selectedValue={filters.subCategory}
-          onSelect={(value) => {
-            const newFilters = {
-              ...filters,
-              subCategory: value,
-            };
-            setFilters(newFilters);
-            updateURL(newFilters);
-          }}
-        />
-      )}
+      {filters.category !== CATEGORIES.ALL &&
+        filters.category !== CATEGORIES.RECOMMEND &&
+        SUB_CATEGORIES[filters.category] && (
+          <Tags
+            tags={[
+              { name: "전체", value: CATEGORIES.ALL },
+              ...SUB_CATEGORIES[filters.category].map((subCate) => ({
+                name: subCate.label,
+                value: subCate.value,
+              })),
+            ]}
+            selectedValue={filters.subCategory}
+            onSelect={(value) => {
+              const newFilters = {
+                ...filters,
+                subCategory: value,
+              };
+              setFilters(newFilters);
+              updateURL(newFilters);
+            }}
+          />
+        )}
       <Filters
         selectedLocation={filters.location}
         selectedDate={filters.gatheringDate}
@@ -131,7 +133,7 @@ export default function MoimPage({ initialCategory = "ALL" }: MoimPageProps) {
         subCategory={filters.subCategory}
         location={filters.location}
         gatheringDate={filters.gatheringDate}
-        sortType={filters.sortType as SortType}
+        sortType={filters.sortType}
       />
     </div>
   );

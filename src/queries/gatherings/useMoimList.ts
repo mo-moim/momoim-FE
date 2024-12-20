@@ -1,51 +1,50 @@
 import { getMoimListClient, getMoimRecommendClient } from "@/api/gatherings/getMoimList";
-import { SortType } from "@/types/gathering";
+import { MOIM_LIST_DEFAULT_CONFIG, PAGINATION_CONFIG } from "@/constants/config";
+import { CATEGORIES, LOCATIONS } from "@/constants/gatherings";
 import { useInfiniteQuery } from "@tanstack/react-query";
-
-const ITEMS_PER_PAGE = 15;
 
 export const useMoimList = (
   category: string,
   subCategory: string,
   location: string,
   gatheringDate?: Date,
-  sortType: SortType = "UPDATE_AT",
-  sortOrder: "ASC" | "DESC" = "DESC",
+  sortType: string = MOIM_LIST_DEFAULT_CONFIG.SORT,
+  sortOrder: string = MOIM_LIST_DEFAULT_CONFIG.ORDER,
 ) => {
   return useInfiniteQuery({
     queryKey: ["gatherings", category, subCategory, location, gatheringDate, sortType, sortOrder],
     queryFn: async ({ pageParam = 0 }) => {
       const params = {
         offset: pageParam,
-        limit: ITEMS_PER_PAGE,
+        limit: PAGINATION_CONFIG.ITEMS_PER_PAGE,
         sortType,
         sortOrder,
-        ...(location !== "ALL" && { location }),
+        ...(location !== LOCATIONS.ALL && { location }),
         ...(gatheringDate && {
           gatheringDate: gatheringDate.toISOString().split("T")[0],
         }),
       };
 
       let response;
-      if (category === "RECOMMEND") {
+      if (category === CATEGORIES.RECOMMEND) {
         response = await getMoimRecommendClient(params);
       } else {
         const apiParams = {
           ...params,
-          ...(category !== "ALL" && { category: [category] }),
-          ...(subCategory !== "ALL" && { subCategory: [subCategory] }),
+          ...(category !== CATEGORIES.ALL && { category: [category] }),
+          ...(subCategory !== CATEGORIES.ALL && { subCategory: [subCategory] }),
         };
         response = await getMoimListClient(apiParams);
       }
 
       return {
         items: response.data,
-        hasNext: response.data.length >= ITEMS_PER_PAGE,
+        hasNext: response.data.length >= PAGINATION_CONFIG.ITEMS_PER_PAGE,
       };
     },
     getNextPageParam: (lastPage, allPages) => {
       if (!lastPage.hasNext) return undefined;
-      return allPages.length * ITEMS_PER_PAGE;
+      return allPages.length * PAGINATION_CONFIG.ITEMS_PER_PAGE;
     },
     initialPageParam: 0,
   });

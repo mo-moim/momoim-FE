@@ -1,3 +1,4 @@
+import { CATEGORIES } from "@/constants/gatherings";
 import { clientAxios, serverAxios } from "@/lib/axios";
 import { GatheringParams, GatheringResponse } from "@/types/gathering";
 
@@ -14,11 +15,12 @@ export const getMoimListServer = async (
     ...params,
   });
 
-  if (category !== "ALL" && category !== "RECOMMEND") {
+  if (category !== CATEGORIES.ALL && category !== CATEGORIES.RECOMMEND) {
     baseParams.append("category", category);
   }
 
-  const url = category === "RECOMMEND" ? `/api/gatherings/recommend?${baseParams}` : `/api/gatherings?${baseParams}`;
+  const url =
+    category === CATEGORIES.RECOMMEND ? `/api/gatherings/recommend?${baseParams}` : `/api/gatherings?${baseParams}`;
 
   return serverAxios.get(url);
 };

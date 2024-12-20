@@ -2,28 +2,29 @@
 
 import { useRef } from "react";
 import { motion } from "motion/react";
-import { Gathering, SortType } from "@/types/gathering";
+import { Gathering } from "@/types/gathering";
 import { useMoimList } from "@/queries/gatherings/useMoimList";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { EmptyState } from "@/components/common/EmptyState";
 import { useRouter } from "next/navigation";
+import { LOCATIONS, SORT_ORDERS, SORTS } from "@/constants/gatherings";
 
 interface MoimGridProps {
   category: string;
   subCategory: string;
   location: string;
   gatheringDate?: Date;
-  sortType?: SortType;
-  sortOrder?: "ASC" | "DESC";
+  sortType?: string;
+  sortOrder?: string;
 }
 
 export function MoimGrid({
   category,
   subCategory,
-  location = "ALL",
+  location = LOCATIONS.ALL,
   gatheringDate,
-  sortType = "UPDATE_AT",
-  sortOrder = "DESC",
+  sortType,
+  sortOrder,
 }: MoimGridProps) {
   const observerTarget = useRef<HTMLDivElement>(null);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useMoimList(
