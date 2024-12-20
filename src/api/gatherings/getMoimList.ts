@@ -1,31 +1,29 @@
 import { clientAxios, serverAxios } from "@/lib/axios";
 import { GatheringParams, GatheringResponse } from "@/types/gathering";
 
-export const gatheringsApi = {
-  getInitialGatherings: async (
-    category: string,
-    params: {
-      offset: string;
-      limit: string;
-      sortType: string;
-      sortOrder: string;
-    },
-  ) => {
-    const baseParams = new URLSearchParams({
-      ...params,
-    });
-
-    if (category !== "ALL" && category !== "RECOMMEND") {
-      baseParams.append("category", category);
-    }
-
-    const url = category === "RECOMMEND" ? `/api/gatherings/recommend?${baseParams}` : `/api/gatherings?${baseParams}`;
-
-    return serverAxios.get(url);
+export const getMoimListServer = async (
+  category: string,
+  params: {
+    offset: string;
+    limit: string;
+    sortType: string;
+    sortOrder: string;
   },
+) => {
+  const baseParams = new URLSearchParams({
+    ...params,
+  });
+
+  if (category !== "ALL" && category !== "RECOMMEND") {
+    baseParams.append("category", category);
+  }
+
+  const url = category === "RECOMMEND" ? `/api/gatherings/recommend?${baseParams}` : `/api/gatherings?${baseParams}`;
+
+  return serverAxios.get(url);
 };
 
-export const fetchGatherings = async (params: GatheringParams): Promise<GatheringResponse> => {
+export const getMoimListClient = async (params: GatheringParams): Promise<GatheringResponse> => {
   const { category, subCategory, ...restParams } = params;
   const queryParams = new URLSearchParams();
 
@@ -42,7 +40,7 @@ export const fetchGatherings = async (params: GatheringParams): Promise<Gatherin
   return data;
 };
 
-export const fetchRecommendedGatherings = async (
+export const getMoimRecommendClient = async (
   params: Omit<GatheringParams, "category" | "subCategory">,
 ): Promise<GatheringResponse> => {
   const queryParams = new URLSearchParams();

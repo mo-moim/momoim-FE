@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion } from "motion/react";
 import { Gathering, SortType } from "@/types/gathering";
-import { useGatheringsQuery } from "@/queries/gatherings/gathering";
+import { useMoimList } from "@/queries/gatherings/useMoimList";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { EmptyState } from "@/components/common/EmptyState";
 import { useRouter } from "next/navigation";
@@ -26,7 +26,7 @@ export function MoimGrid({
   sortOrder = "DESC",
 }: MoimGridProps) {
   const observerTarget = useRef<HTMLDivElement>(null);
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useGatheringsQuery(
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useMoimList(
     category,
     subCategory,
     location,

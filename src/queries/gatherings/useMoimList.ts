@@ -1,10 +1,10 @@
-import { fetchGatherings, fetchRecommendedGatherings } from "@/api/gathering";
+import { getMoimListClient, getMoimRecommendClient } from "@/api/gatherings/getMoimList";
 import { SortType } from "@/types/gathering";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const ITEMS_PER_PAGE = 15;
 
-export const useGatheringsQuery = (
+export const useMoimList = (
   category: string,
   subCategory: string,
   location: string,
@@ -28,14 +28,14 @@ export const useGatheringsQuery = (
 
       let response;
       if (category === "RECOMMEND") {
-        response = await fetchRecommendedGatherings(params);
+        response = await getMoimRecommendClient(params);
       } else {
         const apiParams = {
           ...params,
           ...(category !== "ALL" && { category: [category] }),
           ...(subCategory !== "ALL" && { subCategory: [subCategory] }),
         };
-        response = await fetchGatherings(apiParams);
+        response = await getMoimListClient(apiParams);
       }
 
       return {

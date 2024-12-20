@@ -1,4 +1,4 @@
-import { gatheringsQueries } from "@/queries/gatherings/prefetchGatherings";
+import { getMoimListQuery } from "@/queries/gatherings/getMoimListQuery";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { Suspense } from "react";
 import MoimPage from "../_component/MoimPage";
@@ -7,7 +7,7 @@ export default async function CategoryPage({ params }: { params: { category: str
   const queryClient = new QueryClient();
   const upperCategory = params.category.toUpperCase();
 
-  await queryClient.prefetchInfiniteQuery(gatheringsQueries.initialGatheringsQuery(upperCategory));
+  await queryClient.prefetchInfiniteQuery(getMoimListQuery.initialGatheringsQuery(upperCategory));
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

@@ -1,17 +1,18 @@
-import { gatheringsApi } from "@/api/gathering";
+import { getMoimListServer } from "@/api/gatherings/getMoimList";
 
 const ITEMS_PER_PAGE = 15;
+
 export const DEFAULT_SORT = {
   TYPE: "UPDATE_AT",
   ORDER: "DESC",
 } as const;
 
-export const gatheringsQueries = {
+export const getMoimListQuery = {
   initialGatheringsQuery: (category: string) => ({
-    queryKey: ["gatherings", category, "ALL", "ALL", undefined, DEFAULT_SORT.TYPE, DEFAULT_SORT.ORDER],
+    queryKey: ["gatherings", category, "ALL", "ALL", null, DEFAULT_SORT.TYPE, DEFAULT_SORT.ORDER],
     initialPageParam: 0,
     queryFn: async () => {
-      const initialData = await gatheringsApi.getInitialGatherings(category, {
+      const initialData = await getMoimListServer(category, {
         offset: "0",
         limit: String(ITEMS_PER_PAGE),
         sortType: DEFAULT_SORT.TYPE,
