@@ -64,6 +64,7 @@ export function MoimGrid({
             <motion.div
               key={gathering.gatheringId}
               className="group relative overflow-hidden rounded-lg border bg-white shadow transition-all hover:shadow-lg"
+              onClick={() => router.push(`/gatherings/${gathering.gatheringId}`)}
             >
               <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">{gathering.gatheringId}</p>
               <p className="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700">
