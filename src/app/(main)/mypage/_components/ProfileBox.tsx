@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getProfileApi } from "@/api/profile";
-import imageValidChecker from "@/lib/imageValidChecker";
+import { imageValidChecker } from "@/lib/imageValidChecker";
 import Image from "next/image";
 import Logo from "@/assets/svg/default-image.svg";
 import { Modal } from "@/components/common/modal/Modal";

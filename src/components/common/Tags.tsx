@@ -36,7 +36,7 @@ export default function Tags({ tags, selectedValue, onSelect, className }: TagsP
           key={tag.value}
           onClick={() => onSelect(tag.value)}
           className={`${
-            tag.value.toLowerCase() === selectedValue ? "bg-gray-250 text-main" : "bg-gray-100"
+            tag.value === selectedValue ? "bg-gray-250 text-main" : "bg-gray-100"
           } rounded-xl px-4 py-3 text-sm sm:text-base`}
         >
           {tag.name}

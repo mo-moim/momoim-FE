@@ -3,13 +3,14 @@
 import { GatheringContent } from "@/types/common/gatheringContent";
 import Image from "next/image";
 import LocalIcon from "@/assets/svg/geography_map_solid.svg";
-import { dateFormatter } from "@/lib/dateFormatter";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/common/modal/Modal";
 import Logo from "@/assets/svg/default-image.svg";
-import imageValidChecker from "@/lib/imageValidChecker";
+import { imageValidChecker } from "@/lib/imageValidChecker";
 import { useRef, useState } from "react";
 import { postReviewApi } from "@/api/review";
+import { getLocation, getSubcategory } from "@/lib/getLabel";
+import { format } from "date-fns";
 import ReviewPostSection from "./ReviewPostSection";
 
 interface Props {
@@ -38,19 +39,19 @@ export default function UnreviewedCard({ data }: Props) {
                 {data?.name}
               </div>
             </div>
-            <div className="flex gap-1 text-xs text-gray-700 sm:text-base">
-              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{data?.subCategory}</div>
+            <div className="flex gap-1 text-xs text-gray-700">
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{getSubcategory(data?.subCategory)}</div>
               <div>·</div>
               <div className="flex gap-0.5">
                 <div className="flex w-4 items-start justify-center sm:w-6 sm:items-center">
                   <LocalIcon />
                 </div>
                 <div className="max-w-11 overflow-hidden text-ellipsis whitespace-nowrap xs:max-w-full">
-                  {data?.location}
+                  {getLocation(data?.location)}
                 </div>
               </div>
               <div>·</div>
-              <div>{dateFormatter(data?.nextGatheringAt as string).simple}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm:ss")}</div>
             </div>
           </div>
         </div>

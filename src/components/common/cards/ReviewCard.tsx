@@ -1,7 +1,7 @@
-import { dateFormatter } from "@/lib/dateFormatter";
 import { useEffect, useRef, useState } from "react";
 import { deleteReviewApi, patchReviewApi } from "@/api/review";
 import ReviewPostSection from "@/app/(main)/mypage/_components/ReviewPostSection";
+import { format } from "date-fns";
 import Stars from "../Star";
 import { Modal } from "../modal/Modal";
 
@@ -37,7 +37,6 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
   const [rating, setRating] = useState(review.score);
   const [longComment, setLongComment] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [postingSwitch, setPostingSwitch] = useState(false);
 
   function timeAgo(dateString: string) {
     const givenDate = new Date(dateString);
@@ -95,8 +94,8 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
       </div>
       <div className="flex w-full justify-between text-xs text-gray-500 xs:text-sm">
         <div className="flex gap-2.5">
-          <div className="hidden xs:block">{dateFormatter(review.createdAt).detail}</div>
-          <div className="block xs:hidden">{dateFormatter(review.createdAt).simple}</div>
+          <div className="hidden xs:block">{format(review.createdAt, "yyyy년 MM월 dd일 hh:mm:ss")}</div>
+          <div className="block xs:hidden">{format(review.createdAt, "MM월 dd일 hh:mm")}</div>
           {isWriter && (
             <>
               <Modal

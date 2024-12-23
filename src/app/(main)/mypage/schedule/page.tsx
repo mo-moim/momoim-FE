@@ -2,70 +2,65 @@
 
 import MoimCard from "@/components/common/cards/MoimCard";
 import Tags from "@/components/common/Tags";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { addDays, format } from "date-fns";
+import { ko } from "date-fns/locale";
+import { ScheduleData } from "@/types/common/scheduleData";
+import { useQuery } from "@tanstack/react-query";
+import { getScheduleApi } from "@/api/schedule";
+import ScheduleBox from "../_components/ScheduleBox";
+import { Calendar } from "../_components/Calendar";
 
 export default function MySchedule() {
-  const router = useRouter();
-  const path = usePathname();
-  const searchParams = useSearchParams();
-  const sub = searchParams.get("sub");
-  const [subcategory, setSubcategory] = useState(sub || "schedule-after");
-  const tags = [
-    {
-      name: "다가올 일정",
-      value: "schedule-after",
-    },
-    {
-      name: "지난 일정",
-      value: "schedule-before",
-    },
-  ];
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+  const [currentDate, setCurrentDate] = React.useState<Date | undefined>(new Date());
 
-  const data = {
-    success: true,
-    data: [
-      {
-        gatheringId: 0,
-        image: "",
-        name: "string",
-        gatheringType: "OFFLINE",
-        status: "OPEN",
-        category: "string",
-        subCategory: "string",
-        location: "SEOUL",
-        nextGatheringAt: "2024-12-15T11:15:08.021Z",
-        tags: ["string"],
-        capacity: 2,
-        participantCount: 1,
-        isWishlist: true,
-        isPeriodic: true,
-        members: [
-          {
-            gatheringMemberId: 0,
-            userId: 0,
-            email: "string",
-            name: "string",
-            profileImage: "string",
-            joinedAt: "2024-12-15T11:15:08.021Z",
-          },
-        ],
-      },
-    ],
+  const getSchedules = async () => {
+    const data = await getScheduleApi(currentYear);
+    return data;
   };
 
-  return (
-    <div className="lg:px-8">
-      <Tags
-        tags={tags}
-        selectedValue={subcategory}
-        onSelect={(value) => {
-          setSubcategory(value);
-          router.push(`${path}?sub=${value}`);
-        }}
-      />
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["schedule", currentYear],
+    queryFn: getSchedules,
+    staleTime: 0,
+  });
 
-      <MoimCard type="home" data={data.data[0]} />
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
+
+  const handleYearChange = (year: number) => {
+    setCurrentYear(year);
+  };
+
+  if (isLoading) return null;
+  if (error) return null;
+
+  return (
+    <div className="pb-8 lg:px-8">
+      <div className="flex w-full flex-col gap-6 pt-6 md:flex-row">
+        <Calendar
+          className="flex-grow overflow-hidden md:w-1/2"
+          mode="single"
+          selected={currentDate}
+          onSelect={setCurrentDate}
+          onDateChange={handleDateChange}
+          onYearChange={handleYearChange}
+          formatters={{
+            formatCaption: (date) => format(date, "yyyy년 MM월", { locale: ko }), // 날짜 형식 지정
+            formatWeekdayName: (day) => format(day, "EEEEE", { locale: ko }), // 요일 한글 표시 (월, 화, 수...)
+          }}
+          customContent={data.map((item: ScheduleData) => {
+            const fullDate = format(item.nextGatheringAt, "yyyy/MM/dd").split("/");
+            const [year, month, day] = fullDate;
+            return { date: new Date(+year, +month - 1, +day), content: "exsist" };
+          })}
+        />
+        <ScheduleBox data={data} date={selectedDate} />
+      </div>
     </div>
   );
 }

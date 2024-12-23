@@ -1,4 +1,4 @@
-export default function imageValidChecker(src: string) {
+const imageValidChecker = (src: string) => {
   if (!src || typeof src !== "string") return false;
   const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp|svg|ico)$/i;
   if (imageExtensions.test(src)) return true;
@@ -10,4 +10,6 @@ export default function imageValidChecker(src: string) {
   } catch (e) {
     return false;
   }
-}
+};
+
+export { imageValidChecker };

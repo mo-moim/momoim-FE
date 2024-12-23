@@ -4,12 +4,12 @@
 "use client";
 
 import ProgressBar from "@/components/common/ProgressBar";
-import { dateFormatter } from "@/lib/dateFormatter";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import Image from "next/image";
 import Logo from "@/assets/svg/default-image.svg";
-import imageValidChecker from "@/lib/imageValidChecker";
-import { useState } from "react";
+import { imageValidChecker } from "@/lib/imageValidChecker";
+import { getLocation, getSubcategory } from "@/lib/getLabel";
+import { format } from "date-fns";
 import LocalIcon from "../../../assets/svg/geography_map_solid.svg";
 import Heart from "../Heart";
 import Chip from "../Chip";
@@ -56,16 +56,18 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
               </div>
             </div>
             <div className="flex gap-1 text-gray-700">
-              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{data?.subCategory}</div>
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{getSubcategory(data?.subCategory)}</div>
               <div>·</div>
               <div className="flex gap-0.5">
                 <div className="flex items-center justify-center">
                   <LocalIcon />
                 </div>
-                <div className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">{data?.location}</div>
+                <div className="max-w-24 overflow-hidden text-ellipsis whitespace-nowrap">
+                  {getLocation(data?.location)}
+                </div>
               </div>
               <div>·</div>
-              <div>{dateFormatter(data?.nextGatheringAt as string).simple}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
             </div>
             <div>
               <div className="flex gap-1 text-sm">
@@ -128,18 +130,18 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
               </div>
             </div>
             <div className="flex gap-1 text-xs text-gray-700 sm:text-base">
-              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{data?.subCategory}</div>
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">{getSubcategory(data?.subCategory)}</div>
               <div>·</div>
               <div className="flex gap-0.5">
                 <div className="flex w-4 items-start justify-center sm:w-6 sm:items-center">
                   <LocalIcon />
                 </div>
                 <div className="max-w-11 overflow-hidden text-ellipsis whitespace-nowrap xs:max-w-full">
-                  {data?.location}
+                  {getLocation(data?.location)}
                 </div>
               </div>
               <div>·</div>
-              <div>{dateFormatter(data?.nextGatheringAt as string).simple}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
             </div>
             <div className="flex gap-1 text-sm">
               {[data?.status, data?.location, data?.isPeriodic].map((each, idx) => {

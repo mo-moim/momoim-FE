@@ -52,13 +52,13 @@ export default function Chip({ each }: Props) {
     },
   };
 
-  const indexer = each || "OFFLINE";
+  const validKey = Object.keys(EACH_CHIP_STYLE).includes(each) ? each : "OFFLINE";
 
   return (
     <div
-      className={`rounded-2xl px-2 py-1 sm:px-2 sm:py-1 ${EACH_CHIP_STYLE[indexer].fc} ${EACH_CHIP_STYLE[indexer].bg}`}
+      className={`rounded-2xl px-2 py-1 sm:px-2 sm:py-1 ${EACH_CHIP_STYLE[validKey].fc} ${EACH_CHIP_STYLE[validKey].bg}`}
     >
-      {EACH_CHIP_STYLE[indexer].font}
+      {EACH_CHIP_STYLE[validKey].font}
     </div>
   );
 }
