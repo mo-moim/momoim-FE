@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import { getReviewsApi } from "@/api/review";
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import UnreviewedCard from "../_components/UnreviewedCard";
 import EmptyBlock from "../_components/EmptyBlock";
 import Tags from "../../../../components/common/Tags";
@@ -50,64 +50,62 @@ export default function MyReview() {
     staleTime: 0,
   });
 
-  if (isLoading) return null;
-  if (error) return null;
+  if (isLoading) return <div />;
+  if (error) return <div />;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="lg:px-8">
-        <Tags
-          tags={tags}
-          selectedValue={subcategory}
-          onSelect={(value) => {
-            setSubcategory(value);
-            router.push(`${path}?sub=${value}`);
-          }}
-        />
-        {(!sub || sub === "un-review") &&
-          ((data?.length as number) > 0 ? (
-            <div>
-              {data?.map((unreview: GatheringContent, idx: number) => {
-                return (
-                  <div key={`r:${unreview.gatheringId}`}>
-                    <UnreviewedCard data={unreview} />
-                    {data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <EmptyBlock type="unreview" />
-          ))}
-        {sub === "my-review" &&
-          ((data?.length as number) > 0 ? (
-            <div>
-              {data?.map((review: Review, idx: number) => {
-                const r = {
-                  title: review.title,
-                  comment: review.comment,
-                  score: review.score,
-                  createdAt: review.createdAt,
-                  reviewId: review.reviewId,
-                };
-                const t = {
-                  gatheringId: review.gatheringId,
-                  gatheringName: review.gatheringName,
-                  gatheringStatus: review.gatheringStatus,
-                };
-                return (
-                  <div key={`r:${review.gatheringId}`}>
-                    <ReviewCard review={r} typeData={t} isWriter />
-                    {data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <EmptyBlock type="myreview" />
-          ))}
-        <div />
-      </div>
-    </Suspense>
+    <div className="lg:px-8">
+      <Tags
+        tags={tags}
+        selectedValue={subcategory}
+        onSelect={(value) => {
+          setSubcategory(value);
+          router.push(`${path}?sub=${value}`);
+        }}
+      />
+      {(!sub || sub === "un-review") &&
+        ((data?.length as number) > 0 ? (
+          <div>
+            {data?.map((unreview: GatheringContent, idx: number) => {
+              return (
+                <div key={`r:${unreview.gatheringId}`}>
+                  <UnreviewedCard data={unreview} />
+                  {data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <EmptyBlock type="unreview" />
+        ))}
+      {sub === "my-review" &&
+        ((data?.length as number) > 0 ? (
+          <div>
+            {data?.map((review: Review, idx: number) => {
+              const r = {
+                title: review.title,
+                comment: review.comment,
+                score: review.score,
+                createdAt: review.createdAt,
+                reviewId: review.reviewId,
+              };
+              const t = {
+                gatheringId: review.gatheringId,
+                gatheringName: review.gatheringName,
+                gatheringStatus: review.gatheringStatus,
+              };
+              return (
+                <div key={`r:${review.gatheringId}`}>
+                  <ReviewCard review={r} typeData={t} isWriter />
+                  {data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <EmptyBlock type="myreview" />
+        ))}
+      <div />
+    </div>
   );
 }

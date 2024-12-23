@@ -52,13 +52,12 @@
 "use client";
 
 import Tabs from "@/components/common/Tabs";
-import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import ProfileBox from "./_components/ProfileBox";
 
 export default function MyPage({ children }: { children: React.ReactNode }) {
   const path = usePathname();
-  const searchParams = useSearchParams();
   const [category, setCategory] = useState(`${path}`);
   const router = useRouter();
 
@@ -104,7 +103,7 @@ export default function MyPage({ children }: { children: React.ReactNode }) {
           {/* <HydrationBoundary
             state={dehydrate(new QueryClient())}
           > */}
-          {children}
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           {/* </HydrationBoundary> */}
         </div>
       </div>
