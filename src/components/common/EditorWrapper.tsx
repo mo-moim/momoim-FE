@@ -57,7 +57,6 @@ function EditorWrapper({ field }: EditorFieldProps) {
       previewStyle="tab"
       hideModeSwitch
       useCommandShortcut
-      autofocus
       placeholder="생성할 모임에 대해 설명을 입력해주세요."
       toolbarItems={toolbarOptions}
       onChange={handleEditorChange}
