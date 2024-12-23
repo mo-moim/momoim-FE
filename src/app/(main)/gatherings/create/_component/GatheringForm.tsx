@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
-import { Textarea } from "@/components/ui/textarea";
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreate } from "@/queries/gathering/useCreate";
 import { GatheringCreateFormData } from "@/types/category";
 import { useRouter } from "next/navigation";
+import ToastEditor from "@/components/common/ToastEditor";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import Category from "./Category";
@@ -164,12 +164,9 @@ export default function GatheringForm() {
           name="description"
           label="모임 설명"
           renderContent={(field) => (
-            <Textarea
-              className="h-80 border-gray-500 p-4 font-medium md:text-base"
-              placeholder="생성할 모임에 대해 설명을 입력해주세요."
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <div className="overflow-hidden rounded-md border border-gray-500">
+              <ToastEditor field={field} />
+            </div>
           )}
         />
         <div className="flex items-center justify-center gap-2">

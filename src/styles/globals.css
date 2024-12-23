@@ -72,6 +72,28 @@ html body[data-scroll-locked] {
   }
 }
 
+.toastui-editor-dropdown-toolbar {
+  flex-direction: column;
+  height: auto !important;
+}
+
+.toastui-editor-dropdown-toolbar:not([style*="display: none"])
+  .toastui-editor-toolbar-group
+  .toastui-editor-toolbar-divider {
+  display: none !important;
+}
+
+.toastui-editor-popup[style*="display: block"] {
+  display: flex !important;
+  flex-direction: column;
+  left: 50% !important;
+  top: 32% !important;
+  height: 270px;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  margin: 0 !important;
+}
+
 .text-overflow {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -80,8 +102,7 @@ html body[data-scroll-locked] {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-
-@layer components {
+@layer utilities {
   .inputCountButton::-webkit-inner-spin-button,
   .inputCountButton::-webkit-outer-spin-button {
     -webkit-appearance: inner-spin-button;
