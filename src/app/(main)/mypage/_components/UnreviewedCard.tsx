@@ -51,7 +51,7 @@ export default function UnreviewedCard({ data }: Props) {
                 </div>
               </div>
               <div>·</div>
-              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm:ss")}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function UnreviewedCard({ data }: Props) {
         content={<ReviewPostSection data="" setRating={setRating} customRef={contentRef} />}
         size="w-full h-[55%]"
         showFooter
-        submitButtonText="등록하기"
+        // submitButtonText="등록하기"
         onSubmit={() =>
           postReviewApi(
             data?.gatheringId as number,

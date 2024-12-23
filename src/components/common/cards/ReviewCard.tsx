@@ -110,7 +110,7 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
                     customRef={contentRef}
                   />
                 }
-                submitButtonText="수정하기"
+                // submitButtonText="수정하기"
                 showFooter
                 onSubmit={() =>
                   patchReviewApi(

@@ -26,7 +26,7 @@ export default function Tags({ tags, selectedValue, onSelect, className }: TagsP
         sectionSlider(e, containerRef);
       }}
       className={cn(
-        "my-4 flex w-full cursor-grab gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap font-medium scrollbar-hide",
+        "flex w-full cursor-grab gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap font-medium scrollbar-hide",
         className,
       )}
     >

@@ -46,7 +46,7 @@ export default function ProfileBox() {
             content=""
             size="w-full h-[55%]"
             showFooter
-            submitButtonText="등록하기"
+            // submitButtonText="등록하기"
             // onSubmit={() =>
             //   postReviewApi(
             //     data?.gatheringId as number,
