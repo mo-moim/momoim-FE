@@ -92,7 +92,7 @@ export default function MyPage({ children }: { children: React.ReactNode }) {
     <div>
       <div className="relative flex w-full flex-col items-center sm:px-2">
         <ProfileBox />
-        <div className="w-full max-w-[1100px]">
+        <div className="flex w-full max-w-[1100px] flex-col gap-4">
           <Tabs
             tabs={tabs}
             selectedValue={category}

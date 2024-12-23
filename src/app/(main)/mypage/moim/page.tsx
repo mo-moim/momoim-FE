@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import Tags from "@/components/common/Tags";
 import MoimCard from "@/components/common/cards/MoimCard";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import EmptyBlock from "../_components/EmptyBlock";
 
 export default function MyMoim() {
@@ -49,27 +49,29 @@ export default function MyMoim() {
   if (error) return null;
 
   return (
-    <div className="lg:px-8">
-      <Tags
-        tags={tags}
-        selectedValue={subcategory}
-        onSelect={(value) => {
-          setSubcategory(value);
-          router.push(`${path}?sub=${value}`);
-        }}
-      />
-      {data.length > 0 ? (
-        data.map((moim: GatheringContent, idx: number) => {
-          return (
-            <div key={`key:${moim.gatheringId}`}>
-              <MoimCard type="mypage" data={moim} />
-              {data.length - 1 !== idx ? <hr className="my-4" /> : <br />}
-            </div>
-          );
-        })
-      ) : (
-        <EmptyBlock type={sub as string} />
-      )}
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="lg:px-8">
+        <Tags
+          tags={tags}
+          selectedValue={subcategory}
+          onSelect={(value) => {
+            setSubcategory(value);
+            router.push(`${path}?sub=${value}`);
+          }}
+        />
+        {data.length > 0 ? (
+          data.map((moim: GatheringContent, idx: number) => {
+            return (
+              <div key={`key:${moim.gatheringId}`}>
+                <MoimCard type="mypage" data={moim} />
+                {data.length - 1 !== idx ? <hr className="my-4" /> : <br />}
+              </div>
+            );
+          })
+        ) : (
+          <EmptyBlock type={sub as string} />
+        )}
+      </div>
+    </Suspense>
   );
 }
