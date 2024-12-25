@@ -5,7 +5,7 @@ export type CategoryKey = (typeof COMMON_CATEGORIES)[number]["value"];
 export interface GatheringCreateFormData {
   name: string;
   isPeriodic: boolean;
-  image: string;
+  image: string | null;
   category: string;
   subCategory: string | string[];
   location: string;

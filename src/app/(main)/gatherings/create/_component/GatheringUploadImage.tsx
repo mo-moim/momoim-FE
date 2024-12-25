@@ -22,7 +22,7 @@ export default function GatheringUploadImage({ form, field }: FormFieldProps) {
   };
 
   const handleImageReset = () => {
-    field.onChange("");
+    field.onChange(null);
   };
 
   return (
