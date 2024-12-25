@@ -7,7 +7,7 @@ import { useMoimList } from "@/queries/gatherings/useMoimList";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { EmptyState } from "@/components/common/EmptyState";
 import { useRouter } from "next/navigation";
-import { LOCATIONS, SORT_ORDERS, SORTS } from "@/constants/gatherings";
+import { LOCATIONS } from "@/constants/gatherings";
 
 interface MoimGridProps {
   category: string;
