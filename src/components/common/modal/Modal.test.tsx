@@ -10,6 +10,7 @@ describe("모달 컴포넌트", () => {
     mockClick = jest.fn();
     render(
       <Modal
+        title="모임 신청"
         content="해당 모임을 신청하시겠습니까?"
         triggerButton={<Button type="button">신청하기</Button>}
         onSubmit={mockClick}
@@ -46,10 +47,6 @@ describe("모달 컴포넌트", () => {
     expect(clickBtn).toBeInTheDocument();
     fireEvent.click(clickBtn);
     expect(mockClick).toHaveBeenCalledTimes(1);
-  });
-
-  it("title이 없는 경우 제목 없음이 렌더링되어야 한다", () => {
-    expect(screen.getByText("제목 없음")).toBeInTheDocument();
   });
 
   it("X 아이콘을 클릭하면 모달이 닫혀야한다.", () => {

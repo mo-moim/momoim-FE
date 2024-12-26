@@ -1,13 +1,32 @@
 import { create } from "zustand";
 
-interface ModalStoreType {
+interface ModalStateType {
   isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
+  title: string;
+  content: React.ReactNode;
+}
+
+interface ModalStoreType {
+  modalState: Record<string, ModalStateType>;
+  openModal: (title: string, content: React.ReactNode) => void;
+  closeModal: (title: string) => void;
 }
 
 export const useModalStore = create<ModalStoreType>((set) => ({
-  isOpen: false,
-  openModal: () => set({ isOpen: true }),
-  closeModal: () => set({ isOpen: false }),
+  modalState: {},
+  openModal: (title, content) => {
+    set((state) => ({
+      modalState: {
+        ...state.modalState,
+        [title]: { isOpen: true, title, content },
+      },
+    }));
+  },
+  closeModal: (title) =>
+    set((state) => ({
+      modalState: {
+        ...state.modalState,
+        [title]: { ...state.modalState[title], isOpen: false },
+      },
+    })),
 }));
