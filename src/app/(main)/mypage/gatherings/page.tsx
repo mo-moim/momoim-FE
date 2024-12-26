@@ -32,7 +32,7 @@ export default function MyMoim() {
     },
   ];
 
-  const getEmptyState = async () => {
+  const getEmptyState = () => {
     if (!sub)
       return (
         <EmptyState
@@ -76,16 +76,16 @@ export default function MyMoim() {
     return null;
   };
 
-  const { data, isLoading, error } = useGathering(sub);
+  const { data, isLoading, error, fetchNextPage, hasNextPage } = useGathering(sub);
 
-  if (isLoading) return null;
-  if (error) return null;
+  useIntersectionObserver({
+    target: observerTarget,
+    onIntersect: fetchNextPage,
+    enabled: !!hasNextPage,
+  });
 
-  // useIntersectionObserver({
-  //   target: observerTarget,
-  //   onIntersect: () => fetchNextPage(),
-  //   enabled: !!hasNextPage && !isFetchingNextPage,
-  // });
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading data</p>;
 
   return (
     <div className="flex flex-col gap-2">
@@ -97,24 +97,25 @@ export default function MyMoim() {
           router.push(`${path}?sub=${value}`);
         }}
       />
-      {data.length > 0 ? (
-        data.map((moim: GatheringContent, idx: number) => {
-          return (
-            <div key={`key:${moim.gatheringId}`}>
-              <MoimCard
-                type="mypage"
-                data={moim}
-                customOnClick={() => {
-                  router.push(`/gatherings/${moim.gatheringId}`);
-                }}
-              />
-              {data.length - 1 !== idx ? <hr className="my-4" /> : <br />}
-            </div>
-          );
-        })
-      ) : (
-        <>{getEmptyState()}</>
-      )}
+      <div className="w-full">
+        {data?.pages && data.pages.length > 0
+          ? data.pages.map((item) =>
+              item.data.map((moim: GatheringContent, idx: number) => (
+                <div key={moim.gatheringId}>
+                  <MoimCard
+                    type="mypage"
+                    data={moim}
+                    customOnClick={() => {
+                      router.push(`/gatherings/${moim.gatheringId}`);
+                    }}
+                  />
+                  {data.pages.length - 1 !== idx ? <hr className="my-4" /> : <br />}{" "}
+                </div>
+              )),
+            )
+          : getEmptyState()}
+      </div>
+      <div ref={observerTarget} />
     </div>
   );
 }

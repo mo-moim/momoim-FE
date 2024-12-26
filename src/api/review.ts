@@ -1,7 +1,8 @@
 import { clientAxios } from "@/lib/axios";
+import { Pagination } from "@/types/pagination";
 
-export const getReviewsApi = async (type: string) => {
-  const { data } = await clientAxios.get(`api/reviews/${type}?offset=0&limit=10`);
+export const getReviewsApi = async (type: string, page: Pagination) => {
+  const { data } = await clientAxios.get(`api/reviews/${type}?offset=${page.offset}&limit=${page.limit}`);
   return data.data;
 };
 

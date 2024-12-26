@@ -1,8 +1,9 @@
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useInfiniteQuery } from "@tanstack/react-query";
 import { deleteReviewApi, getReviewsApi, patchReviewApi, postReviewApi } from "@/api/review";
 
 import { toast } from "@/hooks/use-toast";
 import { useModalStore } from "@/store/modalStore";
+import { Pagination } from "@/types/pagination";
 
 interface ReviewParams {
   gatheringId: number;
@@ -12,10 +13,18 @@ interface ReviewParams {
 }
 
 export const useReview = (sub: string | null) => {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ["review", sub],
-    queryFn: () => getReviewsApi(sub || "un-review"),
-    staleTime: 0,
+    queryFn: async ({ pageParam = 0 }) => {
+      const page: Pagination = {
+        offset: pageParam * 12,
+        limit: 12,
+      };
+      const data = await getReviewsApi(sub || "un-review", page);
+      return { data, nextPage: data.length === 12 ? pageParam + 1 : null };
+    },
+    getNextPageParam: (lastPage) => (lastPage.nextPage !== null ? lastPage.nextPage : undefined),
+    initialPageParam: 0,
   });
 };
 

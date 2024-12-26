@@ -110,8 +110,8 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
       </div>
       <div className="flex w-full justify-between text-xs text-gray-500 xs:text-sm">
         <div className="flex gap-2.5">
-          <div className="hidden xs:block">{format(review.createdAt, "yyyy년 MM월 dd일 hh:mm:ss")}</div>
-          <div className="block xs:hidden">{format(review.createdAt, "MM월 dd일 hh:mm")}</div>
+          <div className="hidden xs:block">{format(review?.createdAt, "yyyy년 MM월 dd일 hh:mm:ss")}</div>
+          <div className="block xs:hidden">{format(review?.createdAt, "MM월 dd일 hh:mm")}</div>
           {isWriter && (
             <>
               <Modal

@@ -30,7 +30,7 @@ export default function ProfileBox() {
   };
 
   return (
-    <div className="my-6 w-full max-w-[1100px] rounded-[20px] border-2 border-solid border-[#F0F1F6] p-8">
+    <div className="my-6 w-full rounded-[20px] border-2 border-solid border-[#F0F1F6] p-8">
       <div>
         <div className="text-lg font-black">내 프로필</div>
         <div className="flex flex-col items-start justify-start sm:flex-row sm:items-center sm:justify-between">
