@@ -87,6 +87,8 @@ export default function MyMoim() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
 
+  console.log(data);
+
   return (
     <div className="flex flex-col gap-2">
       <Tags
@@ -98,7 +100,7 @@ export default function MyMoim() {
         }}
       />
       <div className="w-full">
-        {data?.pages && data.pages.length > 0
+        {data?.pages && data.pages[0].data.length > 0
           ? data.pages.map((item) =>
               item.data.map((moim: GatheringContent, idx: number) => (
                 <div key={moim.gatheringId}>

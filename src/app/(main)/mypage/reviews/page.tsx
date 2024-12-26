@@ -51,6 +51,8 @@ export default function MyReview() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
 
+  console.log(data);
+
   return (
     <div className="flex flex-col gap-2">
       <Tags
@@ -63,7 +65,7 @@ export default function MyReview() {
       />
       <div>
         {(!sub || sub === "un-review") &&
-          (data?.pages && data.pages.length > 1 ? (
+          (data?.pages && data.pages[0].data.length ? (
             data.pages.map((item) =>
               item.data.map((unreview: GatheringContent, idx: number) => {
                 return (
@@ -83,7 +85,7 @@ export default function MyReview() {
             />
           ))}
         {sub === "my-review" &&
-          (data?.pages && data.pages.length > 1 ? (
+          (data?.pages && data.pages[0].data.length ? (
             data.pages.map((item) =>
               item.data.map((review: Review, idx: number) => {
                 const r = {

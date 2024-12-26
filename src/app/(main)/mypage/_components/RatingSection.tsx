@@ -10,7 +10,6 @@ export default function RatingSection({
   onRatingChange?: (rating: number) => void;
   score: number;
 }) {
-  console.log(score);
   const [rating, setRating] = useState(score); // 실제 별점
   const [hoverRating, setHoverRating] = useState(score); // 드래그 중 표시할 별점
   const [isActive, setIsActive] = useState(false); // 점수 고정 여부
