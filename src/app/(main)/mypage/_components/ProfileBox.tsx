@@ -34,7 +34,7 @@ export default function ProfileBox() {
         <div className="flex flex-col items-start justify-start sm:flex-row sm:items-center sm:justify-between">
           <div className="my-6 flex">
             <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 bg-gray-100">
-              <Image
+              {/* <Image
                 alt="thumbnail"
                 src={
                   data?.profileImage && data?.profileImage !== "DEFAULT_PROFILE_IMAGE"
@@ -43,7 +43,7 @@ export default function ProfileBox() {
                 }
                 fill
                 className="object-cover"
-              />
+              /> */}
             </div>
             <div className="flex flex-col justify-center p-[24px]">{renderProfile()}</div>
           </div>
