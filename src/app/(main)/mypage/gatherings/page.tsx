@@ -73,7 +73,7 @@ export default function MyMoim() {
           className="h-full"
         />
       );
-    return {};
+    return null;
   };
 
   const { data, isLoading, error } = useGathering(sub);
