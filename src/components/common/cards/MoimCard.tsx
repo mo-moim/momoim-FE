@@ -6,10 +6,9 @@
 import ProgressBar from "@/components/common/ProgressBar";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import Image from "next/image";
-import Logo from "@/assets/svg/default-image.svg";
-import { imageValidChecker } from "@/lib/imageValidChecker";
 import { getLocation, getSubcategory } from "@/lib/getLabel";
 import { format } from "date-fns";
+import thumbnail from "@/assets/images/thumbnail.png";
 import LocalIcon from "../../../assets/svg/geography_map_solid.svg";
 import Heart from "../Heart";
 import Chip from "../Chip";
@@ -39,11 +38,7 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
               }[data?.status as string] || ""}
             </div>
           ) : null}
-          {imageValidChecker(data?.image) ? (
-            <Image alt="thumbnail" src={data?.image} layout="fill" objectFit="contain" />
-          ) : (
-            <Logo />
-          )}
+          <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} layout="fill" objectFit="cover" />
         </div>
         <div
           className={`flex w-full flex-col gap-2 px-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED" || (data?.status === "CLOSED" && type === "home")) && "opacity-30"}`}
@@ -111,11 +106,7 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
               }[data?.status as string] || ""}
             </div>
           ) : null}
-          {imageValidChecker(data?.image) ? (
-            <Image alt="thumbnail" src={data?.image} layout="fill" objectFit="contain" />
-          ) : (
-            <Logo />
-          )}
+          <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} fill className="object-cover" />
         </div>
         <div
           className={`flex min-w-0 flex-grow flex-col justify-center gap-1 pl-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED") && "opacity-30"}`}

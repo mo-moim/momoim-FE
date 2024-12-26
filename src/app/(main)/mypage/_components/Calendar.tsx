@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   highlightedDates?: Date[];
@@ -65,10 +64,6 @@ function Calendar({
   onYearChange,
   ...props
 }: CalendarProps & { onDateChange?: (date: Date) => void; onYearChange?: (year: number) => void }) {
-  const handleDayClick = (date: Date) => {
-    console.log("클릭한 날짜:", date); // 날짜를 출력
-    onDateChange?.(date);
-  };
   const modifiers = getModifiers(customContent);
   const todayDate = new Date();
   const [selectedDate, setSelectedDate] = useState(todayDate);
@@ -92,22 +87,32 @@ function Calendar({
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear();
 
-    let finalClass = "flex h-8 min-h-8 w-8 items-center justify-center text-center";
+    let additional = "";
 
     if (isSelected) {
-      finalClass += " rounded-full bg-main text-white";
+      additional = "rounded-full bg-main text-white";
     } else if (isToday) {
-      finalClass += " rounded-full bg-gray-400 text-white";
+      additional = "rounded-full border-[#A9AAF9] border-2 text-main";
     } else if (custom?.content) {
-      finalClass += isPast ? " text-gray-400" : " text-main";
+      additional = isPast ? "text-gray-400" : " text-main";
     }
 
     return (
-      <button type="button" className="flex h-14 w-6 flex-col items-center pb-6" onClick={() => setSelectedDate(date)}>
-        <div className={finalClass}>{date.getDate()}</div>
-        {custom?.content && !isSelected && (
-          <div className={`aspect-square w-2 rounded-full ${isPast ? "bg-gray-400" : "bg-main"}`} />
-        )}
+      <button
+        type="button"
+        onClick={() => {
+          onDateChange?.(date);
+          setSelectedDate(date);
+        }}
+      >
+        <div className="flex h-14 w-6 flex-col items-center pb-6">
+          <div className={cn("flex h-8 min-h-8 w-8 items-center justify-center text-center", additional)}>
+            {date.getDate()}
+          </div>
+          {custom?.content && !isSelected && (
+            <div className={`aspect-square w-2 rounded-full ${isPast ? "bg-gray-400" : "bg-main"}`} />
+          )}
+        </div>
       </button>
     );
   };
@@ -125,7 +130,6 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       onMonthChange={handleMonthChange}
       className={cn(className)}
-      onDayClick={handleDayClick}
       modifiers={{
         highlighted: Object.values(modifiers),
       }}
@@ -145,18 +149,10 @@ function Calendar({
         head_row: "flex w-full justify-between",
         head_cell: `text-muted-foreground rounded-md font-normal text-[0.8rem]`,
         row: "flex w-full mt-2 justify-between px-5 border-b border-gray-300 last:border-b-0",
-        // cell: cn(
-        //   "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
-        //   props.mode === "range"
-        //     ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
-        //     : "[&:has([aria-selected])]:rounded-md",
-        // ),
         day: cn(` hover:bg-none flex flex-col justify-start rounded-full p-0 font-normal aria-selected:opacity-100`),
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
-        // day_selected: "text-main",
         day_selected: "text-primary-foreground hover:text-primary-foreground focus:text-primary-foreground",
-        // day_today: "bg-accent text-accent-foreground",
         day_outside: "day-outside text-gray-500 aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
@@ -167,7 +163,7 @@ function Calendar({
         IconLeft,
         IconRight,
         HeadRow,
-        DayContent: ({ date }) => renderDay(date),
+        Day: ({ date }) => renderDay(date),
       }}
       {...props}
     />
@@ -176,44 +172,3 @@ function Calendar({
 Calendar.displayName = "Calendar";
 
 export { Calendar };
-
-// interface CustomComponents {
-//     /** The component for the caption element. */
-//     Caption?: (props: CaptionProps) => JSX.Element | null;
-//     /** The component for the caption element. */
-//     CaptionLabel?: (props: CaptionLabelProps) => JSX.Element | null;
-//     /**
-//      * The component for the day element.
-//      *
-//      * Each `Day` in DayPicker should render one of the following, according to
-//      * the return value of {@link useDayRender}.
-//      *
-//      * - an empty `Fragment`, to render if `isHidden` is true
-//      * - a `button` element, when the day is interactive, e.g. is selectable
-//      * - a `div` or a `span` element, when the day is not interactive
-//      *
-//      */
-//     Day?: (props: DayProps) => JSX.Element | null;
-//     /** The component for the content of the day element. */
-//     DayContent?: (props: DayContentProps) => JSX.Element | null;
-//     /** The component for the drop-down elements. */
-//     Dropdown?: (props: DropdownProps) => JSX.Element | null;
-//     /** The component for the table footer. */
-//     Footer?: (props: FooterProps) => JSX.Element | null;
-//     /** The component for the table’s head. */
-//     Head?: () => JSX.Element | null;
-//     /** The component for the table’s head row. */
-//     HeadRow?: () => JSX.Element | null;
-//     /** The component for the small icon in the drop-downs. */
-//     IconDropdown?: (props: StyledComponent) => JSX.Element | null;
-//     /** The arrow right icon (used for the Navigation buttons). */
-//     IconRight?: (props: StyledComponent) => JSX.Element | null;
-//     /** The arrow left icon (used for the Navigation buttons). */
-//     IconLeft?: (props: StyledComponent) => JSX.Element | null;
-//     /** The component wrapping the month grids. */
-//     Months?: (props: MonthsProps) => JSX.Element | null;
-//     /** The component for the table rows. */
-//     Row?: (props: RowProps) => JSX.Element | null;
-//     /** The component for the week number in the table rows. */
-//     WeekNumber?: (props: WeekNumberProps) => JSX.Element | null;
-// }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { deleteReviewApi, patchReviewApi } from "@/api/review";
 import ReviewPostSection from "@/app/(main)/mypage/_components/ReviewPostSection";
 import { format } from "date-fns";
+import { useEditReview, useDeleteReview } from "@/queries/mypage/useReview";
 import Stars from "../Star";
 import { Modal } from "../modal/Modal";
 
@@ -38,7 +38,7 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
   const [longComment, setLongComment] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  function timeAgo(dateString: string) {
+  const timeAgo = (dateString: string) => {
     const givenDate = new Date(dateString);
     const currentDate = new Date();
     const differenceInMillis = Number(currentDate) - Number(givenDate);
@@ -48,11 +48,27 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
     if (differenceInDays >= 1) return `${differenceInDays}일 전`;
     if (differenceInHours >= 1) return `${differenceInHours}시간 전`;
     return `${differenceInMinutes}분 전`;
-  }
+  };
+
+  const { mutate: edit } = useEditReview();
+  const { mutate: remove } = useDeleteReview();
+
+  const handleEditSubmit = () => {
+    edit({
+      gatheringId: review.reviewId,
+      score: rating,
+      title: review.title,
+      comment: contentRef.current ? contentRef.current.value : "",
+    });
+  };
+
+  const handleDeleteSubmit = () => {
+    remove({ id: review.reviewId });
+  };
 
   useEffect(() => {
     if (reviewRef.current) {
-      // 이건 변화에 따라 useEffect로 계속 관리해줘야할 수도 있다
+      // 이건 변화에 따라 useEffect로 계속 동적 관리해줘야할 수도 있다
       if (reviewRef.current.scrollHeight > reviewRef.current.clientHeight) {
         setLongComment(true);
       }
@@ -110,18 +126,10 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
                     customRef={contentRef}
                   />
                 }
-                // submitButtonText="수정하기"
                 showFooter
-                onSubmit={() =>
-                  patchReviewApi(
-                    review.reviewId,
-                    rating,
-                    review.title,
-                    contentRef.current ? contentRef.current.value : "",
-                  )
-                }
+                onSubmit={handleEditSubmit}
               />
-              <button type="button" onClick={() => deleteReviewApi(review.reviewId)}>
+              <button type="button" onClick={handleDeleteSubmit}>
                 삭제
               </button>
             </>

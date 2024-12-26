@@ -1,23 +1,23 @@
 "use client";
 
-import { deleteWishlist, postWishlist } from "@/api/like";
+import { useLike } from "@/queries/mypage/useLike";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
 interface Props {
-  // likeTask: (() => void) | undefined;
   gatheringId: number;
   isWishlist: boolean | undefined;
 }
 
 export default function Heart({ gatheringId, isWishlist }: Props) {
   const [isLiked, setIsLiked] = useState(isWishlist);
+  const { mutate: liketask } = useLike();
   return (
     <motion.div
       onClick={(e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
-        if (!isLiked) postWishlist(gatheringId);
-        if (isLiked) deleteWishlist(gatheringId);
+        if (!isLiked) liketask({ id: gatheringId, isLike: true });
+        if (isLiked) liketask({ id: gatheringId, isLike: false });
         setIsLiked((prev) => !prev);
       }}
       initial={false}

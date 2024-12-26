@@ -5,12 +5,11 @@ import Image from "next/image";
 import LocalIcon from "@/assets/svg/geography_map_solid.svg";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/common/modal/Modal";
-import Logo from "@/assets/svg/default-image.svg";
-import { imageValidChecker } from "@/lib/imageValidChecker";
+import thumbnail from "@/assets/images/thumbnail.png";
 import { useRef, useState } from "react";
-import { postReviewApi } from "@/api/review";
 import { getLocation, getSubcategory } from "@/lib/getLabel";
 import { format } from "date-fns";
+import { usePostReview } from "@/queries/mypage/useReview";
 import ReviewPostSection from "./ReviewPostSection";
 
 interface Props {
@@ -20,15 +19,22 @@ interface Props {
 export default function UnreviewedCard({ data }: Props) {
   const [rating, setRating] = useState(0);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
+  const { mutate: post } = usePostReview();
+
+  const handlePostReview = () => {
+    post({
+      gatheringId: data?.gatheringId as number,
+      score: rating,
+      title: data.name,
+      comment: contentRef.current ? contentRef.current.value : "",
+    });
+  };
+
   return (
     <div className="max-w-[375px]">
       <div className="flex w-full items-center gap-2 py-2 sm:items-center">
         <div className="relative flex aspect-square h-[20%] w-[20%] items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 xs:h-24 xs:w-24">
-          {imageValidChecker(data?.image) ? (
-            <Image alt="thumbnail" src={data?.image} layout="fill" objectFit="contain" />
-          ) : (
-            <Logo />
-          )}
+          <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} fill className="object-cover" />
         </div>
         <div
           className={`flex h-24 min-w-0 flex-grow flex-col justify-center gap-1 pl-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED") && "opacity-30"}`}
@@ -61,15 +67,7 @@ export default function UnreviewedCard({ data }: Props) {
         content={<ReviewPostSection data="" setRating={setRating} customRef={contentRef} />}
         size="w-full h-[55%]"
         showFooter
-        // submitButtonText="등록하기"
-        onSubmit={() =>
-          postReviewApi(
-            data?.gatheringId as number,
-            rating,
-            data.name,
-            contentRef.current ? contentRef.current.value : "",
-          )
-        }
+        onSubmit={handlePostReview}
         triggerButton={
           <Button variant="outline" className="w-full">
             리뷰 작성하기

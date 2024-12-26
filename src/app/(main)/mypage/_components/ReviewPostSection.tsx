@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { GatheringContent } from "@/types/common/gatheringContent";
 import RatingSection from "./RatingSection";
 
 interface Props {

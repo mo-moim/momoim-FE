@@ -1,13 +1,12 @@
 "use client";
 
 import ReviewCard from "@/components/common/cards/ReviewCard";
-import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GatheringContent } from "@/types/common/gatheringContent";
-import { getReviewsApi } from "@/api/review";
 import { useState } from "react";
+import { EmptyState } from "@/components/common/EmptyState";
+import { useReview } from "@/queries/mypage/useReview";
 import UnreviewedCard from "../_components/UnreviewedCard";
-import EmptyBlock from "../_components/EmptyBlock";
 import Tags from "../../../../components/common/Tags";
 
 interface Review {
@@ -39,22 +38,13 @@ export default function MyReview() {
     },
   ];
 
-  const getReviews = async () => {
-    if (!sub) return getReviewsApi("un-review");
-    return getReviewsApi(sub);
-  };
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["review", searchParams.get("sub")],
-    queryFn: getReviews,
-    staleTime: 0,
-  });
+  const { data, isLoading, error } = useReview(sub);
 
   if (isLoading) return <div />;
   if (error) return <div />;
 
   return (
-    <div className="lg:px-8">
+    <div className="flex flex-col gap-2">
       <Tags
         tags={tags}
         selectedValue={subcategory}
@@ -76,7 +66,12 @@ export default function MyReview() {
             })}
           </div>
         ) : (
-          <EmptyBlock type="unreview" />
+          <EmptyState
+            title="리뷰를 작성할 모임이 없어요"
+            description="지금 바로 모임에 참여해보세요!"
+            actionText="모임 찾기"
+            onAction={() => router.push("/all")}
+          />
         ))}
       {sub === "my-review" &&
         ((data?.length as number) > 0 ? (
@@ -103,7 +98,12 @@ export default function MyReview() {
             })}
           </div>
         ) : (
-          <EmptyBlock type="myreview" />
+          <EmptyState
+            title="작성한 리뷰가 없어요"
+            description="참여했던 모임의 리뷰를 작성해보세요!"
+            actionText="나의 모임 목록 보기"
+            onAction={() => router.push("/mypage/gatherings?sub=my-gatherings")}
+          />
         ))}
       <div />
     </div>

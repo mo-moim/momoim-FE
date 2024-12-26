@@ -17,7 +17,7 @@ const nextConfig = {
     return [
       {
         source: "/mypage",
-        destination: "/mypage/schedule",
+        destination: "/mypage/schedules",
         permanent: true,
       },
     ];
