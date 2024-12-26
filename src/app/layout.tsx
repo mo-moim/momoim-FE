@@ -32,7 +32,7 @@ export default function RootLayout({
         <TanStackProvider>
           <Header />
           <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
-          {/* <CreateMoimButton /> */}
+          <CreateMoimButton />
           <Toaster />
           <SpeedInsights />
         </TanStackProvider>
