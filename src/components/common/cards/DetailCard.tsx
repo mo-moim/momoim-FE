@@ -51,7 +51,7 @@ export default function DetailCard({ data, members, customButton }: Props) {
                 </div>
               </div>
               <div className="flex gap-1 text-sm">
-                {[data?.status, data?.gatheringType, data?.isPeriodic].map((each, idx) => {
+                {[data?.status, data?.location, data?.isPeriodic].map((each, idx) => {
                   const key = `chip:${data?.id}:${idx}`;
                   if (typeof each === "boolean") {
                     return each ? <Chip key={key} each="REGULAR" /> : null;

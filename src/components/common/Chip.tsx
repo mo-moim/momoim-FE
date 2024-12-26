@@ -40,11 +40,6 @@ export default function Chip({ each }: Props) {
       fc: "text-chipfc-online",
       bg: "bg-chipbg-online",
     },
-    OFFLINE: {
-      font: "오프라인",
-      fc: "text-chipfc-offline",
-      bg: "bg-chipbg-offline",
-    },
     REGULAR: {
       font: "정기 모임",
       fc: "text-chipfc-regular",
@@ -53,6 +48,8 @@ export default function Chip({ each }: Props) {
   };
 
   const validKey = Object.keys(EACH_CHIP_STYLE).includes(each) ? each : "OFFLINE";
+
+  if (validKey === "OFFLINE") return null;
 
   return (
     <div

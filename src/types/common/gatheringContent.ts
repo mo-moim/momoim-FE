@@ -9,12 +9,11 @@ export interface GatheringContent {
   category: string;
   subCategory: string;
   name: string;
-  gatheringType: string;
   status: string;
   image: string;
   description?: string; // 디테일
   address?: string; // 디테일
-  tags: string[];
+  tags?: string[];
   location: string;
   capacity: number;
   participantCount: number;

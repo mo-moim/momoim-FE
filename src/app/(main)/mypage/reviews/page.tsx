@@ -4,11 +4,11 @@ import ReviewCard from "@/components/common/cards/ReviewCard";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import { useRef, useState } from "react";
-import { EmptyState } from "@/components/common/EmptyState";
 import { useReview } from "@/queries/mypage/useReview";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import UnreviewedCard from "../_components/UnreviewedCard";
 import Tags from "../../../../components/common/Tags";
+import EmptyStatePicker from "../_components/EmptyStatePicker";
 
 interface Review {
   reviewId: number;
@@ -51,8 +51,6 @@ export default function MyReview() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
 
-  console.log(data);
-
   return (
     <div className="flex flex-col gap-2">
       <Tags
@@ -77,12 +75,7 @@ export default function MyReview() {
               }),
             )
           ) : (
-            <EmptyState
-              title="리뷰를 작성할 모임이 없어요"
-              description="지금 바로 모임에 참여해보세요!"
-              actionText="모임 찾기"
-              onAction={() => router.push("/all")}
-            />
+            <EmptyStatePicker type="review" sub={sub} />
           ))}
         {sub === "my-review" &&
           (data?.pages && data.pages[0].data.length ? (
@@ -109,12 +102,7 @@ export default function MyReview() {
               }),
             )
           ) : (
-            <EmptyState
-              title="작성한 리뷰가 없어요"
-              description="참여했던 모임의 리뷰를 작성해보세요!"
-              actionText="나의 모임 목록 보기"
-              onAction={() => router.push("/mypage/gatherings?sub=my-gatherings")}
-            />
+            <EmptyStatePicker type="reviews" sub={sub} />
           ))}
         <div ref={observerTarget} />
       </div>

@@ -15,7 +15,7 @@ export default function MyPage({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="relative flex w-full flex-col items-center sm:px-2">
+    <div className="relative flex w-full flex-col items-center">
       <ProfileBox />
       <div className="flex w-full flex-col gap-4">
         <MypageTabs />

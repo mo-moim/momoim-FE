@@ -1,14 +1,12 @@
 "use client";
 
-import { imageValidChecker } from "@/lib/imageValidChecker";
 import Image from "next/image";
-import Logo from "@/assets/svg/default-image.svg";
 import { Modal } from "@/components/common/modal/Modal";
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/queries/mypage/useProfile";
-import Cookies from "js-cookie";
-import { toast } from "@/hooks/use-toast";
+import thumbnail from "@/assets/images/thumbnail.png";
 import { useRouter } from "next/navigation";
+import ProfileEdit from "./ProfileEdit";
 
 export default function ProfileBox() {
   const router = useRouter();
@@ -35,21 +33,25 @@ export default function ProfileBox() {
         <div className="text-lg font-black">내 프로필</div>
         <div className="flex flex-col items-start justify-start sm:flex-row sm:items-center sm:justify-between">
           <div className="my-6 flex">
-            {/* <div className="flex h-32 w-32 items-center justify-center rounded-[20px] border-2 border-solid border-gray-200 bg-gray-100">
-              {imageValidChecker(data?.profileImage) ? (
-                <Image layout="fill" objectFit="contain" src={data?.profileImage} alt="type-cha" />
-              ) : (
-                <Logo />
-              )}
-            </div> */}
+            <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 bg-gray-100">
+              <Image
+                alt="thumbnail"
+                src={
+                  data?.profileImage && data?.profileImage !== "DEFAULT_PROFILE_IMAGE"
+                    ? data?.profileImage
+                    : thumbnail.src
+                }
+                fill
+                className="object-cover"
+              />
+            </div>
             <div className="flex flex-col justify-center p-[24px]">{renderProfile()}</div>
           </div>
           <Modal
             title="프로필 수정"
-            content=""
-            size="w-full h-[55%]"
+            content={<ProfileEdit />}
+            size="w-full h-[95%]"
             showFooter
-            // submitButtonText="등록하기"
             // onSubmit={() =>
             //   postReviewApi(
             //     data?.gatheringId as number,

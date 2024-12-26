@@ -91,11 +91,7 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
 
   if (type === "mypage") {
     return (
-      <button
-        type="button"
-        className="flex w-full max-w-[1100px] items-start gap-2 py-2 sm:items-center"
-        onClick={handleClickToEnter}
-      >
+      <button type="button" className="flex w-full items-start gap-2 py-2 sm:items-center" onClick={handleClickToEnter}>
         <div className="relative flex aspect-square h-[30%] w-[30%] items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 sm:min-h-40 sm:w-40 sm:min-w-40">
           {["CANCELED", "FINISHED"].includes(data?.status as string) ? (
             <div className="absolute flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.4)] text-center text-white">
