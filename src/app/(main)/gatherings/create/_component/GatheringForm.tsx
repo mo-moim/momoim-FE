@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreate } from "@/queries/gathering/useCreate";
 import { GatheringCreateFormData } from "@/types/category";
 import { useRouter } from "next/navigation";
-import ToastEditor from "@/components/common/ToastEditor";
+import Tiptab from "@/components/common/editor/Tiptab";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import Category from "./Category";
@@ -163,11 +163,7 @@ export default function GatheringForm() {
           control={form.control}
           name="description"
           label="모임 설명"
-          renderContent={(field) => (
-            <div className="overflow-hidden rounded-md border border-gray-500">
-              <ToastEditor field={field} />
-            </div>
-          )}
+          renderContent={(field) => <Tiptab field={field} />}
         />
         <div className="flex items-center justify-center gap-2">
           <Button type="button" className="flex-1" size="lg" variant="outline" onClick={() => router.push("/")}>
