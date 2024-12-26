@@ -3,29 +3,24 @@
 import Image from "next/image";
 import { Modal } from "@/components/common/modal/Modal";
 import { Button } from "@/components/ui/button";
-import { useProfile } from "@/queries/mypage/useProfile";
+// import { useProfile } from "@/queries/mypage/useProfile";
 import thumbnail from "@/assets/images/thumbnail.png";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/queries/auth/useUser";
+import { useEffect, useState } from "react";
 import ProfileEdit from "./ProfileEdit";
 
 export default function ProfileBox() {
   const router = useRouter();
-  const { data, isLoading, error } = useProfile();
+  const { data, isLoading, error } = useUser();
+  const [isClient, setIsClient] = useState(false);
 
-  const renderProfile = () => {
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-    if (error) {
-      return <div>다시 로그인 해주세요</div>;
-    }
-    return (
-      <>
-        <div className="font-bold">{data?.name}</div>
-        <div>{data?.email}</div>
-      </>
-    );
-  };
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient || isLoading) return <div>Loading...</div>;
+  if (error) return <div>다시 로그인 해주세요</div>;
 
   return (
     <div className="my-6 w-full rounded-[20px] border-2 border-solid border-[#F0F1F6] p-8">
@@ -34,7 +29,7 @@ export default function ProfileBox() {
         <div className="flex flex-col items-start justify-start sm:flex-row sm:items-center sm:justify-between">
           <div className="my-6 flex">
             <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 bg-gray-100">
-              {/* <Image
+              <Image
                 alt="thumbnail"
                 src={
                   data?.profileImage && data?.profileImage !== "DEFAULT_PROFILE_IMAGE"
@@ -43,9 +38,12 @@ export default function ProfileBox() {
                 }
                 fill
                 className="object-cover"
-              /> */}
+              />
             </div>
-            <div className="flex flex-col justify-center p-[24px]">{renderProfile()}</div>
+            <div className="flex flex-col justify-center p-[24px]">
+              <div className="font-bold">{data?.name}</div>
+              <div>{data?.email}</div>
+            </div>
           </div>
           <Modal
             title="프로필 수정"
