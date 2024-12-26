@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUser } from "@/api/user";
+import { getUser } from "@/api/auth/user";
 import Cookies from "js-cookie";
 
 export const useUser = () => {
