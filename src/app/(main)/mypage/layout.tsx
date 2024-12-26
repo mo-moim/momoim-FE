@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import TopButton from "@/app/_component/TopButton";
+import TopButton from "@/components/common/TopButton";
 import MypageTabs from "./_components/MypageTabs";
 import ProfileBox from "./_components/ProfileBox";
 import ClientRedirectHandler from "./_components/ClientRedirectHandler";
