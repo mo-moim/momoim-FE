@@ -1,27 +1,34 @@
 import { SUB_CATEGORIES } from "@/constants/options";
-import { CategoryKey, GatheringCreateFormData } from "@/types/category";
+import { CategoryKey } from "@/types/category";
 import clsx from "clsx";
-import { UseFormReturn } from "react-hook-form";
+import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 
-interface SubCategoryProps {
-  form: UseFormReturn<GatheringCreateFormData>;
+interface SubCategoryProps<T extends FieldValues> {
+  form: UseFormReturn<T>;
   category: CategoryKey;
   multiple?: boolean;
 }
 
-export default function SubCategoryButton({ form, category, multiple = false }: SubCategoryProps) {
+export default function SubCategoryButton<T extends FieldValues>({
+  form,
+  category,
+  multiple = false,
+}: SubCategoryProps<T>) {
   const subCategoryList = SUB_CATEGORIES[category] || [];
-  const selectValue = multiple ? (form.watch("subCategory") as string[]) : (form.watch("subCategory") as string);
+  const selectValue = form.watch("subCategory" as Path<T>) as string | string[];
 
   const handleMultiClick = (value: string) => {
     if (multiple) {
-      const arrayCheck = Array.isArray(selectValue) ? selectValue : [];
-      const newValue = arrayCheck.includes(value) ? arrayCheck.filter((sub) => sub !== value) : [...selectValue, value];
-      form.setValue("subCategory", newValue);
+      const currentValue = Array.isArray(selectValue) ? selectValue : [];
+      const newValue = currentValue.includes(value)
+        ? currentValue.filter((sub) => sub !== value)
+        : [...currentValue, value];
+
+      form.setValue("subCategory" as Path<T>, newValue as PathValue<T, "subCategory">);
     } else {
-      form.setValue("subCategory", value);
+      form.setValue("subCategory" as Path<T>, value as PathValue<T, "subCategory">);
     }
-    form.trigger("subCategory");
+    form.trigger("subCategory" as Path<T>);
   };
 
   const handleSubSelect = (sub: string) => {
