@@ -91,6 +91,10 @@ html body[data-scroll-locked] {
     content: attr(data-placeholder);
   }
 
+  .tiptap p {
+    @apply m-0;
+  }
+
   .tiptap a {
     @apply cursor-pointer rounded-md border bg-gray-250 p-1 text-main;
   }

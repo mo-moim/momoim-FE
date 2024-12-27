@@ -17,7 +17,7 @@ function TipTab({ field }: FormDescriptionProps) {
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: "m-4 focus:outline-none tiptap",
+        class: "prose m-4 focus:outline-none tiptap",
       },
     },
     extensions: [
@@ -47,7 +47,7 @@ function TipTab({ field }: FormDescriptionProps) {
   });
 
   return (
-    <div className="h-[600px] rounded-md border border-gray-500">
+    <div className="h-auto min-h-[600px] rounded-md border border-gray-500">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
