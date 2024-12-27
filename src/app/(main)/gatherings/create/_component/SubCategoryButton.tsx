@@ -24,9 +24,9 @@ export default function SubCategoryButton<T extends FieldValues>({
         ? currentValue.filter((sub) => sub !== value)
         : [...currentValue, value];
 
-      form.setValue("subCategory" as Path<T>, newValue as PathValue<T, "subCategory">);
+      form.setValue("subCategory" as Path<T>, newValue as PathValue<T, Path<T>>);
     } else {
-      form.setValue("subCategory" as Path<T>, value as PathValue<T, "subCategory">);
+      form.setValue("subCategory" as Path<T>, value as PathValue<T, Path<T>>);
     }
     form.trigger("subCategory" as Path<T>);
   };
