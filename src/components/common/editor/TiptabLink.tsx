@@ -5,13 +5,11 @@ import { useState } from "react";
 import { Link as LinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { MODAL_TITLE } from "@/constants/modalTitle";
-import { useModalStore } from "@/store/modalStore";
 import { Modal } from "../modal/Modal";
 
 export default function TiptabLink({ editor }: { editor: Editor | null }) {
   const [url, setUrl] = useState("");
-  const { closeModal } = useModalStore();
+  const [open, setOpen] = useState(false);
 
   if (!editor) return null;
 
@@ -36,13 +34,15 @@ export default function TiptabLink({ editor }: { editor: Editor | null }) {
       editor.chain().focus().setLink({ href: url }).run();
     }
     setUrl("");
-    closeModal(MODAL_TITLE.EDITOR_LINK);
+    setOpen(false);
   };
 
   return (
     <div className="toolbarBtn">
       <Modal
-        title={MODAL_TITLE.EDITOR_LINK}
+        title="링크 등록"
+        open={open}
+        action={setOpen}
         size="h-36 max-xs:w-80 gap-0"
         triggerButton={<LinkIcon className="h-5 w-5 cursor-pointer" />}
         content={
