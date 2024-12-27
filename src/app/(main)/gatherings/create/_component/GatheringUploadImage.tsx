@@ -22,7 +22,7 @@ export default function GatheringUploadImage({ form, field }: FormFieldProps) {
   };
 
   const handleImageReset = () => {
-    field.onChange("");
+    field.onChange(null);
   };
 
   return (
@@ -39,7 +39,7 @@ export default function GatheringUploadImage({ form, field }: FormFieldProps) {
       </div>
       <div className="flex w-full gap-2">
         <div className="relative w-1/2">
-          <input type="file" ref={inputRef} onChange={handleGetImage} hidden />
+          <input type="file" ref={inputRef} onChange={handleGetImage} hidden data-testid="file-input" />
           <Button
             type="button"
             size="lg"
