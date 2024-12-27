@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from "react";
 import sectionSlider from "@/lib/sectionSlider";
 
@@ -14,7 +16,6 @@ interface TabsProps {
 
 export default function Tabs({ tabs, selectedValue, onSelect }: TabsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-
   return (
     <div
       role="button"
