@@ -25,11 +25,7 @@ export default function TiptabLink({ editor }: { editor: Editor | null }) {
     }
 
     if (editor && editor.state.selection.empty) {
-      editor
-        .chain()
-        .focus()
-        .insertContent(`<a href="${url}" target="_blank" rel="noopener noreferrer" class"tiptap-link">${url}</a>`)
-        .run();
+      editor.chain().focus().setLink({ href: url, target: "_blank" }).insertContent(url).run();
     } else {
       editor.chain().focus().setLink({ href: url }).run();
     }
