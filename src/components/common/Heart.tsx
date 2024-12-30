@@ -34,8 +34,8 @@ export default function Heart({ gatheringId, isWishlist }: Props) {
     >
       <motion.svg
         strokeWidth="2px"
-        initial={{ stroke: "#636267", fill: "transparent" }}
-        animate={{ stroke: isLiked ? "transparent" : "#636267", fill: isLiked ? "#5A25E9" : "transparent" }}
+        initial={{ stroke: "#636267", fill: "rgba(0, 0, 0, 0)" }}
+        animate={{ stroke: isLiked ? "rgba(0, 0, 0, 0)" : "#636267", fill: isLiked ? "#5A25E9" : "rgba(0, 0, 0, 0)" }}
         width="19"
         height="14"
         viewBox="0 -1 19 18"

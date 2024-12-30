@@ -9,7 +9,6 @@ import ClientRedirectHandler from "./_components/ClientRedirectHandler";
 export default function MyPage({ children }: { children: React.ReactNode }) {
   const cookieStore = cookies();
   const token = cookieStore.get("accessToken");
-
   if (!token) {
     return <ClientRedirectHandler token={token} />;
   }

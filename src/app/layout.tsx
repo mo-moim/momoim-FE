@@ -31,9 +31,10 @@ export default function RootLayout({
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <TanStackProvider>
           <Header />
-          <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
           <CreateMoimButton />
-          <Toaster />
+          <Toaster>
+            <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
+          </Toaster>
           <SpeedInsights />
         </TanStackProvider>
       </body>

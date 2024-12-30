@@ -6,14 +6,21 @@ import { Button } from "@/components/ui/button";
 // import { useProfile } from "@/queries/mypage/useProfile";
 import thumbnail from "@/assets/images/thumbnail.png";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/queries/auth/useUser";
+import { useEditUser, useUser } from "@/queries/auth/useUser";
 import { useEffect, useState } from "react";
+import { Form } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DEFAULT_PROFILE_EDIT_VALUES, profileEditSchema } from "@/schemas/profileEdit";
+import { ProfileData } from "@/types/profile";
+import { User } from "@/types/auth";
 import ProfileEdit from "./ProfileEdit";
 
 export default function ProfileBox() {
   const router = useRouter();
   const { data, isLoading, error } = useUser();
   const [isClient, setIsClient] = useState(false);
+  const { mutate: editProfileData } = useEditUser();
 
   useEffect(() => {
     setIsClient(true);
@@ -48,16 +55,11 @@ export default function ProfileBox() {
           <Modal
             title="프로필 수정"
             content={<ProfileEdit />}
-            size="w-full h-[95%]"
-            showFooter
-            // onSubmit={() =>
-            //   postReviewApi(
-            //     data?.gatheringId as number,
-            //     rating,
-            //     data.name,
-            //     contentRef.current ? contentRef.current.value : "",
-            //   )
-            // }
+            size="h-[95%] md:max-w-5xl max-w-none w-full p-14"
+            showFooter={false}
+            // onSubmit={() => {
+            //   onSubmit();
+            // }}
             triggerButton={
               <Button
                 variant="outline"
