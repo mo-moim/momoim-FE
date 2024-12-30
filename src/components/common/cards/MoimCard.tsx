@@ -25,7 +25,7 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
     return (
       <button
         type="button"
-        className="flex w-full max-w-[366px] flex-col items-center justify-center gap-4 bg-white"
+        className="group flex w-full flex-col items-center justify-center gap-4 bg-white"
         onClick={handleClickToEnter}
       >
         <div className="relative flex h-60 w-full items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 bg-gray-100">
@@ -38,7 +38,15 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
               }[data?.status as string] || ""}
             </div>
           ) : null}
-          <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} layout="fill" objectFit="cover" />
+          <Image
+            alt="thumbnail"
+            src={data?.image || thumbnail.src}
+            fill
+            priority
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
+            loading="eager"
+          />
         </div>
         <div
           className={`flex w-full flex-col gap-2 px-2 ${(data?.status === "CANCELED" || data?.status === "FINISHED" || (data?.status === "CLOSED" && type === "home")) && "opacity-30"}`}
