@@ -1,7 +1,7 @@
 import { CATEGORIES, LOCATIONS, SORT_ORDERS, SORTS } from "./gatherings";
 
 export const PAGINATION_CONFIG = {
-  ITEMS_PER_PAGE: 15,
+  ITEMS_PER_PAGE: 12,
 };
 
 export const MOIM_LIST_DEFAULT_CONFIG = {
