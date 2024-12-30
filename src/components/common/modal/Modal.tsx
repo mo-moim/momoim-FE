@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import clsx from "clsx";
 
 interface ModalProps {
@@ -36,7 +37,9 @@ export function Modal({ size, title, open, action, triggerButton, content, showF
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle className="text-start text-sm">{title}</DialogTitle>
+          <DialogTitle className="text-start text-sm">
+            {title || <VisuallyHidden>제목 없음</VisuallyHidden>}
+          </DialogTitle>
         </DialogHeader>
         <DialogDescription asChild className="text-base text-black scrollbar-hide">
           <div className="flex justify-center overflow-y-auto">{content}</div>
