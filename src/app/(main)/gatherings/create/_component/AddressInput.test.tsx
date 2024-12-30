@@ -9,7 +9,14 @@ import AddressInput from "./AddressInput";
 
 const mockChange = jest.fn();
 const mockOnComplete = jest.fn();
-const mockCloseModal = jest.fn();
+
+let mockProps: any;
+jest.mock("react-daum-postcode", () => {
+  return jest.fn().mockImplementation((props) => {
+    mockProps = props;
+    return <div data-testid="daum-postcode" />;
+  });
+});
 
 function AddressInputComponent() {
   const form = useForm({
@@ -35,22 +42,6 @@ function AddressInputComponent() {
   );
 }
 
-jest.mock("@/store/modalStore", () => ({
-  useModalStore: () => ({
-    isOpen: true,
-    openModal: jest.fn(),
-    closeModal: mockCloseModal,
-  }),
-}));
-
-let mockProps: any;
-jest.mock("react-daum-postcode", () => {
-  return jest.fn().mockImplementation((props) => {
-    mockProps = props;
-    return <div data-testid="daum-postcode" />;
-  });
-});
-
 describe("AddressInput 컴포넌트", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -61,8 +52,8 @@ describe("AddressInput 컴포넌트", () => {
   it("input을 클릭하면 도로명 주소를 검색할 수 있는 모달이 open 되어야한다.", () => {
     const addressInput = screen.getByPlaceholderText("클릭을 통해 주소를 검색해주세요.");
     expect(addressInput).toBeInTheDocument();
-
     fireEvent.click(addressInput);
+
     expect(addressInput).toHaveAttribute("data-state", "open");
 
     const postcode = screen.getByTestId("daum-postcode");
@@ -112,6 +103,9 @@ describe("AddressInput 컴포넌트", () => {
     expect(addressInput).toHaveAttribute("data-state", "open");
 
     mockProps.onClose("COMPLETE_CLOSE");
-    expect(mockCloseModal).toHaveBeenCalled();
+
+    const closeButton = screen.getByRole("button", { name: "Close" });
+    fireEvent.click(closeButton);
+    expect(addressInput).toHaveAttribute("data-state", "closed");
   });
 });
