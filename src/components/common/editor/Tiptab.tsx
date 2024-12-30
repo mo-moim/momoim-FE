@@ -4,7 +4,6 @@ import Underline from "@tiptap/extension-underline";
 import ImageResize from "tiptap-extension-resize-image";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import { Markdown } from "tiptap-markdown";
 import Toolbar from "./Toolbar";
 
 interface FormDescriptionProps {
@@ -39,11 +38,10 @@ function TipTab({ field }: FormDescriptionProps) {
         openOnClick: false,
         autolink: true,
       }),
-      Markdown,
     ],
     content: field.value,
     onUpdate: ({ editor: updatedEditor }) => {
-      field.onChange(updatedEditor.storage.markdown.getMarkdown());
+      field.onChange(updatedEditor.getHTML());
     },
     immediatelyRender: false,
   });
