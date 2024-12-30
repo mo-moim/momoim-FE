@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/auth";
+import { useLogout } from "@/queries/auth/useLogout";
 
 interface ProfileButtonProps {
   user: User;
@@ -16,17 +17,13 @@ interface ProfileButtonProps {
 export default function ProfileButton({ user }: ProfileButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const popoverRef = useRef<HTMLLIElement>(null);
-  const router = useRouter();
-  const queryClient = useQueryClient();
+
+  const { mutate: logout } = useLogout();
 
   const closePopover = () => setIsOpen(false);
 
   const handleLogout = async () => {
-    Cookies.remove("accessToken");
-    Cookies.remove("tokenExpiresAt");
-    queryClient.setQueryData(["user"], null);
-    queryClient.invalidateQueries({ queryKey: ["user"] });
-    router.push("/");
+    logout();
     closePopover();
   };
 

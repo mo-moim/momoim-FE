@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "@/api/auth/user";
-import Cookies from "js-cookie";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export const useUser = () => {
-  const accessToken = Cookies.get("accessToken");
+  const accessToken = useAuthStore((state) => state.accessToken);
 
   return useQuery({
     queryKey: ["user"],
