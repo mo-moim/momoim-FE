@@ -6,6 +6,7 @@ import { HOME_CATEGORIES, SUB_CATEGORIES } from "@/constants/options";
 import Tabs from "@/components/common/Tabs";
 import Tags from "@/components/common/Tags";
 import { CATEGORIES, SORTS } from "@/constants/gatherings";
+import { format } from "date-fns";
 import { MoimGrid } from "./MoimGrid";
 import { Filters } from "./Filters";
 
@@ -47,7 +48,7 @@ export default function MoimPage({ initialCategory = CATEGORIES.ALL }: MoimPageP
         params.set("location", newFilters.location);
       }
       if (newFilters.gatheringDate) {
-        params.set("gatheringDate", newFilters.gatheringDate.toISOString().split("T")[0]);
+        params.set("gatheringDate", format(newFilters.gatheringDate, "yyyy-MM-dd"));
       }
       if (newFilters.sortType !== SORTS.UPDATE_AT) {
         params.set("sortType", newFilters.sortType);
@@ -127,7 +128,6 @@ export default function MoimPage({ initialCategory = CATEGORIES.ALL }: MoimPageP
           updateURL(newFilters);
         }}
       />
-
       <MoimGrid
         category={filters.category}
         subCategory={filters.subCategory}
