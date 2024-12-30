@@ -1,8 +1,8 @@
 import { getMoimListQuery } from "@/queries/gatherings/getMoimListQuery";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { Suspense } from "react";
-import { MoimGridSkeleton } from "../_component/skeletons/MoimGridSkeleton";
-import MoimPage from "../_component/MoimPage";
+import { MoimGridSkeleton } from "./_component/skeletons/MoimGridSkeleton";
+import MoimPage from "./_component/MoimPage";
 
 export default async function CategoryPage({ params }: { params: { category: string } }) {
   const queryClient = new QueryClient();
