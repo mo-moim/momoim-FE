@@ -5,6 +5,6 @@ export interface FormFieldProps {
   form: UseFormReturn<GatheringCreateFormData>;
   field: {
     value: string;
-    onChange: (value: string) => void;
+    onChange: (value: string | null) => void;
   };
 }

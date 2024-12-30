@@ -1,8 +1,6 @@
 import { useQueryClient, useMutation, useInfiniteQuery } from "@tanstack/react-query";
 import { deleteReviewApi, getReviewsApi, patchReviewApi, postReviewApi } from "@/api/review";
-
 import { toast } from "@/hooks/use-toast";
-import { useModalStore } from "@/store/modalStore";
 import { Pagination } from "@/types/pagination";
 
 interface ReviewParams {
@@ -30,11 +28,9 @@ export const useReview = (sub: string | null) => {
 
 export const usePostReview = () => {
   const queryClient = useQueryClient();
-  const { closeModal } = useModalStore();
   return useMutation({
     mutationFn: (params: ReviewParams) => postReviewApi(params.gatheringId, params.score, params.title, params.comment),
     onSuccess: () => {
-      closeModal();
       toast({
         title: "리뷰 작성",
         description: "리뷰가 작성되었습니다!",
@@ -55,12 +51,10 @@ export const usePostReview = () => {
 
 export const useEditReview = () => {
   const queryClient = useQueryClient();
-  const { closeModal } = useModalStore();
   return useMutation({
     mutationFn: (params: ReviewParams) =>
       patchReviewApi(params.gatheringId, params.score, params.title, params.comment),
     onSuccess: () => {
-      closeModal();
       toast({
         title: "리뷰 수정",
         description: "리뷰가 수정되었습니다!",
@@ -81,11 +75,9 @@ export const useEditReview = () => {
 
 export const useDeleteReview = () => {
   const queryClient = useQueryClient();
-  const { closeModal } = useModalStore();
   return useMutation({
     mutationFn: (params: { id: number }) => deleteReviewApi(params.id),
     onSuccess: () => {
-      closeModal();
       toast({
         title: "리뷰 삭제",
         description: "리뷰가 삭제되었습니다!",

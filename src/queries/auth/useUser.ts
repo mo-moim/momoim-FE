@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { editUser, getUser } from "@/api/user";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { editUser, getUser } from "@/api/auth/user";
 import Cookies from "js-cookie";
 import { toast } from "@/hooks/use-toast";
 

@@ -10,11 +10,19 @@ import { DEFAULT_PROFILE_EDIT_VALUES, profileEditSchema } from "@/schemas/profil
 import { ProfileData } from "@/types/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Select } from "@/components/common/select/Select";
+import { COMMON_CATEGORIES } from "@/constants/options";
+import { CategoryKey } from "@/types/category";
+import SubCategoryButton from "../../gatherings/create/_component/SubCategoryButton";
 import { FormFileFieldWrapper } from "./FormFileFieldWrapper";
 
-export default function ProfileEdit() {
+interface Props {
+  openSwitch: (boolean: boolean) => void;
+}
+
+export default function ProfileEdit({ openSwitch }: Props) {
   const [filename, setFilename] = useState("파일을 선택해주세요.");
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,12 +34,28 @@ export default function ProfileEdit() {
     defaultValues: DEFAULT_PROFILE_EDIT_VALUES,
   });
 
-  console.log(profileForm);
-
   const onSubmit = (values: ProfileData) => {
     console.log(values);
+    openSwitch(false);
     // 여기에 실제 제출 로직을 추가합니다.
   };
+
+  useEffect(() => {
+    const received = [
+      "MEDIA",
+      "CRAFTING",
+      "DANCE",
+      "GAME",
+      "PHOTO",
+      "MUSIC",
+      "BOOK",
+      "PET",
+      "SUB_CULTURE",
+      "FINANCE",
+      "SELF_DEVELOP",
+    ];
+    // profileForm.setValue("subCatrgory", received);
+  }, []);
 
   return (
     <Form {...profileForm}>
@@ -39,7 +63,12 @@ export default function ProfileEdit() {
         <div className="h-full w-full">
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <div className="relative flex aspect-square w-60 items-center justify-center">
-              <div className="relative h-[80%] w-[80%]">
+              <div
+                className="relative h-[80%] w-[80%]"
+                // onClick={() => {
+                //   console.log(profileForm.setValue("subCatrgory", ));
+                // }}
+              >
                 <Image
                   alt="thumbnail"
                   fill
@@ -50,57 +79,36 @@ export default function ProfileEdit() {
             </div>
             <div className="flex w-full flex-1 flex-col gap-6 sm:w-auto sm:p-2">
               <div>
-                {/* <div className="text-lg">프로필 이미지</div> */}
                 <div>
                   <div className="flex items-end">
-                    {/* <Input
-                      className="flex-grow rounded-l-md rounded-r-none border-y-2 border-l-2 border-r border-gray-300 px-2 text-gray-600 placeholder-gray-400 focus-visible:outline-none focus-visible:ring-0"
-                      value={filename}
-                      readOnly
-                    /> */}
-                    {/* <FormFileFieldWrapper
-                      control={profileForm.control}
-                      name="profileImage"
-                      label="프로필 이미지"
-                      isReadonly={true}
-                      placeholder="파일을 선택해주세요."
-                      customStyle="pointer-events-none m-0 flex-grow rounded-l-md rounded-r-none border-y-2 border-l-2 border-r border-gray-300 px-2 text-gray-600 placeholder-gray-400 focus-visible:outline-none focus-visible:ring-0"
-                    /> */}
                     <FormFieldWrapper
                       control={profileForm.control}
-                      name="profile"
+                      name="dummy"
                       label="프로필 이미지"
                       placeholder=""
-                      renderContent={() => (
-                        <>
-                          {/* <div>프로필 이미지</div> */}
-                          <input
-                            value={filename}
-                            placeholder="파일을 선택해주세요."
-                            readOnly
-                            className="pointer-events-none h-12 w-full rounded-l-md border-2 bg-transparent px-3 text-sm text-muted-foreground placeholder:text-sm focus-visible:outline-none focus-visible:ring-0"
-                          />
-                        </>
+                      renderContent={(field) => (
+                        <input
+                          {...field}
+                          value={filename}
+                          placeholder="파일을 선택해주세요."
+                          readOnly
+                          className="pointer-events-none h-12 w-full rounded-l-md border-2 bg-transparent px-3 text-sm text-muted-foreground placeholder:text-sm focus-visible:outline-none focus-visible:ring-0"
+                        />
                       )}
                     />
-                    {/* <input
-                      onChange={handleFileUpload}
-                      type="file"
-                      id="file"
-                      className="absolute h-0 w-0 overflow-hidden border-0 p-0"
-                      /> */}
                     <FormFieldWrapper
                       control={profileForm.control}
-                      name="profile"
+                      name="profileImage"
                       label=""
                       placeholder=""
-                      renderContent={() => (
+                      renderContent={(field) => (
                         <label
                           htmlFor="file"
                           className="inline-block flex h-12 min-w-32 cursor-pointer items-center justify-center rounded-r-md border-y-2 border-l border-r-2 border-gray-300 focus-visible:outline-none focus-visible:ring-0"
                         >
                           파일찾기
                           <input
+                            {...field}
                             onChange={handleFileUpload}
                             type="file"
                             id="file"
@@ -116,19 +124,16 @@ export default function ProfileEdit() {
                 <div>
                   <FormFieldWrapper
                     control={profileForm.control}
-                    name="name"
+                    name="nickname"
                     label="닉네임"
                     placeholder=""
                     customStyle="border-2 focus-visible:outline-none focus-visible:ring-0"
-                    renderContent={() => (
-                      <>
-                        {/* <div>닉네임</div> */}
-                        <input
-                          value={filename}
-                          placeholder="닉네임을 선택해주세요."
-                          className="h-12 w-full rounded-md border-2 bg-transparent px-3 text-sm text-muted-foreground placeholder:text-sm focus-visible:outline-none focus-visible:ring-0"
-                        />
-                      </>
+                    renderContent={(field) => (
+                      <input
+                        {...field}
+                        placeholder="닉네임을 선택해주세요."
+                        className="h-12 w-full rounded-md border-2 bg-transparent px-3 text-sm text-muted-foreground placeholder:text-sm focus-visible:outline-none focus-visible:ring-0"
+                      />
                     )}
                   />
                 </div>
@@ -137,19 +142,60 @@ export default function ProfileEdit() {
             </div>
           </div>
           <div>
-            <div>내 관심 카테고리</div>
+            <FormFieldWrapper
+              control={profileForm.control}
+              name="interestCategories"
+              label="내 관심 카테고리"
+              placeholder=""
+              customStyle="border-2 focus-visible:outline-none focus-visible:ring-0"
+              renderContent={(field) => {
+                const defaultCategory = COMMON_CATEGORIES[0]?.value;
+                console.log(field.value);
+                console.log(defaultCategory);
+                return (
+                  <div>
+                    <div className="space-y-4">
+                      <Select
+                        data={COMMON_CATEGORIES}
+                        size="w-full h-12 border-gray-500 text-gray-700 font-medium"
+                        value={field.value[0]}
+                        onChange={(value) => field.onChange([value])}
+                      />
+                      <SubCategoryButton
+                        multiple
+                        form={profileForm}
+                        category={(field.value as CategoryKey) || defaultCategory}
+                      />
+                    </div>
+                    {/* {profileForm.formState.errors.subCategory && (
+                            <p className="mt-2 text-sm font-medium text-red-500">
+                              {(profileForm.formState.errors.subCategory as FieldError).message}
+                            </p>
+                          )} */}
+                  </div>
+                );
+              }}
+            />
+
+            {/* <div>내 관심 카테고리</div>
             <div>카테고리</div>
-            <div>서브카테고리</div>
+            <div>서브카테고리</div> */}
           </div>
           <div>
             <div>활동지역</div>
             <div>세부지역</div>
           </div>
-          <Button type="submit" onClick={profileForm.handleSubmit(onSubmit)}>
-            왜안되지
-          </Button>
+          <Button type="submit">테스트</Button>
         </div>
       </form>
     </Form>
   );
 }
+
+// export interface ProfileData {
+//   name: string;
+//   email: string;
+//   regions: Region[];
+//   profileImage: string | null;
+//   interestCategories: Category[];
+// }

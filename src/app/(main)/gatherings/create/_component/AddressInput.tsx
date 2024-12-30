@@ -1,8 +1,8 @@
-import { Modal } from "@/components/common/modal/Modal";
 import { Input } from "@/components/ui/input";
-import { useModalStore } from "@/store/modalStore";
 import { FormFieldProps } from "@/types/common/formFieldprops";
 import DaumPostcode from "react-daum-postcode";
+import { Modal } from "@/components/common/modal/Modal";
+import { useState } from "react";
 
 interface AddressDataType {
   address: string;
@@ -10,7 +10,7 @@ interface AddressDataType {
 }
 
 export default function AddressInput({ form, field }: FormFieldProps) {
-  const { closeModal } = useModalStore();
+  const [open, setOpen] = useState(false);
 
   const handleComplete = ({ address, sidoEnglish }: AddressDataType) => {
     if (sidoEnglish.includes("-do") || sidoEnglish.includes("-si")) {
@@ -24,13 +24,15 @@ export default function AddressInput({ form, field }: FormFieldProps) {
   };
 
   const handleAddressClose = (state: string) => {
-    if (state === "FORCE_CLOSE" || state === "COMPLETE_CLOSE") closeModal();
+    if (state === "FORCE_CLOSE" || state === "COMPLETE_CLOSE") setOpen(false);
   };
 
   return (
     <div className="space-y-4">
       <Modal
         size="w-[30rem] h-[35rem] max-sm:w-[27rem] max-xs:w-80"
+        open={open}
+        action={setOpen}
         triggerButton={
           <Input
             type="text"

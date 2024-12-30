@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { GATHERING_SORT_OPTIONS, LOCATIONS } from "@/constants/options";
 import { Select } from "@/components/common/select/Select";
 import { ko } from "date-fns/locale";
@@ -42,7 +42,7 @@ export function Filters({
   };
 
   return (
-    <div className="flex justify-between gap-2">
+    <div className="flex flex-col items-end justify-between gap-2 xs:flex-row xs:items-baseline">
       <div className="flex gap-2">
         {/* 지역 선택 */}
         <Select data={LOCATIONS} value={selectedLocation} onChange={onLocationChange} />
@@ -50,14 +50,13 @@ export function Filters({
         {/* 날짜 선택 */}
         <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
           <PopoverTrigger asChild>
-            <Button
-              variant="outline"
+            <button
+              type="button"
               className="flex h-9 min-w-24 items-center justify-between whitespace-nowrap rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
               {selectedDate ? format(selectedDate, "yyyy년 MM월 dd일", { locale: ko }) : "모든 날짜"}
               <ChevronDown className="h-4 w-4 opacity-50" />
-            </Button>
+            </button>
           </PopoverTrigger>
 
           <PopoverContent className="w-auto rounded-md p-0 shadow-md" align="start">

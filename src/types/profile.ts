@@ -5,5 +5,6 @@ export interface ProfileData {
   email: string;
   regions: Region[];
   profileImage: string | null;
+  selectedCategory: string[];
   interestCategories: Category[];
 }

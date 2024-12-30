@@ -18,7 +18,7 @@ export const gatheringCreateSchema = z
   .object({
     name: z.string().min(2, "모임 제목은 2글자 이상이어야 합니다").max(25, "모임 제목은 25글자 이하여야 합니다."),
     isPeriodic: z.boolean(),
-    image: z.string(),
+    image: z.string().nullable(),
     category: z.enum(CATEGORY_VALUES, { message: "카테고리를 선택해주세요." }),
     subCategory: z.enum(SUB_CATEGORIES_VALUES, { message: "서브 카테고리를 선택해주세요." }),
     location: z.string().optional(),
@@ -48,7 +48,7 @@ export type GatheringCreateFormType = z.infer<typeof gatheringCreateSchema>;
 export const DEFAULT_GATHERING_CREATE_VALUES: GatheringCreateFormData = {
   name: "",
   isPeriodic: false,
-  image: "",
+  image: null,
   category: COMMON_CATEGORIES[0].value,
   subCategory: "",
   location: "",

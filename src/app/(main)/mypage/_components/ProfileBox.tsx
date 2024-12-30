@@ -21,6 +21,7 @@ export default function ProfileBox() {
   const { data, isLoading, error } = useUser();
   const [isClient, setIsClient] = useState(false);
   const { mutate: editProfileData } = useEditUser();
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -54,12 +55,14 @@ export default function ProfileBox() {
           </div>
           <Modal
             title="프로필 수정"
-            content={<ProfileEdit />}
+            content={<ProfileEdit openSwitch={setModalOpen} />}
             size="h-[95%] md:max-w-5xl max-w-none w-full p-14"
             showFooter={false}
             // onSubmit={() => {
             //   onSubmit();
             // }}
+            open={modalOpen}
+            action={setModalOpen}
             triggerButton={
               <Button
                 variant="outline"

@@ -4,20 +4,22 @@ import { DateTimePicker } from "@/app/(main)/gatherings/create/_component/DateTi
 import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
 import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreate } from "@/queries/gathering/useCreate";
-import { GatheringCreateFormData } from "@/types/category";
+import { CategoryKey, GatheringCreateFormData } from "@/types/category";
 import { useRouter } from "next/navigation";
-import ToastEditor from "@/components/common/ToastEditor";
+import Tiptab from "@/components/common/editor/Tiptab";
+import { COMMON_CATEGORIES } from "@/constants/options";
+import { Select } from "@/components/common/select/Select";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
-import Category from "./Category";
 import GatheringUploadImage from "./GatheringUploadImage";
 import AddressInput from "./AddressInput";
+import SubCategoryButton from "./SubCategoryButton";
 
 export default function GatheringForm() {
   const { mutate: gatheringCreate } = useCreate();
@@ -115,7 +117,27 @@ export default function GatheringForm() {
           control={form.control}
           name="category"
           label="카테고리"
-          renderContent={(field) => <Category form={form} field={field} />}
+          renderContent={(field) => {
+            const defaultCategory = COMMON_CATEGORIES[0]?.value;
+            return (
+              <>
+                <div className="space-y-4">
+                  <Select
+                    data={COMMON_CATEGORIES}
+                    size="w-full h-12 border-gray-500 text-gray-700 font-medium"
+                    value={field.value}
+                    onChange={(value) => field.onChange(value)}
+                  />
+                  <SubCategoryButton form={form} category={(field.value as CategoryKey) || defaultCategory} />
+                </div>
+                {form.formState.errors.subCategory && (
+                  <p className="mt-2 text-sm font-medium text-red-500">
+                    {(form.formState.errors.subCategory as FieldError).message}
+                  </p>
+                )}
+              </>
+            );
+          }}
         />
         {form.watch("gatheringType") === "OFFLINE" ? (
           <FormFieldWrapper
@@ -163,11 +185,7 @@ export default function GatheringForm() {
           control={form.control}
           name="description"
           label="모임 설명"
-          renderContent={(field) => (
-            <div className="overflow-hidden rounded-md border border-gray-500">
-              <ToastEditor field={field} />
-            </div>
-          )}
+          renderContent={(field) => <Tiptab field={field} />}
         />
         <div className="flex items-center justify-center gap-2">
           <Button type="button" className="flex-1" size="lg" variant="outline" onClick={() => router.push("/")}>

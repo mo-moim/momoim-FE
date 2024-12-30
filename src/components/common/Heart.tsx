@@ -3,6 +3,8 @@
 import { useLike } from "@/queries/mypage/useLike";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { toast } from "@/hooks/use-toast";
 
 interface Props {
   gatheringId: number;
@@ -16,9 +18,18 @@ export default function Heart({ gatheringId, isWishlist }: Props) {
     <motion.div
       onClick={(e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
-        if (!isLiked) liketask({ id: gatheringId, isLike: true });
-        if (isLiked) liketask({ id: gatheringId, isLike: false });
-        setIsLiked((prev) => !prev);
+        if (!Cookies.get("accessToken")) {
+          toast({
+            variant: "destructive",
+            title: "비로그인 상태",
+            description: "먼저 로그인 해주세요!",
+            duration: 2000,
+          });
+        } else {
+          if (!isLiked) liketask({ id: gatheringId, isLike: true });
+          if (isLiked) liketask({ id: gatheringId, isLike: false });
+          setIsLiked((prev) => !prev);
+        }
       }}
       initial={false}
       animate={{
