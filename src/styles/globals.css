@@ -106,4 +106,7 @@ html body[data-scroll-locked] {
     -webkit-appearance: inner-spin-button;
     opacity: 1;
   }
+  .layout-container {
+    @apply mx-auto max-w-screen-xl px-4;
+  }
 }
