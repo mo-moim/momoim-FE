@@ -60,9 +60,14 @@ export default function MemberModal({ members, managerId, setMemberOpen }: Membe
             <Modal
               open={open[gatheringMemberId] || false}
               action={(isOpen) => handleOpenChange(gatheringMemberId, isOpen)}
+              size="max-sm:w-11/12"
               title="맴버 제외"
               triggerButton={
-                <Button type="button" className="h-10" onClick={() => handleOpenModal(gatheringMemberId)}>
+                <Button
+                  type="button"
+                  className="h-10 w-full max-w-24"
+                  onClick={() => handleOpenModal(gatheringMemberId)}
+                >
                   맴버 제외
                 </Button>
               }
@@ -74,7 +79,7 @@ export default function MemberModal({ members, managerId, setMemberOpen }: Membe
               onSubmit={() => handleMutate(gatheringMemberId, name, Number(params.id))}
             />
           ) : (
-            <div className="flex h-10 items-center justify-center gap-[5px] rounded-md border border-gray-500 p-3 text-sm font-semibold">
+            <div className="flex h-10 w-full max-w-24 items-center justify-center gap-[5px] rounded-md border border-gray-500 p-3 text-sm font-semibold">
               <Crown className="h-4 w-4 text-yellow-500" />
               <span className="whitespace-nowrap">모임장</span>
             </div>

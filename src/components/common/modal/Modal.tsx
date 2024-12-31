@@ -33,7 +33,7 @@ export function Modal({ size, title, open, action, triggerButton, content, showF
     <Dialog open={open} onOpenChange={action}>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
       <DialogContent
-        className={clsx("h-1/5 min-h-36 w-[25rem] gap-6 rounded-lg p-4", size)}
+        className={clsx("h-auto max-h-[90%] min-h-36 w-[25rem] gap-6 rounded-lg p-4", size)}
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
@@ -42,7 +42,7 @@ export function Modal({ size, title, open, action, triggerButton, content, showF
           </DialogTitle>
         </DialogHeader>
         <DialogDescription asChild className="text-base text-black scrollbar-hide">
-          <div className="flex justify-center overflow-y-auto">{content}</div>
+          <div className="flex justify-center overflow-auto">{content}</div>
         </DialogDescription>
         {showFooter && (
           <DialogFooter className="flex w-full flex-row items-center justify-center gap-2 sm:gap-0">

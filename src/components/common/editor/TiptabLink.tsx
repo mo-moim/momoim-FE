@@ -39,7 +39,7 @@ export default function TiptabLink({ editor }: { editor: Editor | null }) {
         title="링크 등록"
         open={open}
         action={setOpen}
-        size="h-36 max-xs:w-80 gap-0"
+        size="max-xs:w-80 gap-0"
         triggerButton={<LinkIcon className="h-5 w-5 cursor-pointer" />}
         content={
           <div className="flex w-full items-center justify-center gap-4">

@@ -11,6 +11,12 @@ export const gatheringDetailGetApi = async (id: number) => {
   return data.data;
 };
 
+// 모임 상세 클라이언트 데이터
+export const gatheringDetailGetApiClient = async ({ queryKey }: any) => {
+  const { data } = await clientAxios.get(`/api/gatherings/${queryKey[1]}`);
+  return data.data;
+};
+
 // 모임 참여
 export const gatheringJoinApi = async (id: number) => {
   await clientAxios.post(`/api/gatherings/join/${id}`);
