@@ -33,7 +33,7 @@ export default function RootLayout({
           <Header />
           <CreateMoimButton />
           <Toaster>
-            <main className="mx-auto max-w-screen-xl px-4 pt-[80px]">{children}</main>
+            <main className="layout-container min-h-[calc(100vh-80px)] pt-[80px]">{children}</main>s
           </Toaster>
           <SpeedInsights />
         </TanStackProvider>
