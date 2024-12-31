@@ -46,7 +46,7 @@ export default function DetailButton({
           <Modal
             open={open}
             action={setOpen}
-            size="h-52"
+            size="max-xs:w-11/12"
             title="모임 삭제"
             triggerButton={
               <Button type="button" className="w-full">
@@ -69,14 +69,20 @@ export default function DetailButton({
         <Modal
           open={open}
           action={setOpen}
-          size="h-52"
+          size="max-xs:w-11/12"
           title="모임 취소"
           triggerButton={
             <Button type="button" className="w-full">
               취소 하기
             </Button>
           }
-          content="참여한 모임을 취소하시겠습니까?"
+          content={
+            <div className="flex flex-col items-center justify-center gap-1">
+              <div>
+                참여한 모임을 <span className="text-lg font-bold text-red-600">취소</span> 하시겠습니까?
+              </div>
+            </div>
+          }
           onSubmit={() => handleMutate(getheringJoinCancel)}
         />
       )}
@@ -84,14 +90,20 @@ export default function DetailButton({
         <Modal
           open={open}
           action={setOpen}
-          size="h-52"
+          size="max-xs:w-11/12"
           title="모임 신청"
           triggerButton={
             <Button type="button" className="w-full">
               신청 하기
             </Button>
           }
-          content="해당 모임에 신청 하시겠습니까?"
+          content={
+            <div className="flex flex-col items-center justify-center gap-1">
+              <div>
+                해당 모임에 <span className="text-lg font-bold text-main">신청</span> 하시겠습니까?
+              </div>
+            </div>
+          }
           onSubmit={() => handleMutate(getheringJoin)}
         />
       )}

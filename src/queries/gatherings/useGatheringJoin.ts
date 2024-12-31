@@ -4,7 +4,6 @@ import { gatheringJoinApi } from "@/api/gatherings";
 
 export const useGatheringJoin = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: gatheringJoinApi,
     onSuccess: (id: number) => {
@@ -13,7 +12,7 @@ export const useGatheringJoin = () => {
         description: "모임 신청이 되었습니다.",
         duration: 2000,
       });
-      queryClient.invalidateQueries({ queryKey: ["gatheringDetail", id] }, { throwOnError: true });
+      queryClient.invalidateQueries({ queryKey: ["gatheringDetail", id] });
     },
     onError: (error: any) => {
       toast({

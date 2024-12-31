@@ -1,7 +1,6 @@
 import { leftTimeGenerator } from "@/lib/leftTimeGenerator";
 import { GatheringDetail } from "@/types/common/gatheringContent";
 import Image from "next/image";
-import Logo from "@/assets/svg/logo.svg";
 import { format } from "date-fns";
 import DefaultProfile from "@/assets/svg/default-profile.svg";
 import LocalIcon from "@/assets/svg/geography_map_solid.svg";
@@ -9,6 +8,7 @@ import Person from "@/assets/svg/person.svg";
 import DetailCardMember from "@/app/(main)/gatherings/[id]/_component/DetailCardMember";
 import { getCategory, getOnlinePlatform, getSubcategory } from "@/lib/getLabel";
 import DetailButton from "@/app/(main)/gatherings/[id]/_component/DetailButton";
+import DefaultThumbnail from "@/assets/images/thumbnail.png";
 import Chip from "../Chip";
 
 export default function DetailCard({ detailData }: { detailData: GatheringDetail }) {
@@ -38,7 +38,14 @@ export default function DetailCard({ detailData }: { detailData: GatheringDetail
   return (
     <div className="flex h-56 w-full flex-wrap items-center gap-4 max-lg:h-auto max-md:justify-center">
       <div className="relative flex h-56 w-full max-w-60 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 max-md:max-w-full">
-        {data?.image ? <Image alt="thumbnail" src={data.image} layout="fill" objectFit="cover" /> : <Logo />}
+        <Image
+          src={data.image || DefaultThumbnail}
+          className="h-full w-full rounded-xl object-cover"
+          width={500}
+          height={500}
+          alt="모임 상세 이미지"
+          priority={!data.image}
+        />
       </div>
       <div className="flex min-w-[27rem] flex-[3] flex-col justify-between gap-3 max-sm:min-w-full">
         <div className="w-full font-bold text-main">
