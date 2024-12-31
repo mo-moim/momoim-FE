@@ -9,12 +9,12 @@ import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schema
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreate } from "@/queries/gathering/useCreate";
 import { CategoryKey, GatheringCreateFormData } from "@/types/category";
 import { useRouter } from "next/navigation";
 import Tiptab from "@/components/common/editor/Tiptab";
 import { COMMON_CATEGORIES } from "@/constants/options";
 import { Select } from "@/components/common/select/Select";
+import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringCreate";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
@@ -22,7 +22,7 @@ import AddressInput from "./AddressInput";
 import SubCategoryButton from "./SubCategoryButton";
 
 export default function GatheringForm() {
-  const { mutate: gatheringCreate } = useCreate();
+  const { mutate: gatheringCreate } = useGatheringCreate();
   const router = useRouter();
 
   const form = useForm({
