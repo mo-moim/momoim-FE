@@ -37,6 +37,7 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
   const [rating, setRating] = useState(review.score);
   const [longComment, setLongComment] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
 
   const timeAgo = (dateString: string) => {
     const givenDate = new Date(dateString);
@@ -60,6 +61,7 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
       title: review.title,
       comment: contentRef.current ? contentRef.current.value : "",
     });
+    setReviewModal(false);
   };
 
   const handleDeleteSubmit = () => {
@@ -68,14 +70,13 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
 
   useEffect(() => {
     if (reviewRef.current) {
-      // 이건 변화에 따라 useEffect로 계속 동적 관리해줘야할 수도 있다
       if (reviewRef.current.scrollHeight > reviewRef.current.clientHeight) {
         setLongComment(true);
       }
     }
   }, []);
   return (
-    <div className="flex w-full max-w-[1100px] flex-col items-start gap-2 py-4 sm:items-center">
+    <div className="flex w-full flex-col items-start gap-2 py-4 sm:items-center">
       <div className="flex w-full justify-between">
         <div className="text-lg font-bold text-gray-900">{review.title}</div>
         <div>
@@ -126,6 +127,8 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
                     customRef={contentRef}
                   />
                 }
+                open={reviewModal}
+                action={setReviewModal}
                 showFooter
                 onSubmit={handleEditSubmit}
               />

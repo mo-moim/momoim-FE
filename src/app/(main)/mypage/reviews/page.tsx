@@ -9,6 +9,8 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import UnreviewedCard from "../_components/UnreviewedCard";
 import Tags from "../../../../components/common/Tags";
 import EmptyStatePicker from "../_components/EmptyStatePicker";
+import MyReviewsSkeleton from "../_components/skeletons/MyReviewsSkeleton";
+import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
 interface Review {
   reviewId: number;
@@ -48,8 +50,8 @@ export default function MyReview() {
     enabled: !!hasNextPage,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading data</p>;
+  if (isLoading) return <MyReviewsSkeleton />;
+  if (error) return <ClientRedirectHandler />;
 
   return (
     <div className="flex flex-col gap-2">

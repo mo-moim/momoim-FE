@@ -7,6 +7,8 @@ import { ScheduleData } from "@/types/common/scheduleData";
 import { useSchedule } from "@/queries/mypage/useSchedule";
 import ScheduleBox from "../_components/ScheduleBox";
 import { Calendar } from "../_components/Calendar";
+import MySchedulesSkeleton from "../_components/skeletons/MySchedulesSkeleton";
+import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
 export default function MySchedule() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -15,8 +17,8 @@ export default function MySchedule() {
 
   const { data, isLoading, error } = useSchedule(currentYear);
 
-  if (isLoading) return null;
-  if (error) return null;
+  if (isLoading) return <MySchedulesSkeleton />;
+  if (error) return <ClientRedirectHandler />;
 
   return (
     <div className="pb-8">

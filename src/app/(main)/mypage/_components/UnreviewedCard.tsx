@@ -20,6 +20,7 @@ export default function UnreviewedCard({ data }: Props) {
   const [rating, setRating] = useState(0);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
   const { mutate: post } = usePostReview();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handlePostReview = () => {
     post({
@@ -28,12 +29,13 @@ export default function UnreviewedCard({ data }: Props) {
       title: data.name,
       comment: contentRef.current ? contentRef.current.value : "",
     });
+    setModalOpen(false);
   };
 
   return (
     <div className="max-w-[375px]">
       <div className="flex w-full items-center gap-2 py-2 sm:items-center">
-        <div className="relative flex aspect-square h-[20%] w-[20%] items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 xs:h-24 xs:w-24">
+        <div className="relative flex aspect-square h-[20%] w-[20%] items-center justify-center overflow-hidden rounded-xl border-2 border-solid border-gray-200 xs:h-24 xs:w-24">
           <Image alt="thumbnail" src={data?.image ? data?.image : thumbnail.src} fill className="object-cover" />
         </div>
         <div
@@ -67,6 +69,8 @@ export default function UnreviewedCard({ data }: Props) {
         content={<ReviewPostSection data="" setRating={setRating} customRef={contentRef} />}
         size="w-full h-[55%]"
         showFooter
+        open={modalOpen}
+        action={setModalOpen}
         onSubmit={handlePostReview}
         triggerButton={
           <Button variant="outline" className="w-full">
