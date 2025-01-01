@@ -14,7 +14,10 @@ export default function TiptabLink({ editor }: { editor: Editor | null }) {
   if (!editor) return null;
 
   const handleAddLink = () => {
-    if (!url.trim()) {
+    const urlPattern = /^(https?):\/\/[^\s/$.?#].[^\s]*$/i;
+    const urlCheck = urlPattern.test(url);
+
+    if (!urlCheck) {
       toast({
         variant: "destructive",
         title: "링크 등록 실패",
@@ -25,7 +28,7 @@ export default function TiptabLink({ editor }: { editor: Editor | null }) {
     }
 
     if (editor && editor.state.selection.empty) {
-      editor.chain().focus().setLink({ href: url, target: "_blank" }).insertContent(url).run();
+      editor.chain().focus().setLink({ href: url }).insertContent(url).run();
     } else {
       editor.chain().focus().setLink({ href: url }).run();
     }

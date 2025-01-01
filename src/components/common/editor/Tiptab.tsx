@@ -21,22 +21,20 @@ function TipTab({ field }: FormDescriptionProps) {
       },
     },
     extensions: [
-      StarterKit.configure({
-        heading: { levels: [1, 2, 3] },
-      }),
+      StarterKit,
+      Underline,
+      ImageResize,
       Placeholder.configure({
         placeholder:
           "모임에 대한 설명을 작성해주세요.\n※ 이미지 선택 후 에디터에 표시된 이미지를 클릭하여 사이즈를 조정할 수 있습니다.",
       }),
-      Underline,
-      ImageResize,
       Link.extend({
         inclusive: false,
       }).configure({
         defaultProtocol: "https",
         protocols: ["http", "https"],
-        openOnClick: false,
-        autolink: true,
+        openOnClick: true,
+        autolink: false,
       }),
     ],
     content: field.value,

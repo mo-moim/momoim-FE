@@ -1,16 +1,14 @@
-"use client";
-
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import { useEditor, EditorContent } from "@tiptap/react";
+import ImageResize from "tiptap-extension-resize-image";
 
 export default function Viewer({ content }: { content: string }) {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        heading: { levels: [1, 2, 3] },
-      }),
+      StarterKit,
+      ImageResize,
       Underline,
       Link.extend({
         inclusive: false,
@@ -26,5 +24,5 @@ export default function Viewer({ content }: { content: string }) {
     immediatelyRender: false,
   });
 
-  return <EditorContent editor={editor} />;
+  return <EditorContent editor={editor} className="prose" />;
 }
