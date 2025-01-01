@@ -7,11 +7,6 @@ export default function KaKaoMap({ address }: { address: string | undefined }) {
     libraries: ["services"],
   });
   const [coordinates, setCoordinates] = useState({ lat: 33.5563, lng: 126.79581 });
-  const [load, setLoad] = useState(false);
-
-  useEffect(() => {
-    if (window.kakao) setLoad(true);
-  }, [load]);
 
   useEffect(() => {
     if (!address || error) return;
