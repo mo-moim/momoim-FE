@@ -24,5 +24,5 @@ export default function Viewer({ content }: { content: string | undefined }) {
     immediatelyRender: false,
   });
 
-  return <EditorContent editor={editor} className="prose max-w-[40rem] bg-red-100" />;
+  return <EditorContent editor={editor} className="prose max-w-[40rem]" />;
 }
