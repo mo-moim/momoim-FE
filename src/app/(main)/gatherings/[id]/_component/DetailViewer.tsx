@@ -4,7 +4,7 @@ import Link from "@tiptap/extension-link";
 import { useEditor, EditorContent } from "@tiptap/react";
 import ImageResize from "tiptap-extension-resize-image";
 
-export default function Viewer({ content }: { content: string }) {
+export default function Viewer({ content }: { content: string | undefined }) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -24,5 +24,5 @@ export default function Viewer({ content }: { content: string }) {
     immediatelyRender: false,
   });
 
-  return <EditorContent editor={editor} className="prose" />;
+  return <EditorContent editor={editor} className="prose max-w-[40rem] bg-red-100" />;
 }
