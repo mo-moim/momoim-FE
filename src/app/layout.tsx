@@ -32,9 +32,8 @@ export default function RootLayout({
         <TanStackProvider>
           <Header />
           <CreateMoimButton />
-          <Toaster>
-            <main className="layout-container min-h-[calc(100vh-80px)] pt-[80px]">{children}</main>s
-          </Toaster>
+          <Toaster />
+          <main className="layout-container min-h-[calc(100vh-80px)] pt-[80px]">{children}</main>
           <SpeedInsights />
         </TanStackProvider>
       </body>

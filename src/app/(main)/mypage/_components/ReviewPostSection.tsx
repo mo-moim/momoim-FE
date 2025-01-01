@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 import RatingSection from "./RatingSection";
 
 interface Props {
@@ -20,7 +21,7 @@ export default function ReviewPostSection({ data, setRating, customRef, rating }
       </div>
       <div>
         <div className="text-lg font-bold text-gray-900">모임 후기를 남겨주세요!</div>
-        <textarea
+        <Textarea
           value={commentContent}
           onChange={(e) => setCommentContent(e.target.value)}
           ref={customRef}

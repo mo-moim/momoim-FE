@@ -8,7 +8,7 @@ import { useUser } from "@/queries/auth/useUser";
 import { useEffect, useState } from "react";
 import { ProfileData } from "@/types/profile";
 import ProfileEdit from "./ProfileEdit";
-import ProfileBoxSkeleton from "./skeletons/ProfileBoxSkeleton";
+import MyPageProfileBoxSkeleton from "./skeletons/MyPageProfileBoxSkeleton";
 
 export default function ProfileBox() {
   const { data, isLoading, error } = useUser();
@@ -19,7 +19,7 @@ export default function ProfileBox() {
     setIsClient(true);
   }, []);
 
-  if (!isClient || isLoading) return <ProfileBoxSkeleton />;
+  if (!isClient || isLoading) return <MyPageProfileBoxSkeleton />;
   if (error) return <div>다시 로그인 해주세요</div>;
 
   const sortedData: ProfileData = {

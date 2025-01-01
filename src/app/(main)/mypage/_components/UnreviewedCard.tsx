@@ -67,7 +67,7 @@ export default function UnreviewedCard({ data }: Props) {
       <Modal
         title="리뷰 쓰기"
         content={<ReviewPostSection data="" setRating={setRating} customRef={contentRef} />}
-        size="w-full h-[55%]"
+        // size="w-full h-[55%]"
         showFooter
         open={modalOpen}
         action={setModalOpen}

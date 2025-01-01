@@ -13,12 +13,20 @@ import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 export default function MySchedule() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date());
   const [currentDate, setCurrentDate] = React.useState<Date | undefined>(new Date());
 
   const { data, isLoading, error } = useSchedule(currentYear);
 
   if (isLoading) return <MySchedulesSkeleton />;
   if (error) return <ClientRedirectHandler />;
+
+  const customContent =
+    data?.data.map((item: ScheduleData) => {
+      const fullDate = format(item.nextGatheringAt, "yyyy/MM/dd").split("/");
+      const [year, month, day] = fullDate;
+      return { date: new Date(+year, +month - 1, +day), content: "exist" };
+    }) || [];
 
   return (
     <div className="pb-8">
@@ -28,19 +36,21 @@ export default function MySchedule() {
           mode="single"
           selected={currentDate}
           onSelect={setCurrentDate}
-          onDateChange={(date) => setSelectedDate(date)}
-          onYearChange={(year) => setCurrentYear(year)}
+          onDateChange={(date) => {
+            setSelectedDate(date);
+          }}
+          onYearChange={(year) => {
+            setCurrentYear(year);
+          }}
           formatters={{
             formatCaption: (date) => format(date, "yyyy년 MM월", { locale: ko }),
             formatWeekdayName: (day) => format(day, "EEEEE", { locale: ko }),
           }}
-          customContent={data.map((item: ScheduleData) => {
-            const fullDate = format(item.nextGatheringAt, "yyyy/MM/dd").split("/");
-            const [year, month, day] = fullDate;
-            return { date: new Date(+year, +month - 1, +day), content: "exsist" };
-          })}
+          currentMonth={currentMonth}
+          setCurrentMonth={setCurrentMonth}
+          customContent={customContent}
         />
-        <ScheduleBox data={data} date={selectedDate} />
+        <ScheduleBox data={data?.data ? data?.data : []} date={selectedDate} />
       </div>
     </div>
   );

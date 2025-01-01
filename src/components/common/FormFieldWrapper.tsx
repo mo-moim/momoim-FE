@@ -34,7 +34,7 @@ export function FormFieldWrapper({
             {renderContent ? (
               renderContent(field)
             ) : (
-              <Input className={customStyle} placeholder={placeholder} type={type} {...field} />
+              <Input spellCheck={false} className={customStyle} placeholder={placeholder} type={type} {...field} />
             )}
           </FormControl>
           <FormMessage />

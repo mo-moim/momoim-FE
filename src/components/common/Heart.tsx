@@ -2,7 +2,6 @@
 
 import { useLike } from "@/queries/mypage/useLike";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "@/hooks/use-toast";
 
@@ -19,7 +18,6 @@ export default function Heart({ gatheringId, isWishlist }: Props) {
         e.stopPropagation();
         if (!Cookies.get("accessToken")) {
           toast({
-            variant: "destructive",
             title: "비로그인 상태",
             description: "찜하기는 로그인 후 가능합니다!",
             duration: 2000,
