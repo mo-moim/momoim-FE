@@ -15,7 +15,6 @@ export const useGatheringDelete = () => {
         description: "해당 모임이 삭제되었습니다.",
         duration: 2000,
       });
-      queryClient.invalidateQueries({ queryKey: ["gatheringDetail", id] });
       queryClient.invalidateQueries({ queryKey: ["gatherings"], exact: false });
       router.push("/");
     },
