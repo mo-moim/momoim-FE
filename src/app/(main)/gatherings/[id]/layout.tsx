@@ -22,14 +22,14 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="mx-auto flex flex-col gap-12 pb-10">
+      <div className="mx-auto flex flex-col gap-12">
         <div className="flex flex-col gap-6">
           <BackButton />
           <GatheringDeteilContent id={id} />
         </div>
         <DetailPageTab id={id} />
-        {children}
       </div>
+      {children}
     </HydrationBoundary>
   );
 }

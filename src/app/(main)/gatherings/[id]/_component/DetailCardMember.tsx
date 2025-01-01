@@ -11,11 +11,11 @@ import MemberModal from "./MemberModal";
 
 interface DetailMemberProps {
   members: Members[];
-  managerId: number;
+  managerName: string | undefined;
   defaultView: boolean;
 }
 
-export default function DetailCardMember({ members, managerId, defaultView }: DetailMemberProps) {
+export default function DetailCardMember({ members, managerName, defaultView }: DetailMemberProps) {
   const [memberOpen, setMemberOpen] = useState(false);
 
   return (
@@ -46,7 +46,7 @@ export default function DetailCardMember({ members, managerId, defaultView }: De
               <Search className="h-5 w-5 text-gray-700" />
             </button>
           }
-          content={<MemberModal members={members} managerId={managerId} setMemberOpen={setMemberOpen} />}
+          content={<MemberModal members={members} managerName={managerName} setMemberOpen={setMemberOpen} />}
           showFooter={false}
         />
       </div>
