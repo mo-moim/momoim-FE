@@ -9,34 +9,15 @@ import DetailCardMember from "@/app/(main)/gatherings/[id]/_component/DetailCard
 import { getCategory, getOnlinePlatform, getSubcategory } from "@/lib/getLabel";
 import DetailButton from "@/app/(main)/gatherings/[id]/_component/DetailButton";
 import DefaultThumbnail from "@/assets/images/thumbnail.png";
+import GatheringCheckTime from "@/app/(main)/gatherings/[id]/_component/GatheringCheckTime";
 import Chip from "../Chip";
 
 export default function DetailCard({ detailData }: { detailData: GatheringDetail }) {
   const data = detailData.gatheringContent;
   const { hours, days } = leftTimeGenerator(data.nextGatheringAt as string);
 
-  const getGatheringCheckTime = (day: number, time: number) => {
-    if (!day && !time) {
-      return <span className="text-lg font-semibold text-main">모임 진행중</span>;
-    }
-    if (!day && time > 0 && time < 1) {
-      return <span className="text-lg font-semibold text-main">곧 시작!</span>;
-    }
-    return (
-      <div className="flex items-center gap-1">
-        <span>
-          <span className="text-[32px] font-bold">{days}</span>일
-        </span>
-        <span>
-          <span className="text-[32px] font-bold">{hours}</span>
-          시간
-        </span>
-      </div>
-    );
-  };
-
   return (
-    <div className="flex h-56 w-full flex-wrap items-center gap-4 max-lg:h-auto max-md:justify-center">
+    <div className="flex h-full w-full flex-wrap items-center gap-4 max-md:justify-center">
       <div className="relative flex h-56 w-full max-w-60 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 max-md:max-w-full">
         <Image
           src={data.image || DefaultThumbnail}
@@ -49,7 +30,8 @@ export default function DetailCard({ detailData }: { detailData: GatheringDetail
       </div>
       <div className="flex min-w-[27rem] flex-[3] flex-col justify-between gap-3 max-sm:min-w-full">
         <div className="w-full font-bold text-main">
-          {getCategory(data.category)} ・ {getSubcategory(data.subCategory)}
+          <span>{getCategory(data.category)}</span> ・{" "}
+          <span className="text-gray-700">{getSubcategory(data.subCategory)}</span>
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex w-full justify-start">
@@ -101,16 +83,16 @@ export default function DetailCard({ detailData }: { detailData: GatheringDetail
               <div>{data.managerName}</div>
             </div>
             {data.managerId && (
-              <DetailCardMember members={detailData.members} managerId={data.managerId} defaultView={false} />
+              <DetailCardMember members={detailData.members} managerName={data.managerName} defaultView={false} />
             )}
           </div>
         </div>
       </div>
-      <div className="flex h-full min-w-72 flex-[1.5] flex-col justify-between gap-6">
-        {data.managerId && <DetailCardMember members={detailData.members} managerId={data.managerId} defaultView />}
+      <div className="flex h-56 min-w-72 flex-[1.5] flex-col justify-between gap-6 max-lg:h-36">
+        {data.managerId && <DetailCardMember members={detailData.members} managerName={data.managerName} defaultView />}
         <div className="w-full">
           <div className="text-gray-500">남은 시간</div>
-          {getGatheringCheckTime(days, hours)}
+          <GatheringCheckTime days={days} hours={hours} />
         </div>
         <DetailButton gatheringId={data.id} managerName={data.managerName} members={detailData.members} />
       </div>

@@ -7,16 +7,18 @@ import { Modal } from "@/components/common/modal/Modal";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useGatheringMemberDelete } from "@/queries/gatherings-workspace/useGatheringMemberDelete";
 import { useParams } from "next/navigation";
+import { useUser } from "@/queries/auth/useUser";
 
 interface MemberProps {
   members: Members[];
-  managerId: number;
+  managerName: string | undefined;
   setMemberOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function MemberModal({ members, managerId, setMemberOpen }: MemberProps) {
+export default function MemberModal({ members, managerName, setMemberOpen }: MemberProps) {
   const [open, setOpen] = useState<{ [key: number]: boolean }>({});
   const { mutate: getheringMemberDelete } = useGatheringMemberDelete();
+  const { data } = useUser();
   const params = useParams();
 
   const handleMutate = (gatheringMemberId: number, memberName: string, id: number) => {
@@ -44,19 +46,14 @@ export default function MemberModal({ members, managerId, setMemberOpen }: Membe
 
   return (
     <ul className="flex h-full max-h-[25rem] w-full flex-col gap-3">
-      {members?.map(({ userId, name, profileImage, gatheringMemberId }) => (
-        <li key={userId} className="flex items-center justify-between">
-          <div className="flex w-full items-center gap-2">
-            <div key={userId} className="relative flex h-[34px] w-[34px] items-center rounded-[50%]">
-              {profileImage === "DEFAULT_PROFILE_IMAGE" ? (
-                <DefaultProfile />
-              ) : (
-                <Image src={profileImage} layout="fill" objectFit="cover" alt="member-image" />
-              )}
-            </div>
-            <span className="w-3/4 overflow-hidden text-ellipsis whitespace-nowrap max-xs:w-36">{name}</span>
-          </div>
-          {managerId !== userId ? (
+      {members?.map(({ userId, name, profileImage, gatheringMemberId }) => {
+        const isUserManager = data?.name === managerName;
+        const isMemberManager = name === managerName;
+        const isMember = name !== managerName;
+        let modalContent;
+
+        if (isUserManager && isMember) {
+          modalContent = (
             <Modal
               open={open[gatheringMemberId] || false}
               action={(isOpen) => handleOpenChange(gatheringMemberId, isOpen)}
@@ -78,14 +75,32 @@ export default function MemberModal({ members, managerId, setMemberOpen }: Membe
               }
               onSubmit={() => handleMutate(gatheringMemberId, name, Number(params.id))}
             />
-          ) : (
+          );
+        } else if (isMemberManager) {
+          modalContent = (
             <div className="flex h-10 w-full max-w-24 items-center justify-center gap-[5px] rounded-md border border-gray-500 p-3 text-sm font-semibold">
               <Crown className="h-4 w-4 text-yellow-500" />
               <span className="whitespace-nowrap">모임장</span>
             </div>
-          )}
-        </li>
-      ))}
+          );
+        }
+
+        return (
+          <li key={userId} className="flex items-center justify-between">
+            <div className="flex w-full items-center gap-2">
+              <div key={userId} className="relative flex h-[34px] w-[34px] items-center rounded-[50%]">
+                {profileImage === "DEFAULT_PROFILE_IMAGE" ? (
+                  <DefaultProfile />
+                ) : (
+                  <Image src={profileImage} layout="fill" objectFit="cover" alt="member-image" />
+                )}
+              </div>
+              <span className="w-3/4 overflow-hidden text-ellipsis whitespace-nowrap max-xs:w-36">{name}</span>
+            </div>
+            {modalContent}
+          </li>
+        );
+      })}
     </ul>
   );
 }
