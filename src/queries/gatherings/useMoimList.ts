@@ -2,6 +2,7 @@ import { getMoimListClient, getMoimRecommendClient } from "@/api/gatherings/getM
 import { MOIM_LIST_DEFAULT_CONFIG, PAGINATION_CONFIG } from "@/constants/config";
 import { CATEGORIES, LOCATIONS } from "@/constants/gatherings";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 
 export const useMoimList = (
   category: string,
@@ -21,7 +22,7 @@ export const useMoimList = (
         sortOrder,
         ...(location !== LOCATIONS.ALL && { location }),
         ...(gatheringDate && {
-          gatheringDate: gatheringDate.toISOString().split("T")[0],
+          gatheringDate: format(gatheringDate, "yyyy-MM-dd"),
         }),
       };
 
