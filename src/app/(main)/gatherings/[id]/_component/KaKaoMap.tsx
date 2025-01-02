@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
+import Link from "next/link";
 import MapSkeleton from "./MapSkeleton";
 
 export default function KaKaoMap({ address }: { address: string | undefined }) {
@@ -25,28 +26,32 @@ export default function KaKaoMap({ address }: { address: string | undefined }) {
     });
   }, [address, error]);
 
+  const addressMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(address!)},${coordinates.lat},${coordinates.lng}`;
+
   return (
-    <div className="flex flex-col gap-2">
-      <h3 className="text-xl font-semibold">모임 장소</h3>
-      {error ? (
-        <MapSkeleton />
-      ) : (
-        <div className="overflow-hidden rounded-lg border border-gray-400">
-          <Map
-            id="map"
-            center={coordinates}
-            className="h-[300px] w-full"
-            draggable={false}
-            scrollwheel={false}
-            level={3}
-          >
-            <MapMarker position={coordinates} />
-          </Map>
-          <div className="p-5">
-            <p>{address}</p>
+    <Link href={addressMapUrl} target="_blank" rel="noopener noreferrer">
+      <div className="flex flex-col gap-2">
+        <h3 className="text-xl font-semibold">모임 장소</h3>
+        {error ? (
+          <MapSkeleton />
+        ) : (
+          <div className="overflow-hidden rounded-lg border border-gray-400">
+            <Map
+              id="map"
+              center={coordinates}
+              className="h-[300px] w-full"
+              draggable={false}
+              scrollwheel={false}
+              level={3}
+            >
+              <MapMarker position={coordinates} />
+            </Map>
+            <div className="p-5">
+              <p>{address}</p>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Link>
   );
 }
