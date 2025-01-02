@@ -70,7 +70,7 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
                 </div>
               </div>
               <div>·</div>
-              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 HH:mm")}</div>
             </div>
             <div>
               <div className="flex gap-1 text-sm">
@@ -136,7 +136,7 @@ export default function MoimCard({ type, data, customOnClick }: Props) {
                 </div>
               </div>
               <div>·</div>
-              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 HH:mm")}</div>
             </div>
             <div className="flex gap-1 text-sm">
               {[data?.status, data?.location, data?.isPeriodic].map((each, idx) => {
