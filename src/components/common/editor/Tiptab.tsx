@@ -4,6 +4,8 @@ import Underline from "@tiptap/extension-underline";
 import ImageResize from "tiptap-extension-resize-image";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import Toolbar from "./Toolbar";
 
 interface FormDescriptionProps {
@@ -14,6 +16,8 @@ interface FormDescriptionProps {
 }
 
 function TipTab({ field }: FormDescriptionProps) {
+  const [isLoading, setIsLoading] = useState(true);
+
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -44,10 +48,22 @@ function TipTab({ field }: FormDescriptionProps) {
     immediatelyRender: false,
   });
 
+  useEffect(() => {
+    if (editor) {
+      setIsLoading(false);
+    }
+  }, [editor]);
+
   return (
-    <div className="h-auto min-h-[600px] rounded-md border border-gray-500">
-      <Toolbar editor={editor} />
-      <EditorContent editor={editor} />
+    <div>
+      {isLoading ? (
+        <Skeleton className="h-[600px] bg-gray-100" />
+      ) : (
+        <div className="h-auto min-h-[600px] rounded-md border border-gray-500">
+          <Toolbar editor={editor} />
+          <EditorContent editor={editor} />
+        </div>
+      )}
     </div>
   );
 }
