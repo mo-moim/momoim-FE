@@ -30,7 +30,7 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
           <span>{getCategory(data.category)}</span>
           <span className="text-gray-700"> ・ {getSubcategory(data.subCategory)}</span>
         </div>
-        <div className="flex flex-col gap-3 bg-blue-200">
+        <div className="flex flex-col gap-3">
           <div className="flex w-full justify-start">
             <h2 className="text-[26px] font-bold transition-all sm:text-[32px]">{data.name}</h2>
           </div>
