@@ -5,10 +5,7 @@ import { useGetGatheringDetail } from "@/queries/gatherings-workspace/useGatheri
 
 export default function GatheringDeteil({ id }: { id: number }) {
   const data = useGetGatheringDetail(id);
+  if (!data) return null;
 
-  if (!data) {
-    return <div>로딩중 표시하기</div>;
-  }
-
-  return <DetailCard detailData={data} />;
+  return <DetailCard id={id} detailData={data} />;
 }

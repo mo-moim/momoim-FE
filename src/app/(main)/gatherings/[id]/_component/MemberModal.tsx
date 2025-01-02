@@ -87,7 +87,7 @@ export default function MemberModal({ members, managerName, setMemberOpen }: Mem
         return (
           <li key={userId} className="flex items-center justify-between">
             <div className="flex w-full items-center gap-2">
-              <div key={userId} className="relative flex h-[34px] w-[34px] items-center rounded-[50%]">
+              <div key={userId} className="relative flex h-[34px] w-[34px] items-center overflow-hidden rounded-[50%]">
                 {profileImage === "DEFAULT_PROFILE_IMAGE" ? (
                   <DefaultProfile />
                 ) : (
