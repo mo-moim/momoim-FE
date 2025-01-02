@@ -45,7 +45,7 @@ export default function UnreviewedCard({ data }: Props) {
                 </div>
               </div>
               <div>·</div>
-              <div>{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
+              <div>{format(data?.nextGatheringAt, "MM월 dd일 HH:mm")}</div>
             </div>
           </div>
         </div>

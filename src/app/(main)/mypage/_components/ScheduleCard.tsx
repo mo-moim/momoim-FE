@@ -45,7 +45,7 @@ export default function ScheduleCard({ data }: Props) {
                 {getLocation(data?.gatheringLocation)}
               </div>
               <div>·</div>
-              <div className="text-main">{format(data?.nextGatheringAt, "MM월 dd일 hh:mm")}</div>
+              <div className="text-main">{format(data?.nextGatheringAt, "MM월 dd일 HH:mm")}</div>
             </div>
           </div>
         </div>
