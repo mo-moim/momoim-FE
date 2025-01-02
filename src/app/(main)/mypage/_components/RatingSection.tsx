@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EmptyStar from "@/assets/svg/empty-star.svg";
-import HalfStar from "@/assets/svg/half-star.svg";
 import Star from "@/assets/svg/star.svg";
 
 export default function RatingSection({
@@ -18,7 +17,6 @@ export default function RatingSection({
     return Array.from({ length: 5 }, (_, index) => {
       const starIndex = index + 1;
       if (currentRating >= starIndex) return <Star key={index} />;
-      if (currentRating >= starIndex - 0.5) return <HalfStar key={index} />;
       return <EmptyStar key={index} />;
     });
   };
