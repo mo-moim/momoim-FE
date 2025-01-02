@@ -1,6 +1,5 @@
 "use client";
 
-import { DateTimePicker } from "@/app/(main)/gatherings/create/_component/DateTimePicker";
 import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -15,6 +14,7 @@ import Tiptab from "@/components/common/editor/Tiptab";
 import { COMMON_CATEGORIES } from "@/constants/options";
 import { Select } from "@/components/common/select/Select";
 import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringCreate";
+import { DatePicker } from "@/components/common/DatePicker";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
@@ -22,8 +22,8 @@ import AddressInput from "./AddressInput";
 import SubCategoryButton from "./SubCategoryButton";
 
 export default function GatheringForm() {
-  const { mutate: gatheringCreate } = useGatheringCreate();
   const router = useRouter();
+  const { mutate: gatheringCreate } = useGatheringCreate();
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
@@ -162,7 +162,12 @@ export default function GatheringForm() {
           label="날짜"
           renderContent={(field) => (
             <div>
-              <DateTimePicker field={field} />
+              <DatePicker
+                value={field.value}
+                onChange={field.onChange}
+                triggerClassName="h-12 w-full border-gray-500"
+                showTimePicker
+              />
             </div>
           )}
         />

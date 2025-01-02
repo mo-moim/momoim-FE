@@ -10,7 +10,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface DatePickerProps {
   value?: Date;
-  onChange: (date?: Date) => void;
+  onChange: (date?: Date | string) => void;
   placeholder?: string;
   showTimePicker?: boolean;
   triggerClassName?: string;
@@ -27,6 +27,9 @@ export function DatePicker({
 }: DatePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [tempDate, setTempDate] = React.useState<Date | undefined>(value);
+  const formatDate = (date: Date | undefined): string | undefined => {
+    return date ? format(date, "yyyy-MM-dd hh:mm:ss") : undefined;
+  };
 
   // 팝오버가 닫힐 때 임시 값을 원래 값으로 복원
   const handleOpenChange = (open: boolean) => {
@@ -51,7 +54,7 @@ export function DatePicker({
     }
 
     setTempDate(newDate);
-    onChange(newDate);
+    onChange(formatDate(newDate));
   };
 
   // 초기화/확인 버튼 핸들러
@@ -62,7 +65,7 @@ export function DatePicker({
   };
 
   const handleConfirm = () => {
-    onChange(tempDate);
+    onChange(formatDate(tempDate));
     setIsOpen(false);
   };
 
@@ -101,7 +104,7 @@ export function DatePicker({
                       <Button
                         key={hour}
                         size="icon"
-                        variant={tempDate && tempDate.getHours() % 12 === hour % 12 ? "main" : "ghost"}
+                        variant={tempDate && new Date(tempDate).getHours() % 12 === hour % 12 ? "main" : "ghost"}
                         className="aspect-square shrink-0 font-medium sm:w-full"
                         onClick={() => handleTimeChange("hour", hour.toString())}
                       >
@@ -118,7 +121,7 @@ export function DatePicker({
                     <Button
                       key={minute}
                       size="icon"
-                      variant={tempDate && tempDate.getMinutes() === minute ? "main" : "ghost"}
+                      variant={tempDate && new Date(tempDate).getMinutes() === minute ? "main" : "ghost"}
                       className="aspect-square shrink-0 font-medium sm:w-full"
                       onClick={() => handleTimeChange("minute", minute.toString())}
                     >
@@ -137,7 +140,8 @@ export function DatePicker({
                       size="icon"
                       variant={
                         tempDate &&
-                        ((ampm === "AM" && tempDate.getHours() < 12) || (ampm === "PM" && tempDate.getHours() >= 12))
+                        ((ampm === "AM" && new Date(tempDate).getHours() < 12) ||
+                          (ampm === "PM" && new Date(tempDate).getHours() >= 12))
                           ? "main"
                           : "ghost"
                       }
