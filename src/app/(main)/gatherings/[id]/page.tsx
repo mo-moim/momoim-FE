@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useGetGatheringDetail } from "@/queries/gatherings-workspace/useGatheringDetail";
+import { useEffect } from "react";
 import Viewer from "./_component/DetailViewer";
 import KaKaoMap from "./_component/KaKaoMap";
 
@@ -10,6 +11,10 @@ export default function GatheringDetailPage() {
   const id = Number(params.id);
   const data = useGetGatheringDetail(id);
   const dataContent = data?.gatheringContent;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   return (
     <div className="w-full max-md:w-full">
