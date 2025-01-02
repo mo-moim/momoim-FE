@@ -3,6 +3,7 @@ import BackButton from "@/app/_component/BackButton";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import GatheringDeteilContent from "./_component/GatheringDeteil";
 import DetailPageTab from "./_component/DetailPageTab";
+import DetailCheckTime from "./_component/DetailCheckTime";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -22,14 +23,15 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="mx-auto flex flex-col gap-12">
-        <div className="flex flex-col gap-6">
+      <div className="justify-betwee flex gap-14">
+        <div className="flex flex-1 flex-col gap-6">
           <BackButton />
           <GatheringDeteilContent id={id} />
+          <DetailPageTab id={id} />
+          {children}
         </div>
-        <DetailPageTab id={id} />
+        <DetailCheckTime id={id} defaultView />
       </div>
-      {children}
     </HydrationBoundary>
   );
 }

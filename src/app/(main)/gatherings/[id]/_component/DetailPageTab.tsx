@@ -10,7 +10,7 @@ export default function DetailPageTab({ id }: { id: number }) {
 
   return (
     <nav>
-      <div className="flex gap-6 border-b">
+      <div className="flex gap-6">
         {GATHERING_DETAIL_TABS.map(({ name, path }) => {
           const defaultTab = GATHERING_DETAIL_TABS[0].path === path;
           const isActive = (defaultTab && pathname === `/gatherings/${id}`) || pathname.includes(path);

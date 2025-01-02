@@ -19,12 +19,12 @@ export default function DetailCardMember({ members, managerName, defaultView }: 
   const [memberOpen, setMemberOpen] = useState(false);
 
   return (
-    <div className={clsx("flex gap-2.5", defaultView ? "max-lg:hidden" : "lg:hidden")}>
+    <div className={clsx("flex gap-2.5", defaultView ? "max-blg:hidden" : "blg:hidden")}>
       <div className="flex gap-2.5">
         {members?.map((member, idx) => {
           if (defaultView ? idx >= 6 : idx >= 4) return null;
           return (
-            <div key={member?.userId} className={clsx("relative flex h-[34px] w-[34px] items-center rounded-[50%]")}>
+            <div key={member?.userId} className="relative flex h-[34px] w-[34px] items-center rounded-[50%]">
               {member.profileImage === "DEFAULT_PROFILE_IMAGE" ? (
                 <DefaultProfile />
               ) : (
