@@ -4,7 +4,7 @@ import { DatePicker } from "@/components/common/DatePicker";
 
 interface FiltersProps {
   onLocationChange: (value: string) => void;
-  onDateChange: (date: Date | undefined | string) => void;
+  onDateChange: (date: Date | undefined) => void;
   onSortChange: (value: string) => void;
   selectedLocation?: string;
   selectedDate?: Date;
@@ -26,7 +26,13 @@ export function Filters({
         <Select data={LOCATIONS} value={selectedLocation} onChange={onLocationChange} />
 
         {/* 날짜 선택 */}
-        <DatePicker value={selectedDate} onChange={onDateChange} />
+        <DatePicker
+          value={selectedDate}
+          onChange={(date) => {
+            const dateTypeCheck = typeof date === "string" ? new Date(date) : date;
+            onDateChange(dateTypeCheck);
+          }}
+        />
       </div>
 
       {/* 정렬 기준 */}
