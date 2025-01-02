@@ -47,7 +47,6 @@ export default function DetailButton({
             open={open}
             action={setOpen}
             size="max-xs:w-11/12"
-            title="모임 삭제"
             triggerButton={
               <Button type="button" className="w-full">
                 삭제 하기
@@ -70,7 +69,6 @@ export default function DetailButton({
           open={open}
           action={setOpen}
           size="max-xs:w-11/12"
-          title="모임 취소"
           triggerButton={
             <Button type="button" className="w-full">
               취소 하기
@@ -91,7 +89,6 @@ export default function DetailButton({
           open={open}
           action={setOpen}
           size="max-xs:w-11/12"
-          title="모임 신청"
           triggerButton={
             <Button type="button" className="w-full">
               신청 하기

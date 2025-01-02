@@ -58,7 +58,6 @@ export default function MemberModal({ members, managerName, setMemberOpen }: Mem
               open={open[gatheringMemberId] || false}
               action={(isOpen) => handleOpenChange(gatheringMemberId, isOpen)}
               size="max-sm:w-11/12"
-              title="맴버 제외"
               triggerButton={
                 <Button
                   type="button"
