@@ -4,7 +4,7 @@ import { DatePicker } from "@/components/common/DatePicker";
 
 interface FiltersProps {
   onLocationChange: (value: string) => void;
-  onDateChange: (date: Date | undefined) => void;
+  onDateChange: (date: Date | undefined | string) => void;
   onSortChange: (value: string) => void;
   selectedLocation?: string;
   selectedDate?: Date;
