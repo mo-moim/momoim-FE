@@ -65,13 +65,14 @@ export default function MyReview() {
       />
       <div>
         {(!sub || sub === "un-review") &&
-          (data?.pages && data.pages[0].data.length ? (
-            data.pages.map((item) =>
+          (data?.pages && data.pages.length > 0 ? (
+            data.pages.map((item, pageIndex) =>
               item.data.map((unreview: GatheringContent, idx: number) => {
+                const isLastElement = pageIndex === data.pages.length - 1 && idx === item.data.length - 1;
                 return (
                   <div key={`r:${unreview.gatheringId}`}>
                     <UnreviewedCard data={unreview} />
-                    {item.data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
+                    {!isLastElement && <hr className="my-[16px]" />}
                   </div>
                 );
               }),
@@ -80,8 +81,8 @@ export default function MyReview() {
             <EmptyStatePicker type="review" sub={sub} />
           ))}
         {sub === "my-review" &&
-          (data?.pages && data.pages[0].data.length ? (
-            data.pages.map((item) =>
+          (data?.pages && data.pages.length > 0 ? (
+            data.pages.map((item, pageIndex) =>
               item.data.map((review: Review, idx: number) => {
                 const r = {
                   title: review.title,
@@ -95,10 +96,12 @@ export default function MyReview() {
                   gatheringName: review.gatheringName,
                   gatheringStatus: review.gatheringStatus,
                 };
+                const isLastElement = pageIndex === data.pages.length - 1 && idx === item.data.length - 1;
+
                 return (
                   <div key={`r:${review.gatheringId}`}>
                     <ReviewCard review={r} typeData={t} isWriter />
-                    {item.data.length - 1 !== idx ? <hr className="my-[16px]" /> : <br />}
+                    {!isLastElement && <hr className="my-[16px]" />}
                   </div>
                 );
               }),

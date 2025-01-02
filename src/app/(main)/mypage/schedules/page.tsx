@@ -29,7 +29,7 @@ export default function MySchedule() {
     }) || [];
 
   return (
-    <div className="pb-8">
+    <div>
       <div className="flex w-full flex-col gap-6 md:flex-row">
         <Calendar
           className="flex-grow overflow-hidden md:w-1/2"

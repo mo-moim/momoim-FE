@@ -67,7 +67,7 @@ export default function MyMoim() {
                     router.push(`/gatherings/${moim.gatheringId}`);
                   }}
                 />
-                {data.pages.length - 1 !== idx ? <hr className="my-4" /> : <br />}{" "}
+                {idx !== item.data.length - 1 && <hr className="my-4 border-gray-300" />}
               </div>
             )),
           )
