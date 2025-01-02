@@ -17,3 +17,9 @@ export const VALIDATION_ERRORS = {
     categoryRequired: "관심 카테고리를 선택해 주세요.",
   },
 } as const;
+
+export const ERROR_MESSAGES: { [key: number]: { title: string; description: string } } = {
+  403: { title: "⚠️ 접근 제한", description: "해당 기능은 로그인 후 이용 가능합니다." },
+  404: { title: "⚠️ 찾을 수 없음", description: "요청하신 정보를 찾을 수 없습니다." },
+  500: { title: "⚠️ 서버 오류", description: "서비스 이용에 불편을 드려 죄송합니다." },
+};

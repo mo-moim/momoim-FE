@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Header from "./_component/Header";
 import CreateMoimButton from "./_component/CreateMoimButton";
 import { Footer } from "./_component/Footer";
+import { AuthInitializer } from "./_component/AuthInitializer";
 
 const pretendard = localFont({
   src: "../assets/fonts/PretendardVariable.woff2",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body className={`${pretendard.variable} font-pretendard antialiased`}>
         <TanStackProvider>
+          <AuthInitializer />
           <Header />
           <main className="layout-container min-h-[calc(100vh-80px)] pt-[80px]">{children}</main>
           <Footer />
