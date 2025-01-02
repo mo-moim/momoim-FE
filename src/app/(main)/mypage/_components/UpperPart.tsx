@@ -15,6 +15,7 @@ export default function UpperPart() {
 
   if (!isClient || isLoading) return <UpperPartSkeleton />;
   if (error) return <div>다시 로그인 해주세요</div>;
+
   return (
     <div className="flex w-full flex-col">
       {data && <ProfileBox data={data} />}

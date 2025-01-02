@@ -10,9 +10,8 @@ export default function RatingSection({
   onRatingChange?: (rating: number) => void;
   score: number;
 }) {
-  const [rating, setRating] = useState(score); // 실제 별점
   const [hoverRating, setHoverRating] = useState(score); // 드래그 중 표시할 별점
-  const [isActive, setIsActive] = useState(false); // 점수 고정 여부
+  const [isActive, setIsActive] = useState(true); // 점수 고정 여부
 
   // 별 렌더링
   const renderStars = (currentRating: number) => {
@@ -51,7 +50,6 @@ export default function RatingSection({
     if (isActive) {
       setIsActive(false); // 점수 해제
     } else {
-      setRating(newRating);
       setIsActive(true); // 점수 고정
       if (onRatingChange) onRatingChange(newRating);
     }
@@ -71,7 +69,7 @@ export default function RatingSection({
         }
       }}
     >
-      {renderStars(isActive ? rating : hoverRating)}
+      {renderStars(isActive ? score : hoverRating)}
     </div>
   );
 }

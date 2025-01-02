@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import ReviewPostSection from "@/app/(main)/mypage/_components/ReviewPostSection";
 import { format } from "date-fns";
-import { useEditReview, useDeleteReview } from "@/queries/mypage/useReview";
+import { useDeleteReview } from "@/queries/mypage/useReview";
+import { Review } from "@/types/review";
 import Stars from "../Star";
 import { Modal } from "../modal/Modal";
 
@@ -9,14 +10,6 @@ interface Props {
   review: Review;
   typeData: Mypage | Detail;
   isWriter: boolean;
-}
-
-interface Review {
-  title: string;
-  comment: string;
-  score: number;
-  createdAt: string;
-  reviewId: number;
 }
 
 interface Mypage {
@@ -33,8 +26,6 @@ interface Detail {
 
 export default function ReviewCard({ review, typeData, isWriter }: Props) {
   const reviewRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement | null>(null);
-  const [rating, setRating] = useState(review.score);
   const [longComment, setLongComment] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [reviewModal, setReviewModal] = useState(false);
@@ -51,18 +42,7 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
     return `${differenceInMinutes}분 전`;
   };
 
-  const { mutate: edit } = useEditReview();
   const { mutate: remove } = useDeleteReview();
-
-  const handleEditSubmit = () => {
-    edit({
-      gatheringId: review.reviewId,
-      score: rating,
-      title: review.title,
-      comment: contentRef.current ? contentRef.current.value : "",
-    });
-    setReviewModal(false);
-  };
 
   const handleDeleteSubmit = () => {
     remove({ id: review.reviewId });
@@ -116,21 +96,13 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
           {isWriter && (
             <>
               <Modal
-                size="w-full h-[55%]"
+                size="w-full"
                 title="리뷰 수정"
                 triggerButton={<button type="button">수정</button>}
-                content={
-                  <ReviewPostSection
-                    data={review.comment}
-                    setRating={setRating}
-                    rating={rating}
-                    customRef={contentRef}
-                  />
-                }
+                content={<ReviewPostSection reviewData={review} closeModal={setReviewModal} />}
                 open={reviewModal}
                 action={setReviewModal}
-                showFooter
-                onSubmit={handleEditSubmit}
+                showFooter={false}
               />
               <button type="button" onClick={handleDeleteSubmit}>
                 삭제

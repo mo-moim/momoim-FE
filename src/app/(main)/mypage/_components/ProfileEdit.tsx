@@ -73,17 +73,16 @@ export default function ProfileEdit({ data, openSwitch }: Props) {
     edit({
       email: values.email,
       name: values.name,
-      profileImage: values.profileImage as string,
+      profileImage: (values.profileImage as string) || "DEFAULT_PROFILE_IMAGE",
       interestCategories: values.subCategory,
       regions: values.regions,
     });
     openSwitch(false);
   };
 
-  // console.log(profileForm.watch());
-
   useEffect(() => {
     setCurrentProfileImage(data.profileImage as string);
+    profileForm.setValue("profileImage", (data.profileImage as string) || null);
     profileForm.setValue("subCategory", data.subCategory);
     profileForm.setValue("name", data.name);
     profileForm.setValue("email", data.email);
@@ -174,7 +173,6 @@ export default function ProfileEdit({ data, openSwitch }: Props) {
                       customStyle="h-12 w-full rounded-md border-2 bg-transparent px-3 text-sm text-muted-foreground placeholder:text-sm focus-visible:outline-none focus-visible:ring-0"
                     />
                   </div>
-                  {/* <div className="pl-[10px] text-sm font-semibold text-gray-500">1자 이상 30자 이내로 입력해주세요</div> */}
                 </div>
               </div>
             </div>

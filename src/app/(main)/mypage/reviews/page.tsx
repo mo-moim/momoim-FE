@@ -65,7 +65,7 @@ export default function MyReview() {
       />
       <div>
         {(!sub || sub === "un-review") &&
-          (data?.pages && data.pages.length > 0 ? (
+          (data?.pages && data.pages[0].data.length > 0 ? (
             data.pages.map((item, pageIndex) =>
               item.data.map((unreview: GatheringContent, idx: number) => {
                 const isLastElement = pageIndex === data.pages.length - 1 && idx === item.data.length - 1;
@@ -78,10 +78,10 @@ export default function MyReview() {
               }),
             )
           ) : (
-            <EmptyStatePicker type="review" sub={sub} />
+            <EmptyStatePicker type="reviews" sub={sub} />
           ))}
         {sub === "my-review" &&
-          (data?.pages && data.pages.length > 0 ? (
+          (data?.pages && data.pages[0].data.length > 0 ? (
             data.pages.map((item, pageIndex) =>
               item.data.map((review: Review, idx: number) => {
                 const r = {

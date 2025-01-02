@@ -36,7 +36,7 @@ export interface LoginResponse {
 
 export interface User {
   name: string;
-  profileImage: string;
+  profileImage: string | null;
   email: string;
   regions: string[];
   interestCategories: string[];

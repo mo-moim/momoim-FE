@@ -6,10 +6,9 @@ import LocalIcon from "@/assets/svg/geography_map_solid.svg";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/common/modal/Modal";
 import thumbnail from "@/assets/images/thumbnail.png";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { getLocation, getSubcategory } from "@/lib/getLabel";
 import { format } from "date-fns";
-import { usePostReview } from "@/queries/mypage/useReview";
 import ReviewPostSection from "./ReviewPostSection";
 
 interface Props {
@@ -17,20 +16,7 @@ interface Props {
 }
 
 export default function UnreviewedCard({ data }: Props) {
-  const [rating, setRating] = useState(0);
-  const contentRef = useRef<HTMLTextAreaElement | null>(null);
-  const { mutate: post } = usePostReview();
   const [modalOpen, setModalOpen] = useState(false);
-
-  const handlePostReview = () => {
-    post({
-      gatheringId: data?.gatheringId as number,
-      score: rating,
-      title: data.name,
-      comment: contentRef.current ? contentRef.current.value : "",
-    });
-    setModalOpen(false);
-  };
 
   return (
     <div className="max-w-[375px]">
@@ -66,12 +52,11 @@ export default function UnreviewedCard({ data }: Props) {
       </div>
       <Modal
         title="리뷰 쓰기"
-        content={<ReviewPostSection data="" setRating={setRating} customRef={contentRef} />}
+        content={<ReviewPostSection data={data} closeModal={setModalOpen} />}
         size="w-[520px] p-6 overflow-auto scrollbar-hide"
-        showFooter
+        showFooter={false}
         open={modalOpen}
         action={setModalOpen}
-        onSubmit={handlePostReview}
         triggerButton={
           <Button variant="outline" className="w-full">
             리뷰 작성하기
