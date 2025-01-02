@@ -5,6 +5,7 @@ import TopButton from "@/components/common/TopButton";
 import MypageTabs from "./_components/MypageTabs";
 import ProfileBox from "./_components/ProfileBox";
 import ClientRedirectHandler from "./_components/ClientRedirectHandler";
+import UpperPart from "./_components/UpperPart";
 
 export default function MyPage({ children }: { children: React.ReactNode }) {
   const cookieStore = cookies();
@@ -14,10 +15,9 @@ export default function MyPage({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="relative flex w-full flex-col items-center">
-      <ProfileBox />
+    <div className="relative flex w-full flex-col items-center gap-4">
+      <UpperPart />
       <div className="flex w-full flex-col gap-4">
-        <MypageTabs />
         {/* <HydrationBoundary state={dehydrate(new QueryClient())}> */}
         <Suspense fallback={<div />}>{children}</Suspense>
         {/* </HydrationBoundary> */}

@@ -4,24 +4,17 @@ import Image from "next/image";
 import { Modal } from "@/components/common/modal/Modal";
 import { Button } from "@/components/ui/button";
 import thumbnail from "@/assets/images/thumbnail.png";
-import { useUser } from "@/queries/auth/useUser";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ProfileData } from "@/types/profile";
+import { User } from "@/types/auth";
 import ProfileEdit from "./ProfileEdit";
-import MyPageProfileBoxSkeleton from "./skeletons/MyPageProfileBoxSkeleton";
 
-export default function ProfileBox() {
-  const { data, isLoading, error } = useUser();
-  const [isClient, setIsClient] = useState(false);
+interface Props {
+  data: User;
+}
+
+export default function ProfileBox({ data }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient || isLoading) return <MyPageProfileBoxSkeleton />;
-  if (error) return <div>다시 로그인 해주세요</div>;
-
   const sortedData: ProfileData = {
     name: data?.name || "",
     email: data?.email || "",
@@ -73,7 +66,6 @@ export default function ProfileBox() {
     // subCategory:  data?.interestCategories || [],
     selectedCategory: ["CULTURE"],
   };
-
   return (
     <div className="my-6 w-full rounded-[20px] border-2 border-solid border-[#F0F1F6] p-8">
       <div>
