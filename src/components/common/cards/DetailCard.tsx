@@ -44,7 +44,7 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
               )}
             </div>
             <div className="flex items-center gap-1">
-              <div>{format(data.nextGatheringAt, "yyyy년 MM월 dd일 hh:mm")}</div>
+              <div>{format(data.nextGatheringAt, "yyyy년 MM월 dd일 HH:mm")}</div>
               <div>·</div>
               <div className="flex">
                 <div className="flex">
