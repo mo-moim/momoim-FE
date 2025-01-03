@@ -34,7 +34,7 @@ export default function MyMoim() {
     },
   ];
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetching } = useGathering(sub);
+  const { data, isLoading, error, fetchNextPage, hasNextPage } = useGathering(sub);
 
   useIntersectionObserver({
     target: observerTarget,
