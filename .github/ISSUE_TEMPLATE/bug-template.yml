@@ -1,7 +1,7 @@
 name: Bug Template
 description: 버그 및 해결 템플릿
 title: "[bug]: bug title"
-labels: [🐞 bug]
+labels: ["🐞 bug"]
 
 body:
   - type: markdown
