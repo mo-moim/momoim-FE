@@ -3,9 +3,11 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function BackButton() {
+export default function BackButton({ home = false }: { home?: boolean }) {
   const router = useRouter();
-  const handleBack = () => router.back();
+  const handleBack = () => {
+    return home ? router.push("/") : router.back();
+  };
 
   return (
     <div>
