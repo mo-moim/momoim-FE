@@ -1,11 +1,25 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getMyCreatedMoimApi, getMyLikedMoimApi, getMyMoimApi } from "@/api/moim";
+import { QueryClient, useInfiniteQuery } from "@tanstack/react-query";
+import {
+  getMyCreatedMoimApi,
+  getMyCreatedMoimPrefetchApi,
+  getMyLikedMoimApi,
+  getMyLikedMoimPrefetchApi,
+  getMyMoimApi,
+  getMyMoimPrefetchApi,
+} from "@/api/moim";
 import { Pagination } from "@/types/pagination";
 
 const getMoim = async (sub: string, page: Pagination) => {
   if (sub === "my-gatherings") return getMyMoimApi(page);
   if (sub === "created") return getMyCreatedMoimApi(page);
   if (sub === "liked") return getMyLikedMoimApi(page);
+  return {};
+};
+
+const getMoimPrefetch = async (sub: string, page: Pagination) => {
+  if (sub === "my-gatherings") return getMyMoimPrefetchApi(page);
+  if (sub === "created") return getMyCreatedMoimPrefetchApi(page);
+  if (sub === "liked") return getMyLikedMoimPrefetchApi(page);
   return {};
 };
 
@@ -24,4 +38,16 @@ export const useGathering = (sub: string | null) => {
     initialPageParam: 0,
     staleTime: 0,
   });
+};
+
+export const useGatheringPrefetch = (queryClient: QueryClient, sub: string | null | undefined) => {
+  return () =>
+    queryClient.prefetchInfiniteQuery({
+      queryKey: ["gatherings", sub || "my-gatherings"],
+      queryFn: async ({ pageParam = 0 }) => {
+        const data = await getMoimPrefetch(sub || "my-gatherings", { offset: 0, limit: 12 });
+        return { data, nextPage: data.length === 12 ? pageParam + 1 : null };
+      },
+      initialPageParam: 0,
+    });
 };

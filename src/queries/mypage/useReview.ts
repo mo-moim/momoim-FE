@@ -1,5 +1,5 @@
-import { useQueryClient, useMutation, useInfiniteQuery } from "@tanstack/react-query";
-import { deleteReviewApi, getReviewsApi, patchReviewApi, postReviewApi } from "@/api/review";
+import { useQueryClient, useMutation, useInfiniteQuery, QueryClient } from "@tanstack/react-query";
+import { deleteReviewApi, getReviewsApi, getReviewsPrefetchApi, patchReviewApi, postReviewApi } from "@/api/review";
 import { toast } from "@/hooks/use-toast";
 import { Pagination } from "@/types/pagination";
 
@@ -12,7 +12,7 @@ interface ReviewParams {
 
 export const useReview = (sub: string | null) => {
   return useInfiniteQuery({
-    queryKey: ["review", sub],
+    queryKey: ["review", sub || "un-review"],
     queryFn: async ({ pageParam = 0 }) => {
       const page: Pagination = {
         offset: pageParam * 12,
@@ -24,6 +24,18 @@ export const useReview = (sub: string | null) => {
     getNextPageParam: (lastPage) => (lastPage.nextPage !== null ? lastPage.nextPage : undefined),
     initialPageParam: 0,
   });
+};
+
+export const useReviewPrefetch = (queryClient: QueryClient, sub: string | null | undefined) => {
+  return () =>
+    queryClient.prefetchInfiniteQuery({
+      queryKey: ["review", sub || "un-review"],
+      queryFn: async ({ pageParam = 0 }) => {
+        const data = await getReviewsPrefetchApi(sub || "un-review", { offset: 0, limit: 12 });
+        return { data, nextPage: data.length === 12 ? pageParam + 1 : null };
+      },
+      initialPageParam: 0,
+    });
 };
 
 export const usePostReview = () => {
