@@ -101,7 +101,7 @@ export function DatePicker({
                       <Button
                         key={hour}
                         size="icon"
-                        variant={tempDate && tempDate.getHours() % 12 === hour % 12 ? "main" : "ghost"}
+                        variant={tempDate && new Date(tempDate).getHours() % 12 === hour % 12 ? "main" : "ghost"}
                         className="aspect-square shrink-0 font-medium sm:w-full"
                         onClick={() => handleTimeChange("hour", hour.toString())}
                       >
@@ -118,7 +118,7 @@ export function DatePicker({
                     <Button
                       key={minute}
                       size="icon"
-                      variant={tempDate && tempDate.getMinutes() === minute ? "main" : "ghost"}
+                      variant={tempDate && new Date(tempDate).getMinutes() === minute ? "main" : "ghost"}
                       className="aspect-square shrink-0 font-medium sm:w-full"
                       onClick={() => handleTimeChange("minute", minute.toString())}
                     >
@@ -137,7 +137,8 @@ export function DatePicker({
                       size="icon"
                       variant={
                         tempDate &&
-                        ((ampm === "AM" && tempDate.getHours() < 12) || (ampm === "PM" && tempDate.getHours() >= 12))
+                        ((ampm === "AM" && new Date(tempDate).getHours() < 12) ||
+                          (ampm === "PM" && new Date(tempDate).getHours() >= 12))
                           ? "main"
                           : "ghost"
                       }
