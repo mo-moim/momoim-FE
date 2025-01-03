@@ -1,6 +1,3 @@
-// type 종류
-// home | mypage
-
 "use client";
 
 import ProgressBar from "@/components/common/ProgressBar";
