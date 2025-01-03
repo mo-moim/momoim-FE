@@ -58,8 +58,10 @@ export default function ReviewCard({ review, typeData, isWriter }: Props) {
   return (
     <div className="flex w-full flex-col items-start gap-2 py-4 sm:items-center">
       <div className="flex w-full justify-between">
-        <div className="text-lg font-bold text-gray-900">{review.title}</div>
-        <div>
+        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold text-gray-900">
+          {review.title}
+        </div>
+        <div className="flex items-center justify-center">
           <Stars score={review.score} />
         </div>
       </div>

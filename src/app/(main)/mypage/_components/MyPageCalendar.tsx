@@ -52,7 +52,7 @@ const getModifiers = (customContent: { date: Date; content: React.ReactNode }[])
   );
 };
 
-function Calendar({
+function MyPageCalendar({
   className,
   classNames,
   showOutsideDays = true,
@@ -168,6 +168,6 @@ function Calendar({
   );
 }
 
-Calendar.displayName = "Calendar";
+MyPageCalendar.displayName = "MyPageCalendar";
 
-export { Calendar };
+export { MyPageCalendar };

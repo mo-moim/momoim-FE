@@ -30,7 +30,6 @@ export const usePostReview = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (params: ReviewParams) => {
-      console.log(params);
       return postReviewApi(params.gatheringId, params.score, params.title, params.comment);
     },
     onSuccess: () => {

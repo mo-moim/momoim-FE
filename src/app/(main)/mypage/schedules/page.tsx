@@ -6,7 +6,7 @@ import { ko } from "date-fns/locale";
 import { ScheduleData } from "@/types/common/scheduleData";
 import { useSchedule } from "@/queries/mypage/useSchedule";
 import ScheduleBox from "../_components/ScheduleBox";
-import { Calendar } from "../_components/Calendar";
+import { MyPageCalendar } from "../_components/MyPageCalendar";
 import MySchedulesSkeleton from "../_components/skeletons/MySchedulesSkeleton";
 import ClientRedirectHandler from "../_components/ClientRedirectHandler";
 
@@ -31,7 +31,7 @@ export default function MySchedule() {
   return (
     <div>
       <div className="flex w-full flex-col gap-6 md:flex-row">
-        <Calendar
+        <MyPageCalendar
           className="flex-grow overflow-hidden md:w-1/2"
           mode="single"
           selected={currentDate}
