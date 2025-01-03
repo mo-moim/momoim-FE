@@ -30,9 +30,15 @@ export const gatheringJoinCancelApi = async (id: number) => {
 };
 
 // 모임 수정
-export const gatheringPatchApi = async (id: number | undefined) => {
-  const { data } = await clientAxios.patch(`/api/gatherings/workspace/${id}`);
-  return data;
+export const gatheringPatchApi = async ({
+  formData,
+  id,
+}: {
+  formData: GatheringCreateFormData;
+  id: number;
+}): Promise<number> => {
+  await clientAxios.patch(`/api/gatherings/workspace/${id}`, formData);
+  return id;
 };
 
 // 모임 삭제

@@ -6,6 +6,7 @@ import { useGatheringJoin } from "@/queries/gatherings/useGatheringJoin";
 import { useGatheringJoinCancel } from "@/queries/gatherings/useGatheringJoinCancel";
 import { Members } from "@/types/common/members";
 import { MutateOptions } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface MutateType {
@@ -23,6 +24,7 @@ export default function DetailButton({
 }) {
   const { data } = useUser();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const { mutate: getheringJoin } = useGatheringJoin();
   const { mutate: getheringDelete } = useGatheringDelete();
   const { mutate: getheringJoinCancel } = useGatheringJoinCancel();
@@ -35,12 +37,15 @@ export default function DetailButton({
   };
 
   const isMember = members.some((member) => member.name === data?.name);
+  const gatheringEditPage = () => {
+    router.push(`/gatherings/edit?id=${gatheringId}`);
+  };
 
   return (
     <div>
       {data?.name === managerName && (
         <div className="flex gap-2">
-          <Button type="button" className="w-full">
+          <Button type="button" className="w-full" onClick={() => gatheringEditPage()}>
             수정 하기
           </Button>
           <Modal

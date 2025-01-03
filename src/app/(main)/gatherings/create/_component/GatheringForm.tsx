@@ -4,7 +4,7 @@ import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FieldError, useForm } from "react-hook-form";
-import { DEFAULT_GATHERING_CREATE_VALUES, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { getDefaultGatheringCreateValues, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,20 +15,29 @@ import { COMMON_CATEGORIES } from "@/constants/options";
 import { Select } from "@/components/common/select/Select";
 import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringCreate";
 import { DatePicker } from "@/components/common/DatePicker";
+import { useGatheringPatch } from "@/queries/gatherings-workspace/useGatheringPatch";
 import { format } from "date-fns";
+import { getLocalStorageData } from "@/lib/getLocalStorage";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
 import AddressInput from "./AddressInput";
 import SubCategoryButton from "./SubCategoryButton";
 
-export default function GatheringForm() {
+interface GatheringFormProps {
+  mode: "create" | "edit";
+  id?: number;
+}
+
+export default function GatheringForm({ mode, id }: GatheringFormProps) {
   const router = useRouter();
   const { mutate: gatheringCreate } = useGatheringCreate();
+  const { mutate: gatheringPatch } = useGatheringPatch();
+  const defaultData = getLocalStorageData("defaultContentData");
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: DEFAULT_GATHERING_CREATE_VALUES,
+    defaultValues: getDefaultGatheringCreateValues(),
   });
 
   const onSubmit = (values: GatheringCreateFormData) => {
@@ -38,7 +47,16 @@ export default function GatheringForm() {
     const updateAddressData = { ...values, address: fullAddress };
 
     const { gatheringType, detailAddress, onlinePlatform, ...submitFormData } = updateAddressData;
-    gatheringCreate(submitFormData);
+
+    if (id && mode === "edit") {
+      const updateEditFormData = {
+        ...submitFormData,
+        status: defaultData?.status,
+      };
+      gatheringPatch({ formData: updateEditFormData, id });
+    } else {
+      gatheringCreate(submitFormData);
+    }
   };
 
   return (
@@ -201,7 +219,7 @@ export default function GatheringForm() {
             작성 취소
           </Button>
           <Button type="submit" className="flex-1" size="lg">
-            모임 만들기
+            {mode === "create" ? "모임 만들기" : "모임 수정하기"}
           </Button>
         </div>
       </form>
