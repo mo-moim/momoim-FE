@@ -9,7 +9,7 @@ export default function BackButton() {
 
   return (
     <div>
-      <button type="button" className="p-1" onClick={handleBack}>
+      <button type="button" className="p-1 pl-0" onClick={handleBack}>
         <ArrowLeft className="h-6 w-6" />
       </button>
     </div>
