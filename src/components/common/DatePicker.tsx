@@ -10,7 +10,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface DatePickerProps {
   value?: Date;
-  onChange: (date?: Date | string) => void;
+  onChange: (date?: Date) => void;
   placeholder?: string;
   showTimePicker?: boolean;
   triggerClassName?: string;
@@ -27,9 +27,6 @@ export function DatePicker({
 }: DatePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [tempDate, setTempDate] = React.useState<Date | undefined>(value);
-  const formatDate = (date: Date | undefined): string | undefined => {
-    return date ? format(date, "yyyy-MM-dd hh:mm:ss") : undefined;
-  };
 
   // 팝오버가 닫힐 때 임시 값을 원래 값으로 복원
   const handleOpenChange = (open: boolean) => {
@@ -54,7 +51,7 @@ export function DatePicker({
     }
 
     setTempDate(newDate);
-    onChange(formatDate(newDate));
+    onChange(newDate);
   };
 
   // 초기화/확인 버튼 핸들러
@@ -65,7 +62,7 @@ export function DatePicker({
   };
 
   const handleConfirm = () => {
-    onChange(formatDate(tempDate));
+    onChange(tempDate);
     setIsOpen(false);
   };
 

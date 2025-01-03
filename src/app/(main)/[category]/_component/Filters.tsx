@@ -26,13 +26,7 @@ export function Filters({
         <Select data={LOCATIONS} value={selectedLocation} onChange={onLocationChange} />
 
         {/* 날짜 선택 */}
-        <DatePicker
-          value={selectedDate}
-          onChange={(date) => {
-            const dateTypeCheck = typeof date === "string" ? new Date(date) : date;
-            onDateChange(dateTypeCheck);
-          }}
-        />
+        <DatePicker value={selectedDate} onChange={onDateChange} />
       </div>
 
       {/* 정렬 기준 */}

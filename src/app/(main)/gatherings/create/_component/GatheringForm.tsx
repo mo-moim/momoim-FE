@@ -15,6 +15,7 @@ import { COMMON_CATEGORIES } from "@/constants/options";
 import { Select } from "@/components/common/select/Select";
 import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringCreate";
 import { DatePicker } from "@/components/common/DatePicker";
+import { format } from "date-fns";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
@@ -164,7 +165,10 @@ export default function GatheringForm() {
             <div>
               <DatePicker
                 value={field.value}
-                onChange={field.onChange}
+                onChange={(value) => {
+                  const formattedValue = value ? format(value, "yyyy-MM-dd HH:mm:ss") : undefined;
+                  field.onChange(formattedValue);
+                }}
                 triggerClassName="h-12 w-full border-gray-500"
                 showTimePicker
               />
@@ -197,7 +201,7 @@ export default function GatheringForm() {
             작성 취소
           </Button>
           <Button type="submit" className="flex-1" size="lg">
-            모임 생성 완료
+            모임 만들기
           </Button>
         </div>
       </form>
