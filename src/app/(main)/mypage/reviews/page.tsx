@@ -42,7 +42,7 @@ export default function MyReview() {
     },
   ];
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage } = useReview(sub);
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetching } = useReview(sub);
 
   useIntersectionObserver({
     target: observerTarget,

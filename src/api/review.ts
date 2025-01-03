@@ -1,8 +1,13 @@
-import { clientAxios } from "@/lib/axios";
+import { clientAxios, serverAxios } from "@/lib/axios";
 import { Pagination } from "@/types/pagination";
 
 export const getReviewsApi = async (type: string, page: Pagination) => {
   const { data } = await clientAxios.get(`api/reviews/${type}?offset=${page.offset}&limit=${page.limit}`);
+  return data.data;
+};
+
+export const getReviewsPrefetchApi = async (type: string, page: Pagination) => {
+  const { data } = await serverAxios.get(`api/reviews/${type}?offset=${page.offset}&limit=${page.limit}`);
   return data.data;
 };
 
