@@ -209,6 +209,7 @@ export default function GatheringForm({ mode, id, defaultData }: GatheringFormPr
               value={field.value}
               min={2}
               max={50}
+              onWheel={(e) => (e.target as HTMLInputElement).blur()}
               onChange={(e) => field.onChange(inputDataFormat(e.target.value))}
             />
           )}
