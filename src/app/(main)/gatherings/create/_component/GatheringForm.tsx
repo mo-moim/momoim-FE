@@ -17,6 +17,7 @@ import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringC
 import { DatePicker } from "@/components/common/DatePicker";
 import { useGatheringPatch } from "@/queries/gatherings-workspace/useGatheringPatch";
 import { format } from "date-fns";
+import { useEffect } from "react";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
@@ -36,6 +37,8 @@ export default function GatheringForm({ mode, id, defaultData }: GatheringFormPr
   const defaultFormData = () => {
     return id && mode === "edit" ? getDefaultData(defaultData) : getDefaultData();
   };
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
