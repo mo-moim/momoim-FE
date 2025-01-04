@@ -1,5 +1,4 @@
 import { COMMON_CATEGORIES, ONLINE_PLATFORM, SUB_CATEGORIES } from "@/constants/options";
-import { getLocalStorageData } from "@/lib/getLocalStorage";
 import { GatheringCreateFormData, SubCategoryValueKey } from "@/types/category";
 import { format } from "date-fns";
 import * as z from "zod";
@@ -47,44 +46,24 @@ export const gatheringCreateSchema = z
 
 export type GatheringCreateFormType = z.infer<typeof gatheringCreateSchema>;
 
-export const getDefaultGatheringCreateValues = (): GatheringCreateFormData => {
-  const dataContent = getLocalStorageData("defaultContentData");
-  const gatheringType = dataContent.location === "ONLINE" ? "ONLINE" : "OFFLINE";
-  const onlineAddressCheck = ONLINE_PLATFORM.find(({ value }) => dataContent.address === value);
-  const nextGatheringAt = dataContent.nextGatheringAt
+export const getDefaultData = (dataContent?: Partial<GatheringCreateFormData>): GatheringCreateFormData => {
+  const gatheringType = dataContent?.location === "ONLINE" ? "ONLINE" : "OFFLINE";
+  const onlineAddressCheck = ONLINE_PLATFORM.find(({ value }) => dataContent?.address === value);
+  const nextGatheringAt = dataContent?.nextGatheringAt
     ? format(dataContent?.nextGatheringAt, "yyyy-MM-dd HH:mm:ss")
     : undefined;
 
-  if (!dataContent) {
-    return {
-      name: "",
-      isPeriodic: false,
-      image: null,
-      category: COMMON_CATEGORIES[0].value,
-      subCategory: "",
-      location: "",
-      address: "",
-      nextGatheringAt: "",
-      capacity: 2,
-      description: "",
-      tags: [""],
-      gatheringType: "OFFLINE",
-      detailAddress: "",
-      onlinePlatform: "",
-    };
-  }
-
   return {
-    name: dataContent.name || "",
-    isPeriodic: dataContent.isPeriodic || false,
-    image: dataContent.image || null,
-    category: dataContent.category || COMMON_CATEGORIES[0].value,
-    subCategory: dataContent.subCategory || "",
-    location: dataContent.location || "",
-    address: dataContent.address || "",
+    name: dataContent?.name || "",
+    isPeriodic: dataContent?.isPeriodic || false,
+    image: dataContent?.image || null,
+    category: dataContent?.category || COMMON_CATEGORIES[0].value,
+    subCategory: dataContent?.subCategory || "",
+    location: dataContent?.location || "",
+    address: dataContent?.address || "",
     nextGatheringAt: nextGatheringAt || "",
-    capacity: Number(dataContent.capacity) || 2,
-    description: dataContent.description || "",
+    capacity: Number(dataContent?.capacity) || 2,
+    description: dataContent?.description || "",
     tags: [""],
     gatheringType,
     detailAddress: "",

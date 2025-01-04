@@ -4,7 +4,7 @@ import { FormFieldWrapper } from "@/components/common/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FieldError, useForm } from "react-hook-form";
-import { getDefaultGatheringCreateValues, gatheringCreateSchema } from "@/schemas/gatheringCreate";
+import { getDefaultData, gatheringCreateSchema } from "@/schemas/gatheringCreate";
 import inputDataFormat from "@/lib/inputDataFormat";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +17,6 @@ import { useGatheringCreate } from "@/queries/gatherings-workspace/useGatheringC
 import { DatePicker } from "@/components/common/DatePicker";
 import { useGatheringPatch } from "@/queries/gatherings-workspace/useGatheringPatch";
 import { format } from "date-fns";
-import { getLocalStorageData } from "@/lib/getLocalStorage";
 import FormOnlineAddress from "./FormOnlineAddress";
 import FormTypeButton from "./FormTypeButton";
 import GatheringUploadImage from "./GatheringUploadImage";
@@ -27,17 +26,20 @@ import SubCategoryButton from "./SubCategoryButton";
 interface GatheringFormProps {
   mode: "create" | "edit";
   id?: number;
+  defaultData?: Partial<GatheringCreateFormData>;
 }
 
-export default function GatheringForm({ mode, id }: GatheringFormProps) {
+export default function GatheringForm({ mode, id, defaultData }: GatheringFormProps) {
   const router = useRouter();
   const { mutate: gatheringCreate } = useGatheringCreate();
   const { mutate: gatheringPatch } = useGatheringPatch();
-  const defaultData = getLocalStorageData("defaultContentData");
+  const defaultFormData = () => {
+    return id && mode === "edit" ? getDefaultData(defaultData) : getDefaultData();
+  };
 
   const form = useForm({
     resolver: zodResolver(gatheringCreateSchema),
-    defaultValues: getDefaultGatheringCreateValues(),
+    defaultValues: defaultFormData(),
   });
 
   const onSubmit = (values: GatheringCreateFormData) => {
@@ -163,7 +165,6 @@ export default function GatheringForm({ mode, id }: GatheringFormProps) {
             control={form.control}
             name="address"
             label="주소"
-            placeholder="모임을 진행할 주소를 입력해주세요."
             customStyle="border-gray-500 text-gray-700 font-medium"
             renderContent={(field) => <AddressInput form={form} field={field} />}
           />
@@ -200,6 +201,7 @@ export default function GatheringForm({ mode, id }: GatheringFormProps) {
           renderContent={(field) => (
             <Input
               type="number"
+              name="capacity"
               className="inputCountButton border-gray-500 pl-4 text-gray-700"
               value={field.value}
               min={2}
@@ -215,7 +217,7 @@ export default function GatheringForm({ mode, id }: GatheringFormProps) {
           renderContent={(field) => <Tiptab field={field} />}
         />
         <div className="flex items-center justify-center gap-2">
-          <Button type="button" className="flex-1" size="lg" variant="outline" onClick={() => router.push("/")}>
+          <Button type="button" className="flex-1" size="lg" variant="outline" onClick={() => router.back()}>
             작성 취소
           </Button>
           <Button type="submit" className="flex-1" size="lg">

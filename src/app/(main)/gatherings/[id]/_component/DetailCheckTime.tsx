@@ -8,7 +8,7 @@ import DetailCardMember from "./DetailCardMember";
 import GatheringCheckTime from "./GatheringCheckTime";
 
 export default function DetailCheckTime({ id, defaultView }: { id: number; defaultView: boolean }) {
-  const data = useGetGatheringDetail(id);
+  const { data } = useGetGatheringDetail(id);
   if (!data) return null;
 
   const dataContent = data?.gatheringContent;

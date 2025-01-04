@@ -9,7 +9,7 @@ import KaKaoMap from "./_component/KaKaoMap";
 export default function GatheringDetailPage() {
   const params = useParams();
   const id = Number(params.id);
-  const data = useGetGatheringDetail(id);
+  const { data } = useGetGatheringDetail(id);
   const dataContent = data?.gatheringContent;
 
   useEffect(() => {
