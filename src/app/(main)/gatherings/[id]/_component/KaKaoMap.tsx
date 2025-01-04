@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 import Link from "next/link";
+import Marker from "@/assets/images/makrer.png";
 import MapSkeleton from "./MapSkeleton";
 
 export default function KaKaoMap({ address }: { address: string | undefined }) {
@@ -44,7 +45,13 @@ export default function KaKaoMap({ address }: { address: string | undefined }) {
               scrollwheel={false}
               level={3}
             >
-              <MapMarker position={coordinates} />
+              <MapMarker
+                position={coordinates}
+                image={{
+                  src: Marker.src,
+                  size: { width: 40, height: 40 },
+                }}
+              />
             </Map>
             <div className="p-5">
               <p>{address}</p>
