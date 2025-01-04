@@ -17,7 +17,7 @@ export default function GatheringDetailPage() {
   }, [id]);
 
   return (
-    <div className="w-full max-md:w-full">
+    <div className="w-full">
       <div className="flex max-w-[56rem] flex-col gap-10">
         <Viewer content={dataContent?.description} />
         {dataContent?.location !== "ONLINE" && <KaKaoMap address={dataContent?.address} />}
