@@ -9,10 +9,6 @@ import { MutateOptions } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface MutateType {
-  (variables: number, options?: MutateOptions<number, any, number | undefined, unknown>): void;
-}
-
 export default function DetailButton({
   gatheringId,
   managerName,
@@ -25,11 +21,11 @@ export default function DetailButton({
   const { data } = useUser();
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const { mutate: getheringJoin } = useGatheringJoin();
-  const { mutate: getheringDelete } = useGatheringDelete();
-  const { mutate: getheringJoinCancel } = useGatheringJoinCancel();
+  const { mutate: gatheringJoin } = useGatheringJoin();
+  const { mutate: gatheringDelete } = useGatheringDelete();
+  const { mutate: gatheringJoinCancel } = useGatheringJoinCancel();
 
-  const handleMutate = (mutate: MutateType) => {
+  const handleMutate = (mutate: any) => {
     if (gatheringId) {
       mutate(gatheringId);
       setOpen(false);
@@ -65,7 +61,7 @@ export default function DetailButton({
                 <span className="text-sm text-gray-700">해당 모임에 대한 모든 정보가 삭제됩니다.</span>
               </div>
             }
-            onSubmit={() => handleMutate(getheringDelete)}
+            onSubmit={() => handleMutate(gatheringDelete)}
           />
         </div>
       )}
@@ -86,7 +82,7 @@ export default function DetailButton({
               </div>
             </div>
           }
-          onSubmit={() => handleMutate(getheringJoinCancel)}
+          onSubmit={() => handleMutate(gatheringJoinCancel)}
         />
       )}
       {data?.name !== managerName && !isMember && (
@@ -106,7 +102,7 @@ export default function DetailButton({
               </div>
             </div>
           }
-          onSubmit={() => handleMutate(getheringJoin)}
+          onSubmit={() => handleMutate(gatheringJoin)}
         />
       )}
     </div>
