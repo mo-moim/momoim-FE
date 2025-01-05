@@ -6,11 +6,6 @@ export const getReviewsApi = async (type: string, page: Pagination) => {
   return data.data;
 };
 
-export const getReviewsPrefetchApi = async (type: string, page: Pagination) => {
-  const { data } = await serverAxios.get(`api/reviews/${type}?offset=${page.offset}&limit=${page.limit}`);
-  return data.data;
-};
-
 export const postReviewApi = async (gatheringId: number, score: number, title: string, comment: string) => {
   const { data } = await clientAxios.post(`api/reviews`, {
     gatheringId,

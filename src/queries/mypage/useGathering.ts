@@ -1,25 +1,11 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import {
-  getMyCreatedMoimApi,
-  getMyCreatedMoimPrefetchApi,
-  getMyLikedMoimApi,
-  getMyLikedMoimPrefetchApi,
-  getMyMoimApi,
-  getMyMoimPrefetchApi,
-} from "@/api/moim";
+import { getMyCreatedMoimApi, getMyLikedMoimApi, getMyMoimApi } from "@/api/moim";
 import { Pagination } from "@/types/pagination";
 
 const getMoim = async (sub: string, page: Pagination) => {
   if (sub === "my-gatherings") return getMyMoimApi(page);
   if (sub === "created") return getMyCreatedMoimApi(page);
   if (sub === "liked") return getMyLikedMoimApi(page);
-  return {};
-};
-
-export const getMoimPrefetch = async (sub: string, page: Pagination) => {
-  if (sub === "my-gatherings") return getMyMoimPrefetchApi(page);
-  if (sub === "created") return getMyCreatedMoimPrefetchApi(page);
-  if (sub === "liked") return getMyLikedMoimPrefetchApi(page);
   return {};
 };
 

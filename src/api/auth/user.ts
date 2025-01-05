@@ -6,11 +6,6 @@ export const getUser = async (): Promise<User> => {
   return data.data;
 };
 
-export const getUserPrefetch = async (): Promise<User> => {
-  const { data } = await serverAxios.get("/api/auths/user");
-  return data.data;
-};
-
 export const editUser = async ({ name, email, regions, profileImage, interestCategories }: User): Promise<User> => {
   const { data } = await clientAxios.put("/api/auths/user", {
     name,
