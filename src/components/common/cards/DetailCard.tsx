@@ -55,8 +55,15 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
             </div>
           </div>
           <div className="flex gap-2 text-sm">
+            {data.status === "OPEN" && data.capacity === data.participantCount ? (
+              <Chip each="CLOSED" />
+            ) : (
+              <Chip each="OPEN" />
+            )}
             {[data.status, data.location, data.isPeriodic].map((each, idx) => {
+              if (each === "OPEN") return null;
               const key = `chip:${data.id}:${idx}`;
+
               if (typeof each === "boolean") {
                 return each ? <Chip key={key} each="REGULAR" /> : null;
               }
@@ -80,7 +87,12 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
               <div>{data.managerName}</div>
             </div>
             {data.managerId && (
-              <DetailCardMember members={detailData.members} managerName={data.managerName} defaultView={false} />
+              <DetailCardMember
+                data={data}
+                members={detailData.members}
+                managerName={data.managerName}
+                defaultView={false}
+              />
             )}
           </div>
         </div>

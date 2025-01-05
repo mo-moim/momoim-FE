@@ -22,13 +22,18 @@ export default function DetailCheckTime({ id, defaultView }: { id: number; defau
       )}
     >
       {dataContent?.managerId && (
-        <DetailCardMember members={data.members} managerName={dataContent?.managerName} defaultView />
+        <DetailCardMember
+          data={dataContent}
+          members={data.members}
+          managerName={dataContent?.managerName}
+          defaultView
+        />
       )}
       <div className="w-full">
         <div className="text-gray-500">남은 시간</div>
         <GatheringCheckTime days={days} hours={hours} />
       </div>
-      <DetailButton gatheringId={dataContent?.id} managerName={dataContent?.managerName} members={data.members} />
+      <DetailButton data={dataContent} managerName={dataContent?.managerName} members={data.members} />
     </div>
   );
 }
