@@ -42,10 +42,9 @@ export const gatheringPatchApi = async ({
 };
 
 // 모임 삭제
-
-export const gatheringDeleteApi = async (id: number): Promise<number> => {
-  await clientAxios.delete(`/api/gatherings/workspace/${id}/cancel`);
-  return id;
+export const gatheringDeleteApi = async (id: number) => {
+  const data = await clientAxios.delete(`/api/gatherings/workspace/${id}/cancel`);
+  return data;
 };
 
 // 모임 맴버 제외
