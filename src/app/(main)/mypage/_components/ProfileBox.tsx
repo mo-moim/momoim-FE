@@ -8,8 +8,7 @@ import { useState } from "react";
 import { ProfileData } from "@/types/profile";
 import { useUser } from "@/queries/auth/useUser";
 import ProfileEdit from "./ProfileEdit";
-import UpperPartSkeleton from "./skeletons/UpperPartSkeleton";
-import MypageTabs from "./MypageTabs";
+import MyPageProfileBoxSkeleton from "./skeletons/MyPageProfileBoxSkeleton";
 
 export default function ProfileBox() {
   const { data, isLoading, error } = useUser();
@@ -65,7 +64,7 @@ export default function ProfileBox() {
     selectedCategory: ["CULTURE"],
   };
 
-  if (!data || isLoading) return <UpperPartSkeleton />;
+  if (!data || isLoading) return <MyPageProfileBoxSkeleton />;
   if (error) return <div>다시 로그인 해주세요</div>;
 
   return (

@@ -16,9 +16,9 @@ export default function MySchedule() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [currentDate, setCurrentDate] = React.useState<Date | undefined>(new Date());
 
-  const { data, isLoading, error } = useSchedule(currentYear);
+  const { data, isLoading, error, isFetching } = useSchedule(currentYear);
 
-  if (isLoading) return <MySchedulesSkeleton />;
+  if (isLoading || isFetching) return <MySchedulesSkeleton />;
   if (error) return <ClientRedirectHandler />;
 
   const customContent =

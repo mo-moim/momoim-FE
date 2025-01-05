@@ -7,6 +7,7 @@ import MoimCard from "@/components/common/cards/MoimCard";
 import { useRef, useState, useEffect } from "react";
 import { useGathering } from "@/queries/mypage/useGathering";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useLoading } from "@/hooks/useLoading";
 import EmptyStatePicker from "../_components/EmptyStatePicker";
 import MyGatheringsSkeleton from "../_components/skeletons/MyGatheringsSkeleton";
 import ClientRedirectHandler from "../_components/ClientRedirectHandler";
@@ -18,8 +19,6 @@ export default function MyMoim() {
   const searchParams = useSearchParams();
   const sub = searchParams.get("sub");
   const [subcategory, setSubcategory] = useState(sub || "my-gatherings");
-  const [skipSkeleton, setSkipSkeleton] = useState(false); // 스켈레톤 표시 여부 관리
-  const loadStartTime = useRef<number>(0); // 로딩 시작 시간을 기록
 
   const tags = [
     {
@@ -36,26 +35,15 @@ export default function MyMoim() {
     },
   ];
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage } = useGathering(sub);
-
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetching } = useGathering(sub);
+  const { loading } = useLoading(isLoading);
   useIntersectionObserver({
     target: observerTarget,
     onIntersect: fetchNextPage,
     enabled: !!hasNextPage,
   });
 
-  useEffect(() => {
-    if (isLoading) {
-      loadStartTime.current = Date.now();
-    } else {
-      const elapsed = Date.now() - loadStartTime.current;
-      if (elapsed <= 1000) {
-        setSkipSkeleton(true);
-      }
-    }
-  }, [isLoading]);
-
-  if (isLoading && !skipSkeleton) return <MyGatheringsSkeleton />;
+  if (loading || isFetching) return <MyGatheringsSkeleton />;
   if (error) return <ClientRedirectHandler />;
 
   return (
