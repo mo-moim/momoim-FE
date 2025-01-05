@@ -48,11 +48,9 @@ export default function MyReview() {
 
   useEffect(() => {
     if (isLoading) {
-      // 로딩 시작 시점 기록
       loadStartTime.current = Date.now();
     } else {
       const elapsed = Date.now() - loadStartTime.current;
-      // 로딩 시간이 500ms 이하라면 스켈레톤 표시 건너뛰기
       if (elapsed <= 1000) {
         setSkipSkeleton(true);
       }
