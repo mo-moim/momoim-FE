@@ -1,5 +1,5 @@
-import { useQueryClient, useMutation, useInfiniteQuery, QueryClient } from "@tanstack/react-query";
-import { deleteReviewApi, getReviewsApi, getReviewsPrefetchApi, patchReviewApi, postReviewApi } from "@/api/review";
+import { useQueryClient, useMutation, useInfiniteQuery } from "@tanstack/react-query";
+import { deleteReviewApi, getReviewsApi, patchReviewApi, postReviewApi } from "@/api/review";
 import { toast } from "@/hooks/use-toast";
 import { Pagination } from "@/types/pagination";
 
@@ -24,18 +24,6 @@ export const useReview = (sub: string | null) => {
     getNextPageParam: (lastPage) => (lastPage.nextPage !== null ? lastPage.nextPage : undefined),
     initialPageParam: 0,
   });
-};
-
-export const useReviewPrefetch = (queryClient: QueryClient, sub: string | null | undefined) => {
-  return () =>
-    queryClient.prefetchInfiniteQuery({
-      queryKey: ["review", sub || "un-review"],
-      queryFn: async ({ pageParam = 0 }) => {
-        const data = await getReviewsPrefetchApi(sub || "un-review", { offset: 0, limit: 12 });
-        return { data, nextPage: data.length === 12 ? pageParam + 1 : null };
-      },
-      initialPageParam: 0,
-    });
 };
 
 export const usePostReview = () => {
@@ -74,7 +62,7 @@ export const useEditReview = () => {
         description: "리뷰가 수정되었습니다!",
         duration: 3000,
       });
-      queryClient.invalidateQueries({ queryKey: ["review"] });
+      queryClient.invalidateQueries({ queryKey: ["review"], exact: false });
     },
     onError: (error: any) => {
       toast({
@@ -97,12 +85,12 @@ export const useDeleteReview = () => {
         description: "리뷰가 삭제되었습니다!",
         duration: 3000,
       });
-      queryClient.invalidateQueries({ queryKey: ["review"] });
+      queryClient.invalidateQueries({ queryKey: ["review"], exact: false });
     },
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "리뷰 수정 실패",
+        title: "리뷰 삭제 실패",
         description: error.response?.data?.message || "알 수 없는 오류가 발생했습니다.",
         duration: 2000,
       });

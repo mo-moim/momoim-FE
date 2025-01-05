@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GatheringContent } from "@/types/common/gatheringContent";
 import Tags from "@/components/common/Tags";
 import MoimCard from "@/components/common/cards/MoimCard";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useGathering } from "@/queries/mypage/useGathering";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import EmptyStatePicker from "../_components/EmptyStatePicker";
@@ -18,6 +18,8 @@ export default function MyMoim() {
   const searchParams = useSearchParams();
   const sub = searchParams.get("sub");
   const [subcategory, setSubcategory] = useState(sub || "my-gatherings");
+  const [skipSkeleton, setSkipSkeleton] = useState(false); // 스켈레톤 표시 여부 관리
+  const loadStartTime = useRef<number>(0); // 로딩 시작 시간을 기록
 
   const tags = [
     {
@@ -42,7 +44,20 @@ export default function MyMoim() {
     enabled: !!hasNextPage,
   });
 
-  if (isLoading) return <MyGatheringsSkeleton />;
+  useEffect(() => {
+    if (isLoading) {
+      // 로딩 시작 시점 기록
+      loadStartTime.current = Date.now();
+    } else {
+      const elapsed = Date.now() - loadStartTime.current;
+      // 로딩 시간이 500ms 이하라면 스켈레톤 표시 건너뛰기
+      if (elapsed <= 1000) {
+        setSkipSkeleton(true);
+      }
+    }
+  }, [isLoading]);
+
+  if (isLoading && !skipSkeleton) return <MyGatheringsSkeleton />;
   if (error) return <ClientRedirectHandler />;
 
   return (
@@ -56,24 +71,22 @@ export default function MyMoim() {
         }}
       />
       <div className="w-full">
-        {data?.pages && data.pages[0].data.length > 0 ? (
-          data.pages.map((item) =>
-            item.data.map((moim: GatheringContent, idx: number) => (
-              <div key={moim.gatheringId}>
-                <MoimCard
-                  type="mypage"
-                  data={moim}
-                  customOnClick={() => {
-                    router.push(`/gatherings/${moim.gatheringId}`);
-                  }}
-                />
-                {idx !== item.data.length - 1 && <hr className="my-4 border-gray-300" />}
-              </div>
-            )),
-          )
-        ) : (
-          <EmptyStatePicker type="gatherings" sub={sub} />
-        )}
+        {data?.pages && data.pages[0].data.length > 0
+          ? data.pages.map((item) =>
+              item.data.map((moim: GatheringContent, idx: number) => (
+                <div key={moim.gatheringId}>
+                  <MoimCard
+                    type="mypage"
+                    data={moim}
+                    customOnClick={() => {
+                      router.push(`/gatherings/${moim.gatheringId}`);
+                    }}
+                  />
+                  {idx !== item.data.length - 1 && <hr className="my-4 border-gray-300" />}
+                </div>
+              )),
+            )
+          : !isLoading && <EmptyStatePicker type="gatherings" sub={sub} />}
       </div>
       <div ref={observerTarget} />
     </div>
