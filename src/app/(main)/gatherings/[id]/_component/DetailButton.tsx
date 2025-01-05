@@ -6,11 +6,8 @@ import { useGatheringJoin } from "@/queries/gatherings/useGatheringJoin";
 import { useGatheringJoinCancel } from "@/queries/gatherings/useGatheringJoinCancel";
 import { Members } from "@/types/common/members";
 import { MutateOptions } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-interface MutateType {
-  (variables: number, options?: MutateOptions<number, any, number | undefined, unknown>): void;
-}
 
 export default function DetailButton({
   gatheringId,
@@ -23,11 +20,12 @@ export default function DetailButton({
 }) {
   const { data } = useUser();
   const [open, setOpen] = useState(false);
-  const { mutate: getheringJoin } = useGatheringJoin();
-  const { mutate: getheringDelete } = useGatheringDelete();
-  const { mutate: getheringJoinCancel } = useGatheringJoinCancel();
+  const router = useRouter();
+  const { mutate: gatheringJoin } = useGatheringJoin();
+  const { mutate: gatheringDelete } = useGatheringDelete();
+  const { mutate: gatheringJoinCancel } = useGatheringJoinCancel();
 
-  const handleMutate = (mutate: MutateType) => {
+  const handleMutate = (mutate: any) => {
     if (gatheringId) {
       mutate(gatheringId);
       setOpen(false);
@@ -35,12 +33,15 @@ export default function DetailButton({
   };
 
   const isMember = members.some((member) => member.name === data?.name);
+  const gatheringEditPage = () => {
+    router.push(`/gatherings/edit?id=${gatheringId}`);
+  };
 
   return (
     <div>
       {data?.name === managerName && (
         <div className="flex gap-2">
-          <Button type="button" className="w-full">
+          <Button type="button" className="w-full" onClick={() => gatheringEditPage()}>
             수정 하기
           </Button>
           <Modal
@@ -60,7 +61,7 @@ export default function DetailButton({
                 <span className="text-sm text-gray-700">해당 모임에 대한 모든 정보가 삭제됩니다.</span>
               </div>
             }
-            onSubmit={() => handleMutate(getheringDelete)}
+            onSubmit={() => handleMutate(gatheringDelete)}
           />
         </div>
       )}
@@ -81,7 +82,7 @@ export default function DetailButton({
               </div>
             </div>
           }
-          onSubmit={() => handleMutate(getheringJoinCancel)}
+          onSubmit={() => handleMutate(gatheringJoinCancel)}
         />
       )}
       {data?.name !== managerName && !isMember && (
@@ -101,7 +102,7 @@ export default function DetailButton({
               </div>
             </div>
           }
-          onSubmit={() => handleMutate(getheringJoin)}
+          onSubmit={() => handleMutate(gatheringJoin)}
         />
       )}
     </div>
