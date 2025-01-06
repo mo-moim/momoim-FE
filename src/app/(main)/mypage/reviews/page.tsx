@@ -39,8 +39,6 @@ export default function MyReview() {
 
   const { data, isLoading, error, fetchNextPage, hasNextPage } = useReview(sub);
 
-  console.log(data);
-
   const { loading } = useLoading(isLoading);
   useIntersectionObserver({
     target: observerTarget,

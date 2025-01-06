@@ -31,6 +31,7 @@ export const useReview = (sub: string | null) => {
     },
     getNextPageParam: (lastPage) => (lastPage.nextPage !== null ? lastPage.nextPage : undefined),
     initialPageParam: 0,
+    staleTime: 0,
   });
 };
 
