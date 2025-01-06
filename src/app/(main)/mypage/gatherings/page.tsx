@@ -35,7 +35,7 @@ export default function MyMoim() {
     },
   ];
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetching } = useGathering(sub);
+  const { data, isLoading, error, fetchNextPage, hasNextPage } = useGathering(sub);
   const { loading } = useLoading(isLoading);
   useIntersectionObserver({
     target: observerTarget,
@@ -43,7 +43,7 @@ export default function MyMoim() {
     enabled: !!hasNextPage,
   });
 
-  if (loading || isFetching) return <MyGatheringsSkeleton />;
+  if (loading) return <MyGatheringsSkeleton />;
   if (error) return <ClientRedirectHandler />;
 
   return (

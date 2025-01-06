@@ -37,7 +37,10 @@ export default function MyReview() {
     { name: "작성한 리뷰", value: "my-review" },
   ];
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetching } = useReview(sub);
+  const { data, isLoading, error, fetchNextPage, hasNextPage } = useReview(sub);
+
+  console.log(data);
+
   const { loading } = useLoading(isLoading);
   useIntersectionObserver({
     target: observerTarget,
@@ -45,7 +48,7 @@ export default function MyReview() {
     enabled: !!hasNextPage,
   });
 
-  if (loading || isFetching) return <MyReviewsSkeleton />;
+  if (loading) return <MyReviewsSkeleton />;
   if (error) return <ClientRedirectHandler />;
 
   return (
