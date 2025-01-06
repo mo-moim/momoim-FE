@@ -37,6 +37,60 @@ export default function DetailButton({
     router.push(`/gatherings/edit?id=${data.id}`);
   };
 
+  if (user?.name !== managerName && isMember) {
+    return (
+      <Modal
+        open={open}
+        action={setOpen}
+        size="max-xs:w-11/12"
+        triggerButton={
+          <Button type="button" className="w-full">
+            취소 하기
+          </Button>
+        }
+        content={
+          <div className="flex flex-col items-center justify-center gap-1">
+            <div>
+              참여한 모임을 <span className="text-lg font-bold text-red-600">취소</span> 하시겠습니까?
+            </div>
+          </div>
+        }
+        onSubmit={() => handleMutate(gatheringJoinCancel)}
+      />
+    );
+  }
+
+  if (data.capacity === data.participantCount) {
+    return (
+      <Button type="button" className="w-full" disabled>
+        인원 마감
+      </Button>
+    );
+  }
+
+  if (user?.name !== managerName && !isMember) {
+    return (
+      <Modal
+        open={open}
+        action={setOpen}
+        size="max-xs:w-11/12"
+        triggerButton={
+          <Button type="button" className="w-full">
+            신청 하기
+          </Button>
+        }
+        content={
+          <div className="flex flex-col items-center justify-center gap-1">
+            <div>
+              해당 모임에 <span className="text-lg font-bold text-main">신청</span> 하시겠습니까?
+            </div>
+          </div>
+        }
+        onSubmit={() => handleMutate(gatheringJoin)}
+      />
+    );
+  }
+
   return (
     <div>
       {user?.name === managerName && (
@@ -64,53 +118,6 @@ export default function DetailButton({
             onSubmit={() => handleMutate(gatheringDelete)}
           />
         </div>
-      )}
-      {user?.name !== managerName && isMember && (
-        <Modal
-          open={open}
-          action={setOpen}
-          size="max-xs:w-11/12"
-          triggerButton={
-            <Button type="button" className="w-full">
-              취소 하기
-            </Button>
-          }
-          content={
-            <div className="flex flex-col items-center justify-center gap-1">
-              <div>
-                참여한 모임을 <span className="text-lg font-bold text-red-600">취소</span> 하시겠습니까?
-              </div>
-            </div>
-          }
-          onSubmit={() => handleMutate(gatheringJoinCancel)}
-        />
-      )}
-      {data.capacity === data.participantCount ? (
-        <Button type="button" className="w-full" disabled>
-          인원 마감
-        </Button>
-      ) : (
-        user?.name !== managerName &&
-        !isMember && (
-          <Modal
-            open={open}
-            action={setOpen}
-            size="max-xs:w-11/12"
-            triggerButton={
-              <Button type="button" className="w-full">
-                신청 하기
-              </Button>
-            }
-            content={
-              <div className="flex flex-col items-center justify-center gap-1">
-                <div>
-                  해당 모임에 <span className="text-lg font-bold text-main">신청</span> 하시겠습니까?
-                </div>
-              </div>
-            }
-            onSubmit={() => handleMutate(gatheringJoin)}
-          />
-        )
       )}
     </div>
   );
