@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { GatheringCreateFormData } from "@/types/category";
 import { Loader } from "lucide-react";
 import { useLoading } from "@/hooks/useLoading";
-import FormLayout from "../_component/FormLayout";
-import GatheringForm from "../create/_component/GatheringForm";
+import FormLayout from "../../_component/FormLayout";
+import GatheringForm from "../../create/_component/GatheringForm";
 
 export default function GatheringEditContent() {
   const searchParams = useSearchParams();
