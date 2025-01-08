@@ -37,7 +37,7 @@ export default function MyReview() {
     { name: "작성한 리뷰", value: "my-review" },
   ];
 
-  const { data, isLoading, error, fetchNextPage, hasNextPage } = useReview(sub);
+  const { data, isLoading, fetchNextPage, hasNextPage } = useReview(sub);
 
   const { loading } = useLoading(isLoading);
   useIntersectionObserver({
@@ -47,7 +47,6 @@ export default function MyReview() {
   });
 
   if (loading) return <MyReviewsSkeleton />;
-  if (error) return <ClientRedirectHandler />;
 
   return (
     <div className="flex flex-col gap-2">
