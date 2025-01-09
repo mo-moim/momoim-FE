@@ -25,24 +25,25 @@ import AddressInput from "./AddressInput";
 import SubCategoryButton from "./SubCategoryButton";
 
 interface GatheringFormProps {
-  mode: "create" | "edit";
+  mode?: boolean;
   id?: number;
   defaultData?: Partial<GatheringCreateFormData>;
 }
 
-export default function GatheringForm({ mode, id, defaultData }: GatheringFormProps) {
+export default function GatheringForm({ mode = false, id, defaultData }: GatheringFormProps) {
   const router = useRouter();
   const { mutate: gatheringCreate } = useGatheringCreate();
   const { mutate: gatheringPatch } = useGatheringPatch();
   const defaultFormData = () => {
-    return id && mode === "edit" ? getDefaultData(defaultData) : getDefaultData();
+    return id && mode ? getDefaultData(defaultData) : getDefaultData();
   };
 
   useEffect(() => window.scrollTo(0, 0), []);
 
   const form = useForm({
-    resolver: zodResolver(gatheringCreateSchema),
+    resolver: zodResolver(gatheringCreateSchema(mode)),
     defaultValues: defaultFormData(),
+    shouldFocusError: false, // zod 유효성 기본 스크롤 방지
   });
 
   const onSubmit = (values: GatheringCreateFormData) => {
@@ -50,10 +51,9 @@ export default function GatheringForm({ mode, id, defaultData }: GatheringFormPr
     const getDetailAddress = form.getValues("detailAddress");
     const fullAddress = getAddress ? `${getAddress} ${getDetailAddress}`.trim() : "";
     const updateAddressData = { ...values, address: fullAddress };
-
     const { gatheringType, detailAddress, onlinePlatform, ...submitFormData } = updateAddressData;
 
-    if (id && mode === "edit") {
+    if (id && mode) {
       const updateEditFormData = {
         ...submitFormData,
         status: defaultData?.status,
@@ -64,9 +64,36 @@ export default function GatheringForm({ mode, id, defaultData }: GatheringFormPr
     }
   };
 
+  const onError = (errors: any) => {
+    const errorFields = Object.keys(errors);
+    // 에러필드 순서정렬
+    let sortErrorFields = [...errorFields.filter((field) => field !== "description"), "description"];
+    if (errors.onlinePlatform) {
+      sortErrorFields = sortErrorFields.filter((field) => field !== "address");
+      const onlinePlatformIndex = sortErrorFields.indexOf("onlinePlatform");
+      sortErrorFields.splice(onlinePlatformIndex, 1);
+      sortErrorFields.unshift("onlinePlatform");
+    }
+    if (sortErrorFields.length > 0) {
+      const firstErrorField = sortErrorFields[0];
+      const element =
+        document.querySelector(`[data-testid="${firstErrorField}-section"]`) ||
+        document.querySelector(`#${firstErrorField}-section`);
+      if (element) {
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - 100;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-14">
+      <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-14">
         <FormFieldWrapper
           control={form.control}
           name="name"
@@ -225,7 +252,7 @@ export default function GatheringForm({ mode, id, defaultData }: GatheringFormPr
             작성 취소
           </Button>
           <Button type="submit" className="flex-1" size="lg">
-            {mode === "create" ? "모임 만들기" : "모임 수정하기"}
+            {mode ? "모임 수정하기" : "모임 만들기"}
           </Button>
         </div>
       </form>
