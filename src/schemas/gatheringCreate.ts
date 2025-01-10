@@ -47,7 +47,7 @@ export const gatheringCreateSchema = (isEdit: boolean) =>
       }
     });
 
-export type GatheringCreateFormType = ReturnType<typeof gatheringCreateSchema>;
+export type GatheringCreateFormType = z.infer<ReturnType<typeof gatheringCreateSchema>>;
 
 export const getDefaultData = (dataContent?: Partial<GatheringCreateFormData>): GatheringCreateFormData => {
   const gatheringType = dataContent?.location === "ONLINE" ? "ONLINE" : "OFFLINE";
