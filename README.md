@@ -2,24 +2,27 @@
 
 **모모임**은 관심사가 비슷한 사람들과 함께하는 모임 플랫폼입니다.
 
-#### 1. 프로젝트 소개
+### 1. 프로젝트 소개
 
 취미 모임부터 전문 동호회까지 다양한 형태의 모임을 쉽게 찾거나 직접 만들며 모임 운영 및 참여할 수 있는 서비스 입니다.
 
-#### 2. 프로젝트 목적
+### 2. 프로젝트 목적
 
 - 혼자 하기 어려운 취미나 관심사를 함께 하면서 새로운 경험을 제공
 - 다양한 분야에서 같은 관심사를 가진 사람들을 한 곳에 모아 쉽게 연결할 수 있는 공간 제공
 - 단기적인 모임뿐만 아니라 꾸준히 활동할 수 있는 동호회형 즉 정기적인 모임 운영
+  <br>
 
 ## 🖇️ 배포 링크
 
 https://www.momoim.co.kr/
+<br>
 
 ## 📅 프로젝트 기간
 
 2024년 11월 25일 ~ 현재 진행 중
 (주요 기능 개발 완료 후 지속적으로 개선 및 유지 보수 중)
+<br>
 
 ## 👥 팀원 구성
 
@@ -69,6 +72,8 @@ https://www.momoim.co.kr/
 
 ---
 
+<br>
+
 ## **🚀 설치 및 실행 방법**
 
 ### 기본 실행
@@ -83,6 +88,8 @@ npm run dev
 HTTPS 환경에서 특정 기능(예: Set-Cookie 테스트)을 개발하거나 디버깅하려면 [HTTPS 개발 환경 설정 가이드](https://github.com/mo-moim/momoim-FE/wiki/Local-HTTPS-Setup)를 따라 진행하세요.
 
 ---
+
+<br>
 
 ## **🛠️ Skills**
 
@@ -140,14 +147,16 @@ HTTPS 환경에서 특정 기능(예: Set-Cookie 테스트)을 개발하거나 �
 </tr>
 
 </table>
+<br>
 
-## 🔍 아키텍처
+## **🔍 아키텍처**
 
 <img width="789" alt="프로젝트 아키텍처" src="https://github.com/user-attachments/assets/09aa8511-a931-4d60-bfa1-892adbcb47a9" />
+<br>
 
-## 💻 화면 구성
+## **💻 화면 구성**
 
-#### 1. 로그인 및 회원가입
+### 1. 로그인 및 회원가입
 
 <table>
 <tr>
@@ -169,23 +178,26 @@ HTTPS 환경에서 특정 기능(예: Set-Cookie 테스트)을 개발하거나 �
 - 닉네임과 이메일 중복확인 후 회원가입 진행
 - 다음 단계로 활동 지역과 관심 카테고리 분야를 지정 후 회원가입 완료
 - 회원가입에 성공하면 가입한 이메일로 로그인
+  <br>
 
-#### 2. 메인 페이지(홈)
+### 2. 메인 페이지(홈)
 
 ![2025-01-142 40 51-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/cf15984e-84af-4462-a248-75d7e898f39b)
 
 - 카테고리, 지역, 날짜 필터링 및 최신, 인원별 정렬
 - Tanstack-query 무한 스크롤 활용한 모임 데이터 랜더링
 - 해당 모임 찜하기
+  <br>
 
-#### 3. 모임 생성
+### 3. 모임 생성
 
 ![2025-01-143 07 00-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/a98cb3e1-94de-4fb7-b9e0-848b55a3d2a9)
 
 - Zod 스키마 정의 및 React Hook Form 활용 form 상태와 유효성 관리
 - s3 presigned url 이미지 파일 업로드
+  <br>
 
-#### 4. 모임 상세
+### 4. 모임 상세
 
 <table>
 <tr>
@@ -207,8 +219,9 @@ HTTPS 환경에서 특정 기능(예: Set-Cookie 테스트)을 개발하거나 �
 - 모임 신청 / 취소 / 삭제 / 수정
 - 맴버 리스트 확인 및 모임장 기준 맴버 제외
 - 모임에 대한 리뷰와 평점 및 수정 / 삭제
+  <br>
 
-#### 5. 마이페이지
+### 5. 마이페이지
 
 <table>
 <tr>
@@ -239,6 +252,22 @@ HTTPS 환경에서 특정 기능(예: Set-Cookie 테스트)을 개발하거나 �
 - 참여한 모임에 대한 나의 일정 캘린더 확인
 - 나의 모임 및 찜한 모임 확인
 - 작성 가능한 리뷰 작성 및 작성한 리뷰 확인
+  <br>
+
+## **📚 협업**
+
+- ### [PR / Issue 템플릿 설정](https://github.com/mo-moim/momoim-FE/wiki/PR-Guidelines)
+
+- ### [commit 컨벤션](https://github.com/mo-moim/momoim-FE/wiki/Commit-Convention)
+
+  - husky + commitlint 설정
+
+- ### [Git Projects 활용 일정관리](https://github.com/orgs/mo-moim/projects/2)
+
+- ### [Notion 문서화](https://www.notion.so/Momoim-145629596eaa80cea1e8fdd582861731)
+  - 프로젝트의 최신 정보 참고와 정기회의 기록 및 공유
+  - 여러 링크(api 명세, 피그마, 배포 주소 등)들을 한번에 접근할 수 있도록 공유
+    <br>
 
 ## **📂 폴더 구조**
 
