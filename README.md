@@ -73,8 +73,6 @@ https://www.momoim.co.kr/
 
 - **Designer**: 1명
 
----
-
 <br>
 
 ## **🚀 설치 및 실행 방법**
@@ -89,8 +87,6 @@ npm run dev
 ### 로컬 HTTPS 설정 (선택 사항)
 
 HTTPS 환경에서 특정 기능(예: Set-Cookie 테스트)을 개발하거나 디버깅하려면 [HTTPS 개발 환경 설정 가이드](https://github.com/mo-moim/momoim-FE/wiki/Local-HTTPS-Setup)를 따라 진행하세요.
-
----
 
 <br>
 
