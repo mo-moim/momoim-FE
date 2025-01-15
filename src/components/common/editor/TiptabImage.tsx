@@ -1,4 +1,4 @@
-import { ImageUploadApi } from "@/api/imageFile";
+import { ImageUploadApi } from "@/api/file/imageFile";
 import { TextSelection } from "@tiptap/pm/state";
 import { Editor } from "@tiptap/react";
 import { Image as ImageIcon } from "lucide-react";

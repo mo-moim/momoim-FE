@@ -1,7 +1,7 @@
-import { gatheringDetailGetApi } from "@/api/gatherings";
+import { gatheringDetailGetApi } from "@/api/gatherings/gatherings";
 import BackButton from "@/app/_component/BackButton";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { gatheringReviewsApi, reviewsAverageApi } from "@/api/review";
+import { gatheringReviewsApi, reviewsAverageApi } from "@/api/reviews/review";
 import GatheringDeteilContent from "./_component/GatheringDeteil";
 import DetailPageTab from "./_component/DetailPageTab";
 import DetailCheckTime from "./_component/DetailCheckTime";
