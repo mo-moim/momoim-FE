@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { Select } from "@/components/common/select/Select";
 import { COMMON_CATEGORIES } from "@/constants/options";
 import { CategoryKey } from "@/types/category";
-import { ImageUploadApi } from "@/api/imageFile";
+import { ImageUploadApi } from "@/api/file/imageFile";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";

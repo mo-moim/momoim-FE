@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageUploadApi } from "@/api/imageFile";
+import { ImageUploadApi } from "@/api/file/imageFile";
 import { ChangeEvent, useRef } from "react";
 import Image from "next/image";
 import { FormFieldProps } from "@/types/common/formFieldprops";
