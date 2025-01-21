@@ -22,7 +22,7 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
           width={500}
           height={500}
           alt="모임 상세 이미지"
-          priority={!data.image}
+          priority
         />
       </div>
       <div className="flex flex-1 flex-col justify-between gap-3">
@@ -74,8 +74,9 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
                   <DefaultProfile />
                 ) : (
                   <Image
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    sizes="100%"
+                    className="object-cover"
                     alt="managerProfileImage"
                     src={data.managerProfileImage || ""}
                   />

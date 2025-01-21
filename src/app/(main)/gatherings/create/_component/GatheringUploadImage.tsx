@@ -34,7 +34,7 @@ export default function GatheringUploadImage({ form, field }: FormFieldProps) {
           width={500}
           height={500}
           alt="모임 생성 이미지"
-          priority={!imageValue}
+          priority
         />
       </div>
       <div className="flex w-full gap-2">
