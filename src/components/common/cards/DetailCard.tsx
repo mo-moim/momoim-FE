@@ -15,13 +15,13 @@ export default function DetailCard({ id, detailData }: { id: number; detailData:
 
   return (
     <div className="flex h-full w-full flex-wrap items-center gap-4 max-md:justify-center">
-      <div className="flex h-56 w-60 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 max-md:w-full">
+      <div className="relative flex h-56 w-60 items-center justify-center overflow-hidden rounded-[20px] border-2 border-solid border-gray-200 max-md:aspect-video max-md:h-auto max-md:w-full">
         <Image
           src={data.image || DefaultThumbnail}
-          className="h-full w-full rounded-xl object-cover"
-          width={500}
-          height={500}
+          className="rounded-xl object-cover"
           alt="모임 상세 이미지"
+          fill
+          sizes="100%"
           priority
         />
       </div>

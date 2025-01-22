@@ -29,7 +29,7 @@ export default function DetailCardMember({ data, members, managerName, defaultVi
           title="맴버 리스트"
           size="max-xs:w-11/12"
           triggerButton={
-            <div className="flex cursor-pointer items-center gap-2">
+            <div className="flex cursor-pointer items-center gap-2" role="button">
               <div className="flex gap-2.5">
                 {members?.map((member, idx) => {
                   if (defaultView ? idx >= 6 : idx >= 4) return null;
@@ -54,7 +54,7 @@ export default function DetailCardMember({ data, members, managerName, defaultVi
                 })}
               </div>
               {data?.participantCount > 6 && <Ellipsis className="h-4 w-4" />}
-              <button type="button">
+              <button type="button" aria-label="맴버리스트 더보기">
                 <Search className="h-5 w-5 text-gray-700" />
               </button>
             </div>
