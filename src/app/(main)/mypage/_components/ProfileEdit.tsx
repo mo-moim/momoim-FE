@@ -101,6 +101,7 @@ export default function ProfileEdit({ data, openSwitch }: Props) {
                   <Image
                     alt="thumbnail"
                     fill
+                    sizes="100%"
                     className="rounded-[20px] border-2 border-solid border-gray-200 object-cover"
                     src={currentProfileImage || thumbnail.src}
                   />

@@ -35,7 +35,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="justify-betwee flex gap-14">
+      <div className="justify-betwee flex gap-10">
         <div className="flex flex-1 flex-col gap-6">
           <BackButton home />
           <GatheringDeteilContent id={id} />
